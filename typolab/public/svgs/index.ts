@@ -4,6 +4,7 @@ import SearchTitleIco from "./searchTitle.svg";
 import TypoLabIco from "./typolab.svg";
 import AboutTextIco from "./about.svg";
 import RightArrowIco from "./rightArrow.svg";
+import MainTxt from "./mainTxt.svg";
 
 export {
   HatIco,
@@ -12,4 +13,5 @@ export {
   TypoLabIco,
   AboutTextIco,
   RightArrowIco,
+  MainTxt,
 };

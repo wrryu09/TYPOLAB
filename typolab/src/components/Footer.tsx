@@ -10,32 +10,20 @@ const Footer = () => {
   const router = useRouter();
   return (
     <div className="w-full">
-      <div className="pl-8">
+      <div className="pl-8 mobile:pl-4">
         <Wrapper type="col">
           <div
-            className="flex"
+            className="flex items-center"
             onClick={() => {
               router.push("/about");
             }}
           >
-            <Image
-              alt="about"
-              src={AboutTextIco}
-              className="mobile:w-20 tablet:w-32"
-            />
+            <AboutTextIco className="w-1/6 mobile:w-20 tablet:w-32" />
             <SizedBox width={1} />
-            <Image
-              alt="arrow"
-              src={RightArrowIco}
-              className="mobile:w-12 tablet:w-24"
-            />
+            <RightArrowIco className="w-1/12 mobile:w-12 tablet:w-24" />
           </div>
           <SizedBox height={1} />
-          <Image
-            alt="typolab"
-            src={TypoLabIco}
-            className="mobile:w-48 tablet:w-64"
-          />
+          <TypoLabIco width={'30%'} className="mobile:w-48 tablet:w-64" />
         </Wrapper>
       </div>
       <SizedBox height={1} />
