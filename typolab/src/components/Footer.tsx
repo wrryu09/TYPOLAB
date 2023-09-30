@@ -4,13 +4,20 @@ import Image from "next/image";
 import SizedBox from "./SizedBox";
 import { AboutTextIco, RightArrowIco, TypoLabIco } from "../../public/svgs";
 import FullLine from "./FullLine";
+import { useRouter } from "next/navigation";
 
 const Footer = () => {
+  const router = useRouter();
   return (
     <div className="w-full">
       <div className="pl-8">
         <Wrapper type="col">
-          <Wrapper type="row">
+          <div
+            className="flex"
+            onClick={() => {
+              router.push("/about");
+            }}
+          >
             <Image
               alt="about"
               src={AboutTextIco}
@@ -22,7 +29,7 @@ const Footer = () => {
               src={RightArrowIco}
               className="mobile:w-12 tablet:w-24"
             />
-          </Wrapper>
+          </div>
           <SizedBox height={1} />
           <Image
             alt="typolab"
