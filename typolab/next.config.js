@@ -1,15 +1,14 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  images: {
-    disableStaticImages: true,
+/** @type {import("next").NextConfig} */
+module.exports = {
+  reactStrictMode: true,
+  experimental: {
+    appDir: true,
   },
   webpack: (config) => {
     config.module.rules.push({
-      test: /\.svg$/,
+      test: /\.svg$/i,
       use: ["@svgr/webpack"],
     });
     return config;
   },
 };
-
-module.export = nextConfig;
