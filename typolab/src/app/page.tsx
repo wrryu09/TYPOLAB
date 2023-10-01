@@ -1,13 +1,13 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
 import { HatIco, LogoIco, MainTxt, SearchTitleIco } from "../../public/svgs";
 import SizedBox from "@/components/SizedBox";
-import Wrapper from "@/components/Wrapper";
 import FullLine from "@/components/FullLine";
 import Footer from "@/components/Footer";
 import { useRouter } from "next/navigation";
+import SearchInputSection from "@/containers/main/SearchInputSection";
+import LineTxt from "@/containers/main/LineTxt";
 
 const MainPage = (): JSX.Element => {
   const router = useRouter();
@@ -23,7 +23,7 @@ const MainPage = (): JSX.Element => {
         <SizedBox height={34} />
 
         {/* main btn */}
-        <div className="flex text-left justify-center w-10/12 mobile:flex-col text-darkGreen">
+        <div className="flex text-left justify-center w-10/12 mobile:flex-col text-darkGreen font-Bayon">
           {/* pair */}
           <div
             className="flex flex-col hover:text-red"
@@ -32,7 +32,7 @@ const MainPage = (): JSX.Element => {
             }}
           >
             <HatIco width={"100%"} />
-            <p className="text-5xl font-bold">PAIR</p>
+            <p className="text-5xl">PAIR</p>
           </div>
 
           {/* search */}
@@ -44,7 +44,7 @@ const MainPage = (): JSX.Element => {
             }}
           >
             <HatIco width={"100%"} />
-            <p className="text-5xl font-bold">SEARCH</p>
+            <p className="text-5xl">SEARCH</p>
           </div>
 
           {/* box */}
@@ -55,7 +55,7 @@ const MainPage = (): JSX.Element => {
             }}
           >
             <HatIco width={"100%"} />
-            <p className="text-5xl font-bold">BOX</p>
+            <p className="text-5xl">BOX</p>
           </div>
         </div>
         {/* ~main btn */}
@@ -74,6 +74,8 @@ const MainPage = (): JSX.Element => {
           <SizedBox height={10} />
           <SearchTitleIco className="w-9/12 max-w-3xl" />
           <SizedBox height={10} />
+          <SearchInputSection />
+          <SizedBox height={10} />
           <LogoIco width={24} height={24} className="fill-white mobile:w-4" />
           <SizedBox height={20} />
           <HatIco width={"25%"} className="fill-white" />
@@ -87,21 +89,6 @@ const MainPage = (): JSX.Element => {
         <Footer />
       </div>
       <SizedBox height={16} />
-    </div>
-  );
-};
-
-const LineTxt = () => {
-  return (
-    <div className="w-full flex text-center items-center">
-      <div className="w-full h-px bg-greenGrey ml-6"></div>
-      <div className="flex-shrink-0 pr-5 pl-5">
-        <Wrapper type="col">
-          <p>font recommendation</p>
-          <p>based on your tag selection</p>
-        </Wrapper>
-      </div>
-      <div className="w-full h-px bg-greenGrey mr-6"></div>
     </div>
   );
 };
