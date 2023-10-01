@@ -4,6 +4,7 @@ module.exports = {
   content: [
     "./src/app/**/*.{js,ts,jsx,tsx}",
     "./src/components/**/*.{js,ts,jsx,tsx}",
+    "./src/containers/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     colors: {
@@ -17,11 +18,20 @@ module.exports = {
       red: "#ec5424",
       yellow: "#ffa621",
     },
-    fontFamily: {},
+    fontFamily: {
+      BlackOpsOne: "Black Ops One",
+      Bayon: "Bayon",
+      NotoSans: "Noto Sans",
+    },
     screens: {
       mobile: { max: "430px" },
       tablet: { min: "431px", max: "1023px" },
       desktop: { min: "1024px" },
+    },
+    rotate: {
+      90: "90deg",
+      180: "180deg",
+      270: "270deg",
     },
   },
 

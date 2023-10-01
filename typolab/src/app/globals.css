@@ -2,6 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "Black Ops One";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/blackopsone/v20/qWcsB6-ypo7xBdr6Xshe96H3aDvbtxsis4I.woff2)
+    format("woff2");
+}
+
+@font-face {
+  font-family: "Bayon";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/bayon/v33/9XUrlJNmn0LPFm-uMBcmdHNI.woff2)
+    format("woff2");
+}
 html,
 body {
   max-width: 100vw;
