@@ -5,6 +5,8 @@ import TypoLabIco from "./typolab.svg";
 import AboutTextIco from "./about.svg";
 import RightArrowIco from "./rightArrow.svg";
 import MainTxt from "./mainTxt.svg";
+import PlusIco from "./PlusIco.svg";
+import NoResult from "./noResult.svg";
 
 export {
   HatIco,
@@ -14,4 +16,6 @@ export {
   AboutTextIco,
   RightArrowIco,
   MainTxt,
+  PlusIco,
+  NoResult,
 };

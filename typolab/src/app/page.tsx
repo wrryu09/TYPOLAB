@@ -1,13 +1,20 @@
 "use client";
 
 import React from "react";
-import { HatIco, LogoIco, MainTxt, SearchTitleIco } from "../../public/svgs";
+import {
+  HatIco,
+  LogoIco,
+  MainTxt,
+  NoResult,
+  SearchTitleIco,
+} from "../../public/svgs";
 import SizedBox from "@/components/SizedBox";
 import FullLine from "@/components/FullLine";
 import Footer from "@/components/Footer";
 import { useRouter } from "next/navigation";
 import SearchInputSection from "@/containers/main/SearchInputSection";
 import LineTxt from "@/containers/main/LineTxt";
+import FontCard from "@/components/FontCard";
 
 const MainPage = (): JSX.Element => {
   const router = useRouter();
@@ -76,6 +83,20 @@ const MainPage = (): JSX.Element => {
           <SizedBox height={10} />
           <SearchInputSection />
           <SizedBox height={10} />
+          <div className="w-full ml-8 mr-8 flex flex-wrap justify-center gap-y-6 gap-3 items-center">
+            <FontCard />
+            <FontCard />
+            <FontCard />
+            <FontCard />
+            <FontCard />
+            <FontCard />
+            <FontCard />
+          </div>
+          <SizedBox height={10} />
+
+          {/* NO RESULT */}
+          <NoResult className="w-8/12" />
+          <SizedBox height={10} />
           <LogoIco width={24} height={24} className="fill-white mobile:w-4" />
           <SizedBox height={20} />
           <HatIco width={"25%"} className="fill-white" />
@@ -92,5 +113,4 @@ const MainPage = (): JSX.Element => {
     </div>
   );
 };
-
 export default MainPage;
