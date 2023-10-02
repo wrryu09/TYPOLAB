@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   HatIco,
   LogoIco,
@@ -15,10 +15,25 @@ import { useRouter } from "next/navigation";
 import SearchInputSection from "@/containers/main/SearchInputSection";
 import LineTxt from "@/containers/main/LineTxt";
 import FontCard from "@/components/FontCard";
+import { getFontList } from "@/services/googleFont.apis";
 
 const MainPage = (): JSX.Element => {
   const router = useRouter();
-  const exampleData = [{},{},{},{},{},{},{}]
+  const [fontList, setFontList] = useState([{}, {}, {}, {}, {}, {}, {}]);
+  useEffect(() => {
+    // sort: alpha | date | popularity | style | trending.
+    getFontList("popularity")
+      .then((res) => {
+        let fontListRes = res.data.items.filter((data: Object, idx: number) => {
+          return idx < 15;
+        });
+        console.log(fontListRes);
+        setFontList(fontListRes);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
   return (
     <div className="bg-fog h-full">
       <LogoIco
@@ -85,10 +100,8 @@ const MainPage = (): JSX.Element => {
           <SearchInputSection />
           <SizedBox height={10} />
           <div className="w-full ml-8 mr-8 flex flex-wrap justify-center gap-y-6 gap-3 items-center">
-            {exampleData.map((data, idx)=>{
-              return(
-                <FontCard key={'fontCard'+idx} idx={idx}/>
-              )
+            {fontList.map((data, idx) => {
+              return <FontCard key={"fontCard" + idx} idx={idx} data={data} />;
             })}
           </div>
           <SizedBox height={10} />

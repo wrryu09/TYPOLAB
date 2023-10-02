@@ -7,6 +7,7 @@ import styles from "./fontCard.module.css";
 
 type Props = {
   idx: number;
+  data: any;
 };
 type BackFaceCol = {
   col: string;
@@ -43,7 +44,7 @@ const FontCard = (props: Props) => {
     bg: string;
     txtCol: string;
   }
-  const fontInfo: FontInfo = {
+  const exFontData: FontInfo = {
     family: "FontName",
     category: "sans-serif",
     kind: "webfonts#webfont",
@@ -56,6 +57,12 @@ const FontCard = (props: Props) => {
     txtCol: `text-${backFaceCol[index].col}`,
   };
 
+  let fontData: FontInfo = props.data;
+  // if failed to get font data, print example font data
+  if (fontData.family == undefined) {
+    fontData = exFontData;
+  }
+
   function handlePlus() {
     console.log("you pressed plus button!");
   }
@@ -67,13 +74,13 @@ const FontCard = (props: Props) => {
           {/* front side */}
           <div className={`${styles.flipCardFront}  text-darkGreen`}>
             <HatIco className="rotate-180 w-5/12 self-center" />
-            <p className="self-start mt-2 mb-1 ml-4">{fontInfo.family}</p>
+            <p className="self-start mt-2 mb-1 ml-4">{fontData.family}</p>
             <FullLine color="black" />
             <SizedBox height={10} />
             <div className="self-start ml-4">
-              <h1>{fontInfo.family}</h1>
-              <p>{fontInfo.category}</p>
-              <p>{fontInfo.kind}</p>
+              <h1 className={`text-5xl font-bold`}>{fontData.family}</h1>
+              <p>{fontData.category}</p>
+              <p>{fontData.kind}</p>
             </div>
             <PlusIco
               className="w-2/12 absolute bottom-2 right-2"
@@ -97,7 +104,7 @@ const FontCard = (props: Props) => {
               <div
                 className={`w-[96%] h-[97%] border border-solid rounded-lg top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 absolute`}
               />
-              <p className=" mt-2 mb-1 ml-4">{fontInfo.family}</p>
+              <p className=" mt-2 mb-1 ml-4">{fontData.family}</p>
               <div className="h-2/6"></div>
               <h1 className="w-10/12 h-auto ml-4 mr-4 overflow-clip text-8xl font-extrabold">
                 TYPOLAB
