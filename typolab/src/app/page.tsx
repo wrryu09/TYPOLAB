@@ -19,7 +19,7 @@ import { getFontList } from "@/services/googleFont.apis";
 
 const MainPage = (): JSX.Element => {
   const router = useRouter();
-  const [fontList, setFontList] = useState([{}, {}, {}, {}, {}, {}, {}]);
+  const [fontList, setFontList] = useState([]);
   useEffect(() => {
     // sort: alpha | date | popularity | style | trending.
     getFontList("popularity")
@@ -99,15 +99,21 @@ const MainPage = (): JSX.Element => {
           <SizedBox height={10} />
           <SearchInputSection />
           <SizedBox height={10} />
-          <div className="w-full ml-8 mr-8 flex flex-wrap justify-center gap-y-6 gap-3 items-center">
-            {fontList.map((data, idx) => {
-              return <FontCard key={"fontCard" + idx} idx={idx} data={data} />;
-            })}
-          </div>
+
+          {fontList.length > 0 ? (
+            <div className="w-full ml-8 mr-8 flex flex-wrap justify-center gap-y-6 gap-3 items-center">
+              {fontList.map((data, idx) => {
+                return (
+                  <FontCard key={"fontCard" + idx} idx={idx} data={data} />
+                );
+              })}
+            </div>
+          ) : (
+            <NoResult className="w-8/12" />
+          )}
+
           <SizedBox height={10} />
 
-          {/* NO RESULT */}
-          <NoResult className="w-8/12" />
           <SizedBox height={10} />
           <LogoIco width={24} height={24} className="fill-white mobile:w-4" />
           <SizedBox height={20} />
