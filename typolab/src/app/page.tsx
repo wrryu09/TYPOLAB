@@ -18,6 +18,7 @@ import FontCard from "@/components/FontCard";
 
 const MainPage = (): JSX.Element => {
   const router = useRouter();
+  const exampleData = [{},{},{},{},{},{},{}]
   return (
     <div className="bg-fog h-full">
       <LogoIco
@@ -84,13 +85,11 @@ const MainPage = (): JSX.Element => {
           <SearchInputSection />
           <SizedBox height={10} />
           <div className="w-full ml-8 mr-8 flex flex-wrap justify-center gap-y-6 gap-3 items-center">
-            <FontCard />
-            <FontCard />
-            <FontCard />
-            <FontCard />
-            <FontCard />
-            <FontCard />
-            <FontCard />
+            {exampleData.map((data, idx)=>{
+              return(
+                <FontCard key={'fontCard'+idx} idx={idx}/>
+              )
+            })}
           </div>
           <SizedBox height={10} />
 
