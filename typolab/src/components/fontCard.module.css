@@ -38,3 +38,17 @@
   flex-direction: column;
   transform: rotateY(180deg);
 }
+
+.backTxt {
+  white-space: nowrap;
+  padding-left: 20%;
+  animation: move 4s linear infinite;
+}
+@keyframes move {
+  0% {
+    transform: translate(50%, 0);
+  }
+  100% {
+    transform: translate(-300%, 0);
+  }
+}

@@ -96,7 +96,7 @@ const FontCard = (props: Props) => {
 
           {/* back side */}
           <div
-            className={`${styles.flipCardBack} ${colorSetting.bg} ${colorSetting.txtCol}`}
+            className={`${styles.flipCardBack} ${colorSetting.bg} ${colorSetting.txtCol} overflow-hidden`}
           >
             <HatIco className={`rotate-180 w-5/12 self-center`} />
             <div
@@ -107,10 +107,12 @@ const FontCard = (props: Props) => {
               <div
                 className={`w-[96%] h-[97%] border border-solid rounded-lg top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 absolute`}
               />
-              <p className=" mt-2 mb-1 ml-4">{fontData.family}</p>
+              <p className={`mt-2 mb-1 ml-4`}>{fontData.family}</p>
               <div className="h-2/6"></div>
-              <h1 className="w-10/12 h-auto ml-4 mr-4 overflow-clip text-8xl font-extrabold">
-                TYPOLAB
+              <h1
+                className={`w-10/12 ml-4 mr-4 text-8xl font-extrabold ${styles.backTxt}`}
+              >
+                {fontData.family}
               </h1>
               <p className="mt-2 mb-1 ml-4 absolute bottom-2 font-Bayon text-xl">
                 SEE MORE
