@@ -9,35 +9,20 @@ type Props = {
   idx: number;
   data: any;
 };
-type BackFaceCol = {
-  col: string;
-  bg: string;
-}[];
 
 const FontCard = (props: Props) => {
   const router = useRouter();
-  const backFaceCol: BackFaceCol = [
-    {
-      col: "red",
-      bg: "yellow",
-    },
-    {
-      col: "darkGreen",
-      bg: "red",
-    },
-    {
-      col: "yellow",
-      bg: "blueblue",
-    },
-    {
-      col: "black",
-      bg: "greenGrey",
-    },
+  const backFaceCodeCol = [
+    `${styles.flipCardBack} bg-yellow text-red overflow-hidden`,
+    `${styles.flipCardBack} bg-red text-darkGreen overflow-hidden`,
+    `${styles.flipCardBack} bg-blueblue text-yellow overflow-hidden`,
+    `${styles.flipCardBack} bg-greenGrey text-black overflow-hidden`,
   ];
   interface FontInfo {
     family: string;
     category: string;
     kind: string;
+    menu: string;
     link: string;
   }
   interface ColorSetting {
@@ -48,14 +33,11 @@ const FontCard = (props: Props) => {
     family: "FontName",
     category: "sans-serif",
     kind: "webfonts#webfont",
+    menu: "menulink",
     link: "https://fonts.google.com/specimen/",
   };
 
-  const index = props.idx % backFaceCol.length;
-  const colorSetting: ColorSetting = {
-    bg: `bg-${backFaceCol[index].bg}`,
-    txtCol: `text-${backFaceCol[index].col}`,
-  };
+  const index = props.idx % backFaceCodeCol.length;
 
   let fontData: FontInfo = props.data;
   // if failed to get font data, print example font data
@@ -66,7 +48,6 @@ const FontCard = (props: Props) => {
   function handlePlus() {
     console.log("you pressed plus button!");
   }
-
   return (
     <div className={styles.flipCard}>
       <div className="w-56 h-80 shrink-0 relative rounded-xl flex-col justify-start items-center inline-flex">
@@ -95,9 +76,7 @@ const FontCard = (props: Props) => {
           </div>
 
           {/* back side */}
-          <div
-            className={`${styles.flipCardBack} ${colorSetting.bg} ${colorSetting.txtCol} overflow-hidden`}
-          >
+          <div className={`${backFaceCodeCol[index]}`}>
             <HatIco className={`rotate-180 w-5/12 self-center`} />
             <div
               onClick={() => {
