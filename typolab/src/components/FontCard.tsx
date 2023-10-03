@@ -72,15 +72,18 @@ const FontCard = (props: Props) => {
       <div className="w-56 h-80 shrink-0 relative rounded-xl flex-col justify-start items-center inline-flex">
         <div className={styles.flipCardInner}>
           {/* front side */}
-          <div className={`${styles.flipCardFront}  text-darkGreen`}>
-            <HatIco className="rotate-180 w-5/12 self-center" />
-            <p className="self-start mt-2 mb-1 ml-4">{fontData.family}</p>
-            <FullLine color="black" />
-            <SizedBox height={10} />
+          <div className={`${styles.flipCardFront} text-darkGreen`}>
+            <div className="flex flex-col">
+              <HatIco className="rotate-180 w-5/12 self-center" />
+              <p className="self-start mt-2 mb-1 ml-4">{fontData.family}</p>
+              <FullLine color="black" />
+            </div>
             <div className="self-start ml-4">
               <h1 className={`text-5xl font-bold`}>{fontData.family}</h1>
+              <SizedBox height={0.4} />
               <p>{fontData.category}</p>
               <p>{fontData.kind}</p>
+              <SizedBox height={1.5} />
             </div>
             <PlusIco
               className="w-2/12 absolute bottom-2 right-2"
