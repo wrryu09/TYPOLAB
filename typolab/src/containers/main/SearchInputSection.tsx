@@ -1,11 +1,20 @@
 import SearchInput from "@/components/SearchInput";
 import SizedBox from "@/components/SizedBox";
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import { HatIco } from "../../../public/svgs";
+import { SortCriteria } from "@/types/types";
 
-type Props = {};
+type Props = {
+  sortCrit: string;
+  setSortCrit: Dispatch<SetStateAction<string>>;
+  sortCriteria: SortCriteria;
+};
 
-const SearchInputSection = () => {
+const SearchInputSection = (props: Props) => {
+  const sortBtnColor = {
+    off: "text-greenGrey",
+    on: "text-yellow",
+  };
   return (
     <div className="w-9/12 flex flex-col justify-center items-center">
       <SearchInput />
@@ -20,10 +29,54 @@ const SearchInputSection = () => {
         <p className="text-white text-5xl mobile:text-xl shrink-0">SORT BY</p>
         {/* sorting option buttons */}
         <div className="w-full text-greenGrey flex justify-between text-xl mobile:text-sm">
-          <p className=" hover:text-yellow">TRENDING</p>
-          <p className=" hover:text-yellow">MOST POPULAR</p>
-          <p className=" hover:text-yellow">NEWEST</p>
-          <p className=" hover:text-yellow">NAME</p>
+          <p
+            className={`hover:text-yellow ${
+              props.sortCrit === props.sortCriteria.Trending
+                ? sortBtnColor.on
+                : sortBtnColor.off
+            }`}
+            onClick={() => {
+              props.setSortCrit(props.sortCriteria.Trending);
+            }}
+          >
+            TRENDING
+          </p>
+          <p
+            className={`hover:text-yellow ${
+              props.sortCrit === props.sortCriteria.Popular
+                ? sortBtnColor.on
+                : sortBtnColor.off
+            }`}
+            onClick={() => {
+              props.setSortCrit(props.sortCriteria.Popular);
+            }}
+          >
+            MOST POPULAR
+          </p>
+          <p
+            className={`hover:text-yellow ${
+              props.sortCrit === props.sortCriteria.Newest
+                ? sortBtnColor.on
+                : sortBtnColor.off
+            }`}
+            onClick={() => {
+              props.setSortCrit(props.sortCriteria.Newest);
+            }}
+          >
+            NEWEST
+          </p>
+          <p
+            className={`hover:text-yellow ${
+              props.sortCrit === props.sortCriteria.Name
+                ? sortBtnColor.on
+                : sortBtnColor.off
+            }`}
+            onClick={() => {
+              props.setSortCrit(props.sortCriteria.Name);
+            }}
+          >
+            NAME
+          </p>
         </div>
       </div>
     </div>

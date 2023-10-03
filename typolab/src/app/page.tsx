@@ -16,13 +16,21 @@ import SearchInputSection from "@/containers/main/SearchInputSection";
 import LineTxt from "@/containers/main/LineTxt";
 import FontCard from "@/components/FontCard";
 import { getFontList } from "@/services/googleFont.apis";
+import { SortCriteria } from "@/types/types";
 
 const MainPage = (): JSX.Element => {
   const router = useRouter();
   const [fontList, setFontList] = useState([]);
-  useEffect(() => {
+  const [sortCrit, setSortCrit] = useState("trending");
+  const sortCriteria: SortCriteria = {
     // sort: alpha | date | popularity | style | trending.
-    getFontList("popularity")
+    Trending: "trending",
+    Popular: "popularity",
+    Newest: "date",
+    Name: "alpha",
+  };
+  useEffect(() => {
+    getFontList(sortCrit)
       .then((res) => {
         let fontListRes = res.data.items.filter((data: Object, idx: number) => {
           return idx < 15;
@@ -33,7 +41,7 @@ const MainPage = (): JSX.Element => {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [sortCrit]);
   return (
     <div className="bg-fog h-full">
       <LogoIco
@@ -97,7 +105,11 @@ const MainPage = (): JSX.Element => {
           <SizedBox height={10} />
           <SearchTitleIco className="w-9/12 max-w-3xl" />
           <SizedBox height={10} />
-          <SearchInputSection />
+          <SearchInputSection
+            sortCrit={sortCrit}
+            setSortCrit={setSortCrit}
+            sortCriteria={sortCriteria}
+          />
           <SizedBox height={10} />
 
           {fontList.length > 0 ? (
