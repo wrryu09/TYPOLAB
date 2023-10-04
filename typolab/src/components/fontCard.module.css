@@ -1,0 +1,54 @@
+.flipCard {
+  background-color: transparent;
+}
+
+.flipCardInner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+}
+
+/* Do an horizontal flip */
+.flipCard:hover .flipCardInner {
+  transform: rotateY(180deg);
+}
+
+/* Position the front and back side */
+.flipCardFront,
+.flipCardBack {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden; /* Safari */
+  backface-visibility: hidden;
+  border-radius: 0.75rem;
+}
+
+.flipCardFront {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: #fff;
+}
+
+.flipCardBack {
+  display: flex;
+  flex-direction: column;
+  transform: rotateY(180deg);
+}
+
+.backTxt {
+  white-space: nowrap;
+  padding-left: 20%;
+  animation: move 4s linear infinite;
+}
+@keyframes move {
+  0% {
+    transform: translate(50%, 0);
+  }
+  100% {
+    transform: translate(-300%, 0);
+  }
+}
