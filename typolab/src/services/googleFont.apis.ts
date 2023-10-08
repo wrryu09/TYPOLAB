@@ -17,3 +17,15 @@ export function getFontList(sort?: string, family?: string) {
       return err;
     });
 }
+
+export function getFontPage(family: string) {
+  return axios
+    .get(`https://fonts.google.com/specimen/${family}/about`, {})
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      console.log(err);
+      return err;
+    });
+}
