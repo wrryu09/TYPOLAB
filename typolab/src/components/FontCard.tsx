@@ -80,7 +80,7 @@ const FontCard = (props: Props) => {
             <HatIco className={`rotate-180 w-5/12 self-center`} />
             <div
               onClick={() => {
-                console.log("console");
+                router.push(`search/${fontData.family}`);
               }}
             >
               <div
