@@ -7,6 +7,7 @@ import RightArrowIco from "./rightArrow.svg";
 import MainTxt from "./mainTxt.svg";
 import PlusIco from "./PlusIco.svg";
 import NoResult from "./noResult.svg";
+import BackIco from "./backIco.svg";
 
 export {
   HatIco,
@@ -18,4 +19,5 @@ export {
   MainTxt,
   PlusIco,
   NoResult,
+  BackIco,
 };
