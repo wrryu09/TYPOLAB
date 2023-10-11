@@ -14,7 +14,8 @@ const SearchRes = ({ params }: { params: { fontName: string } }) => {
   const [fontData, setFontData] = useState<FontInfoType>();
   const [fontPageData, setFontPageData] = useState();
   const [varient, setVarient] = useState<string>("regular");
-  const fontSizeObj = {
+  type Sizes = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
+  const fontSizeObj: { [num in Sizes]: string } = {
     0: "text-xs",
     1: "text-sm",
     2: "text-base",
@@ -81,6 +82,20 @@ const SearchRes = ({ params }: { params: { fontName: string } }) => {
 
       {varientArr.length > 0 ? (
         <div className="w-11/12">
+          <div className="flex">
+            <p className="font-Bayon text-lg text-greenGrey">SIZE</p>
+            <input
+              type="range"
+              min={0}
+              max={12}
+              className="w-1/2"
+              onChange={(e) => {
+                const val: number = Number(e.currentTarget.value);
+                const sizeVal: Sizes = val as Sizes;
+                setFontSize(fontSizeObj[sizeVal]);
+              }}
+            />
+          </div>
           <div className="w-full flex justify-between">
             {/* size & weight seek */}
             <h1
