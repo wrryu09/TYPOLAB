@@ -94,7 +94,7 @@ const MainPage = (): JSX.Element => {
         <SizedBox height={20} />
         <LineTxt />
         <SizedBox height={10} />
-        <MainTxt className="p-8 mobile:p-4" />
+        <MainTxt className="p-8 mobile:p-4 fill-darkGreen" />
         <SizedBox height={10} />
 
         {/* search section */}
