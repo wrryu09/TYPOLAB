@@ -5,14 +5,15 @@ import { HatIco } from "../../../../public/svgs";
 import { getFontList, getFontPage } from "@/services/googleFont.apis";
 import * as cheerio from "cheerio";
 import styles from "./searchRes.module.css";
-import { FontInfoType } from "@/types/types";
+import { FontInfoType, FontPageType } from "@/types/types";
 import SizedBox from "@/components/SizedBox";
 import BackArrow from "@/components/BackArrow";
+import Footer from "@/components/Footer";
 
 const SearchRes = ({ params }: { params: { fontName: string } }) => {
   const fontFamily = params.fontName.replaceAll("%20", " ");
   const [fontData, setFontData] = useState<FontInfoType>();
-  const [fontPageData, setFontPageData] = useState();
+  const [fontPageData, setFontPageData] = useState<FontPageType>();
   const [varient, setVarient] = useState<string>("regular");
   type Sizes = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
   const fontSizeObj: { [num in Sizes]: string } = {
@@ -31,25 +32,27 @@ const SearchRes = ({ params }: { params: { fontName: string } }) => {
     12: "text-9xl",
   };
   const [fontSize, setFontSize] = useState<string>(fontSizeObj[5]);
+  const subTitleStyle = "font-Bayon text-6xl pb-8";
+
   // get info of the font
   useEffect(() => {
     getFontList("trending", fontFamily)
       .then((res) => {
-        console.log(res);
         setFontData(res.data);
       })
       .catch((err) => {
         console.log(err);
       });
-    //   getFontPage(fontFamily)
-    //     .then((res) => {
-    //       setFontPageData(res);
-    //     })
-    //     .catch((err) => {
-    //       console.log(err);
-    //     });
+    getFontPage(fontFamily)
+      .then((res) => {
+        console.log("getFontPage", res.status);
+        setFontPageData(JSON.parse(res.data.slice(5)));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
-
+  //   console.log(fontPageData);
   const varientArr: string[] = [];
   if (fontData?.items) {
     fontData.items[0].variants.map((ele) => {
@@ -103,7 +106,7 @@ const SearchRes = ({ params }: { params: { fontName: string } }) => {
             >
               <input
                 placeholder={fontFamily}
-                className={`p-3 ${fontSize} fontFamily w-full h-full`}
+                className={`p-3 ${fontSize} fontFamily w-full h-full bg-fog`}
               ></input>
             </h1>
             {/* font varient btn */}
@@ -127,7 +130,6 @@ const SearchRes = ({ params }: { params: { fontName: string } }) => {
               })}
             </div>
           </div>
-
           {/* font varient print */}
           {varientArr.map((ele, idx) => {
             return (
@@ -138,14 +140,67 @@ const SearchRes = ({ params }: { params: { fontName: string } }) => {
   }
   `}
                 </style>
-                <p className={`eleWeight${idx} fontFamily text-4xl`}>
-                  {fontFamily}
+                <p className={`eleWeight${idx} fontFamily text-2xl`}>
+                  The Quick Brown Fox Jumps Over The Lazy Dog
                 </p>
               </div>
             );
           })}
         </div>
       ) : null}
+
+      <div className="flex flex-col mt-40 w-11/12">
+        {/* license */}
+        <div className="self-end mb-20">
+          <h1 className={subTitleStyle}>LICENSE</h1>
+          {fontPageData ? <>{fontPageData.license}</> : null}
+        </div>
+
+        {/* designers */}
+        <div className="self-start mb-20">
+          <h1 className={subTitleStyle}>DESIGNERS</h1>
+          {fontPageData ? (
+            <>
+              {fontPageData.designers.map((data) => {
+                return (
+                  <div key={data.name}>
+                    {data.imageUrl === null ? null : (
+                      <img
+                        alt="designer image"
+                        src={data.imageUrl}
+                        className="w-1/12 pb-4"
+                      />
+                    )}
+                    <p
+                      dangerouslySetInnerHTML={{ __html: data.name }}
+                      className="w-5/12 pb-2"
+                    ></p>
+                    {data.bio === null ? null : (
+                      <p
+                        dangerouslySetInnerHTML={{ __html: data.bio }}
+                        className="w-5/12 pb-12"
+                      ></p>
+                    )}
+                  </div>
+                );
+              })}
+            </>
+          ) : null}
+        </div>
+
+        {/* about */}
+        <div className="self-center text-center w-10/12">
+          <h1 className={subTitleStyle}>ABOUT</h1>
+          {fontPageData ? (
+            <p
+              dangerouslySetInnerHTML={{ __html: fontPageData.description }}
+            ></p>
+          ) : null}
+        </div>
+      </div>
+      <SizedBox height={30} />
+      <Footer />
+      <SizedBox height={10} />
     </div>
   );
 };

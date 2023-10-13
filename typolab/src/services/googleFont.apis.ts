@@ -20,7 +20,7 @@ export function getFontList(sort?: string, family?: string) {
 
 export function getFontPage(family: string) {
   return axios
-    .get(`https://fonts.google.com/specimen/${family}/about`, {})
+    .get(`https://fonts.google.com/metadata/fonts/${family}`, {})
     .then((res) => {
       return res;
     })

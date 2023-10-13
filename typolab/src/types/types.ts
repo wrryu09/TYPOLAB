@@ -21,3 +21,36 @@ export interface FontInfoType {
     }
   ];
 }
+export interface FontPageType {
+  family: string;
+  displayName?: null;
+  coverage: {};
+  fonts: {};
+  axes: {}[];
+  stats: {
+    requests: {};
+    country_breakdown: {};
+    integrations_count: number;
+  };
+  description: string;
+  license: string;
+  designers: {
+    name: string;
+    bio: string;
+    imageUrl: string;
+  }[];
+  fontUses: null;
+  category: string;
+  stroke: string;
+  classifications: [string][];
+  lastModified: string;
+  size: number;
+  updateNotes?: [];
+  isNoto: boolean;
+  colorCapabilities?: [];
+  primaryScript: string;
+  primaryLanguage: string;
+  article?: null;
+  languages: [string][];
+  minisiteUrl?: string;
+}
