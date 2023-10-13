@@ -9,6 +9,7 @@ import PlusIco from "./PlusIco.svg";
 import NoResult from "./noResult.svg";
 import BackIco from "./backIco.svg";
 import DotLine from "./dotLine.svg";
+import LogoHatIco from "./logoHat.svg";
 
 export {
   HatIco,
@@ -22,4 +23,5 @@ export {
   NoResult,
   BackIco,
   DotLine,
+  LogoHatIco,
 };
