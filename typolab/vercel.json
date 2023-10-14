@@ -1,8 +1,8 @@
 {
-    "routes": [
+    "rewrites": [
         {
-            "src": "/api/:path*/",
-            "dest": "https://fonts.google.com/:path*/"
+            "source": "/api/:path*/",
+            "destination": "https://fonts.google.com/:path*/"
         }
     ]
 }
