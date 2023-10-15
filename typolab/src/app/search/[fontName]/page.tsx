@@ -45,8 +45,7 @@ const SearchRes = ({ params }: { params: { fontName: string } }) => {
       });
     getFontPage(fontFamily)
       .then((res) => {
-        console.log("getFontPage", res.status);
-        setFontPageData(JSON.parse(res.data.slice(5)));
+        setFontPageData(JSON.parse(res.slice(5)));
       })
       .catch((err) => {
         console.log(err);

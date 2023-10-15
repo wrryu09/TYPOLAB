@@ -20,9 +20,12 @@ export function getFontList(sort?: string, family?: string) {
 
 export function getFontPage(family: string) {
   return axios
-    .get(`api/metadata/fonts/${family}`, {})
+    .get(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}search/fontPageInfo/${family}`,
+      {}
+    )
     .then((res) => {
-      return res;
+      return res.data.body.body;
     })
     .catch((err) => {
       console.log(err);

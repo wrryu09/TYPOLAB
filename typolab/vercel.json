@@ -1,8 +1,0 @@
-{
-    "rewrites": [
-        {
-            "source": "/search/api/:path*",
-            "destination": "https://fonts.google.com/:path*"
-        }
-    ]
-}
