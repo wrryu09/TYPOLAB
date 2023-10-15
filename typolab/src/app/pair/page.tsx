@@ -6,6 +6,7 @@ import BackArrow from "@/components/BackArrow";
 import Footer from "@/components/Footer";
 import { HatIco, PlusIco } from "../../../public/svgs";
 import FontCard from "@/components/FontCard";
+import FontSetting from "@/containers/search/FontSetting";
 
 type Props = {};
 
@@ -24,6 +25,12 @@ const Pair = (props: Props) => {
     { id: 5, name: "#발표자료에좋은", selected: true },
     { id: 6, name: "#코딩하기좋은", selected: true },
   ]);
+  const [displayTitleSize, setDisplayTitleSize] = useState(32);
+  const [displayContentSize, setDisplayContentSize] = useState(12);
+
+  const [showTitleSetting, setShowTitleSetting] = useState(false);
+  const [showContentSetting, setShowContentSetting] = useState(false);
+
   function handleTagSelection(tagId: number) {
     const tagArr = [...tagList];
     tagList.forEach((tag) => {
@@ -33,6 +40,7 @@ const Pair = (props: Props) => {
     });
     setTagList(tagArr);
   }
+
   return (
     <div className="bg-fog h-full text-darkGreen flex flex-col items-center">
       {/* <link
@@ -89,11 +97,39 @@ const Pair = (props: Props) => {
 
         {/* font display box */}
         <div className="w-full flex flex-col items-start gap-y-2 border border-greenGrey px-8 py-[34px] rounded-lg mb-60">
-          <h1 className="text-4xl">Black Ops One</h1>
-          <p>
-            happy happyhappy happyhappy happyhappy happyhappy happyhappy
-            happyhappy happy
-          </p>
+          <style>{`
+              .titleFontSize{
+                font-size: ${displayTitleSize}pt;
+              }
+              .contentFontSize{
+                font-size: ${displayContentSize}pt;
+              }
+            `}</style>
+          <div
+            onMouseOver={() => setShowTitleSetting(true)}
+            onMouseOut={() => setShowTitleSetting(false)}
+          >
+            <FontSetting
+              visible={showTitleSetting}
+              size={displayTitleSize}
+              setSize={setDisplayTitleSize}
+            />
+            <h1 className="titleFontSize">Black Ops One</h1>
+          </div>
+          <div
+            onMouseOver={() => setShowContentSetting(true)}
+            onMouseOut={() => setShowContentSetting(false)}
+          >
+            <FontSetting
+              visible={showContentSetting}
+              size={displayContentSize}
+              setSize={setDisplayContentSize}
+            />
+            <p className="contentFontSize">
+              happy happyhappy happyhappy happyhappy happyhappy happyhappy
+              happyhappy happy
+            </p>
+          </div>
         </div>
 
         {/* box section */}
