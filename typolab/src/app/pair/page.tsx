@@ -7,6 +7,7 @@ import Footer from "@/components/Footer";
 import { HatIco, PlusIco } from "../../../public/svgs";
 import FontCard from "@/components/FontCard";
 import FontSetting from "@/containers/search/FontSetting";
+import { FontSet, FontSetArr } from "@/types/types";
 
 type Props = {};
 
@@ -40,13 +41,8 @@ const Pair = (props: Props) => {
     });
     setTagList(tagArr);
   }
-  type FontSetArr = { family: string; weight: string; size: number }[];
 
-  function putFontSetToBox(fontSet: {
-    family: string;
-    weight: string;
-    size: number;
-  }) {
+  function putFontSetToBox(fontSet: FontSet) {
     const currentBox = localStorage.getItem("box");
     if (currentBox && currentBox !== "null" && currentBox !== "undefined") {
       const addData: FontSetArr = JSON.parse(currentBox);

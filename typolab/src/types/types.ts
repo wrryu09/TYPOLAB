@@ -54,3 +54,11 @@ export interface FontPageType {
   languages: [string][];
   minisiteUrl?: string;
 }
+
+// searchPage
+export type FontSetArr = { family: string; weight: string; size: number }[];
+export interface FontSet {
+  family: string;
+  weight: string;
+  size: number;
+}
