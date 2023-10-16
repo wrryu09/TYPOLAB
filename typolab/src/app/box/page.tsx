@@ -6,7 +6,7 @@ import BackArrow from "@/components/BackArrow";
 import Footer from "@/components/Footer";
 import { DotLine, HatIco, PlusIco } from "../../../public/svgs";
 import BoxCard from "@/containers/box/BoxCard";
-import { FontSetArr } from "@/types/types";
+import { FontSet, FontSetArr } from "@/types/types";
 
 type Props = {};
 
@@ -14,7 +14,30 @@ const Box = (props: Props) => {
   const [boxContent, setBoxContent] = useState<FontSetArr>();
   const subTitleStyle = "font-Bayon text-6xl pb-8";
 
+  function removeItemFromBox(font: FontSet) {
+    const storedArr = localStorage.getItem("box");
+    if (storedArr && storedArr !== "null" && storedArr !== "undefined") {
+      const storedData = JSON.parse(storedArr);
+      const modArr = storedData.filter((ele: FontSet) => {
+        return (
+          ele.family !== font.family ||
+          ele.weight !== font.weight ||
+          ele.size !== font.size
+        );
+      });
+      localStorage.setItem("box", JSON.stringify(modArr));
+    }
+    // catch changes in storage
+    const currentBox = localStorage.getItem("box");
+    if (currentBox && currentBox !== "null" && currentBox !== "undefined") {
+      const content: FontSetArr = JSON.parse(currentBox);
+      setBoxContent(content);
+    }
+  }
+
+  // view storage on load
   useEffect(() => {
+    console.log("useEffect");
     const currentBox = localStorage.getItem("box");
     if (currentBox && currentBox !== "null" && currentBox !== "undefined") {
       const content: FontSetArr = JSON.parse(currentBox);
@@ -48,6 +71,7 @@ const Box = (props: Props) => {
                   <BoxCard
                     key={ele.family + ele.weight + ele.size}
                     fontSet={ele}
+                    removeItemFromBox={removeItemFromBox}
                   />
                 );
               })
