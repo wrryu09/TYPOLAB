@@ -34,7 +34,9 @@ const BoxCard = (props: Props) => {
             className="bg-fog rounded-tl-lg rounded-tr-[50px] rounded-bl-lg rounded-br-[50px]"
             placeholder="Font alias here"
           />
-          <button className="bg-yellow py-2 px-4 rounded-full">save</button>
+          <button className="bg-darkGreen text-white hover:bg-yellow hover:text-darkGreen py-2 px-4 rounded-full">
+            save
+          </button>
         </div>
       </div>
 
