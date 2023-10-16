@@ -7,7 +7,7 @@ import { FontInfoType, FontPageType, FontSet } from "@/types/types";
 import SizedBox from "@/components/SizedBox";
 import BackArrow from "@/components/BackArrow";
 import Footer from "@/components/Footer";
-import { putFontSetToBox } from "@/services/putFontSetToBox";
+import putFontSetToBox from "@/services/putFontSetToBox";
 
 const SearchRes = ({ params }: { params: { fontName: string } }) => {
   const fontFamily = params.fontName.replaceAll("%20", " ");

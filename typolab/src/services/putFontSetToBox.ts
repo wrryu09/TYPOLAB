@@ -1,6 +1,6 @@
 import { FontSet, FontSetArr } from "@/types/types";
 
-export function putFontSetToBox(fontSet: FontSet) {
+export default function putFontSetToBox(fontSet: FontSet) {
   const currentBox = localStorage.getItem("box");
   if (currentBox && currentBox !== "null" && currentBox !== "undefined") {
     const addData: FontSetArr = JSON.parse(currentBox);

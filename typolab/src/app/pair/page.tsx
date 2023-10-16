@@ -7,7 +7,7 @@ import Footer from "@/components/Footer";
 import { HatIco, PlusIco } from "../../../public/svgs";
 import FontCard from "@/components/FontCard";
 import FontSetting from "@/containers/search/FontSetting";
-import { putFontSetToBox } from "@/services/putFontSetToBox";
+import putFontSetToBox from "@/services/putFontSetToBox";
 
 type Props = {};
 
