@@ -40,6 +40,37 @@ const Pair = (props: Props) => {
     });
     setTagList(tagArr);
   }
+  type FontSetArr = { family: string; weight: string; size: number }[];
+
+  function putFontSetToBox(fontSet: {
+    family: string;
+    weight: string;
+    size: number;
+  }) {
+    const currentBox = localStorage.getItem("box");
+    if (currentBox && currentBox !== "null" && currentBox !== "undefined") {
+      const addData: FontSetArr = JSON.parse(currentBox);
+      if (
+        addData.find((ele) => {
+          if (
+            ele.family === fontSet.family &&
+            ele.weight === fontSet.weight &&
+            ele.size === fontSet.size
+          ) {
+            return true;
+          }
+        })
+      ) {
+        console.log("already have same set");
+      } else {
+        addData.push(fontSet);
+        localStorage.setItem("box", JSON.stringify(addData));
+      }
+    } else {
+      localStorage.setItem("box", JSON.stringify([fontSet]));
+    }
+    console.log("boxSet :", localStorage.getItem("box"));
+  }
 
   return (
     <div className="bg-fog h-full text-darkGreen flex flex-col items-center">
@@ -140,17 +171,35 @@ const Pair = (props: Props) => {
             <div className="flex w-5/12 justify-between">
               <div className="flex flex-col items-start">
                 <h1 className="text-4xl">Noto Sans</h1>
-                <p>San-Serif, display</p>
+                <p>San-Serif, {displayTitleSize}</p>
               </div>
-              <PlusIco className="w-8" />
+              <PlusIco
+                className="w-8"
+                onClick={() => {
+                  putFontSetToBox({
+                    family: "Noto Sans",
+                    weight: "bold",
+                    size: 32,
+                  });
+                }}
+              />
             </div>
             {/* 2nd set */}
             <div className="flex w-5/12 justify-between">
               <div className="flex flex-col items-start">
                 <h1 className="text-4xl">Noto Sans</h1>
-                <p>San-Serif, display</p>
+                <p>San-Serif, {displayContentSize}</p>
               </div>
-              <PlusIco className="w-8" />
+              <PlusIco
+                className="w-8"
+                onClick={() => {
+                  putFontSetToBox({
+                    family: "Noto Sans",
+                    weight: "bold",
+                    size: 12,
+                  });
+                }}
+              />
             </div>
           </div>
         </div>
