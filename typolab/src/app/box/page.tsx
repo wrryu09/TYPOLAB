@@ -44,7 +44,12 @@ const Box = (props: Props) => {
         <div className="w-full items-center flex flex-col gap-y-8 mb-40">
           {boxContent
             ? boxContent.map((ele) => {
-                return <BoxCard key={ele.family + ele.weight + ele.size} />;
+                return (
+                  <BoxCard
+                    key={ele.family + ele.weight + ele.size}
+                    fontSet={ele}
+                  />
+                );
               })
             : null}
         </div>

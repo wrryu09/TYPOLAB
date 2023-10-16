@@ -1,7 +1,8 @@
 import React from "react";
 import { HatIco } from "../../../public/svgs";
+import { FontSet } from "@/types/types";
 
-type Props = {};
+type Props = { fontSet: FontSet };
 
 const BoxCard = (props: Props) => {
   return (
@@ -13,8 +14,10 @@ const BoxCard = (props: Props) => {
 
       {/* text section */}
       <div className="flex flex-col items-start pl-[5%]">
-        <p>Regular, 24pt</p>
-        <h1 className="text-4xl font-extrabold">Black Ops One</h1>
+        <p>
+          {props.fontSet.weight}, {props.fontSet.size}pt
+        </p>
+        <h1 className="text-4xl font-extrabold">{props.fontSet.family}</h1>
 
         {/* alias input */}
         <div className="flex mt-3 gap-x-3">
