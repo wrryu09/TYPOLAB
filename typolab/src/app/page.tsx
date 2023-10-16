@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   HatIco,
   LogoIco,
@@ -42,6 +42,15 @@ const MainPage = (): JSX.Element => {
         console.log(err);
       });
   }, [sortCrit]);
+
+  // scroll to search section
+  const searchRef = useRef<HTMLDivElement | null>(null);
+  const executeScroll = () => {
+    if (searchRef.current) {
+      searchRef.current.scrollIntoView();
+    }
+  };
+
   return (
     <div className="bg-fog h-full">
       <LogoIco
@@ -69,10 +78,7 @@ const MainPage = (): JSX.Element => {
           {/* search */}
           <div
             className="flex flex-col  hover:text-yellow"
-            onClick={() => {
-              // router.push("/serach");
-              console.log("move to search section");
-            }}
+            onClick={executeScroll}
           >
             <HatIco width={"100%"} />
             <p className="text-5xl">SEARCH</p>
@@ -94,12 +100,15 @@ const MainPage = (): JSX.Element => {
         <SizedBox height={20} />
         <LineTxt />
         <SizedBox height={10} />
-        <MainTxt className="p-8 mobile:p-4" />
+        <MainTxt className="p-8 mobile:p-4 fill-darkGreen" />
         <SizedBox height={10} />
 
         {/* search section */}
         <HatIco width={"25%"} className="fill-darkGreen" />
-        <div className="bg-darkGreen w-full flex flex-col items-center">
+        <div
+          ref={searchRef}
+          className="bg-darkGreen w-full flex flex-col items-center"
+        >
           <SizedBox height={10} />
           <FullLine color={"yellow"} />
           <SizedBox height={10} />

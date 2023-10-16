@@ -17,3 +17,18 @@ export function getFontList(sort?: string, family?: string) {
       return err;
     });
 }
+
+export function getFontPage(family: string) {
+  return axios
+    .get(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}search/fontPageInfo/${family}`,
+      {}
+    )
+    .then((res) => {
+      return res.data.body.body;
+    })
+    .catch((err) => {
+      console.log(err);
+      return err;
+    });
+}

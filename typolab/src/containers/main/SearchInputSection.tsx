@@ -25,10 +25,10 @@ const SearchInputSection = (props: Props) => {
       <HatIco className="fill-red rotate-270 w-2/12 absolute right-0" />
 
       {/* SORT BY */}
-      <div className="w-10/12 mobile:w-full flex items-baseline font-Bayon">
+      <div className="w-10/12 mobile:w-11/12 flex items-baseline justify-between font-Bayon">
         <p className="text-white text-5xl mobile:text-xl shrink-0">SORT BY</p>
         {/* sorting option buttons */}
-        <div className="w-full text-greenGrey flex justify-between text-xl mobile:text-sm">
+        <div className="w-2/3 mobile:h-5/6 text-greenGrey flex justify-between text-xl mobile:text-xs">
           <p
             className={`hover:text-yellow ${
               props.sortCrit === props.sortCriteria.Trending

@@ -25,10 +25,6 @@ const FontCard = (props: Props) => {
     menu: string;
     link: string;
   }
-  interface ColorSetting {
-    bg: string;
-    txtCol: string;
-  }
   const exFontData: FontInfo = {
     family: "FontName",
     category: "sans-serif",
@@ -50,6 +46,17 @@ const FontCard = (props: Props) => {
   }
   return (
     <div className={styles.flipCard}>
+      <link
+        rel="stylesheet"
+        href={`https://fonts.googleapis.com/css2?family=${fontData.family}`}
+      />
+      <style>
+        {`.fontFamily${props.idx}{
+    font-family: ${fontData.family};
+    font-weight: 900;
+  }
+  }`}
+      </style>
       <div className="w-56 h-80 shrink-0 relative rounded-xl flex-col justify-start items-center inline-flex">
         <div className={styles.flipCardInner}>
           {/* front side */}
@@ -60,7 +67,9 @@ const FontCard = (props: Props) => {
               <FullLine color="black" />
             </div>
             <div className="self-start ml-4">
-              <h1 className={`text-5xl font-bold`}>{fontData.family}</h1>
+              <h1 className={`text-5xl fontFamily${props.idx}`}>
+                {fontData.family}
+              </h1>
               <SizedBox height={0.4} />
               <p>{fontData.category}</p>
               <p>{fontData.kind}</p>
@@ -80,7 +89,7 @@ const FontCard = (props: Props) => {
             <HatIco className={`rotate-180 w-5/12 self-center`} />
             <div
               onClick={() => {
-                console.log("console");
+                router.push(`search/${fontData.family}`);
               }}
             >
               <div
@@ -89,7 +98,7 @@ const FontCard = (props: Props) => {
               <p className={`mt-2 mb-1 ml-4`}>{fontData.family}</p>
               <div className="h-2/6"></div>
               <h1
-                className={`w-10/12 ml-4 mr-4 text-8xl font-extrabold ${styles.backTxt}`}
+                className={`w-10/12 ml-4 mr-4 text-8xl fontFamily${props.idx} ${styles.backTxt}`}
               >
                 {fontData.family}
               </h1>
