@@ -7,6 +7,7 @@ import Footer from "@/components/Footer";
 import { HatIco, PlusIco } from "../../../public/svgs";
 import FontCard from "@/components/FontCard";
 import FontSetting from "@/containers/search/FontSetting";
+import { putFontSetToBox } from "@/services/putFontSetToBox";
 
 type Props = {};
 
@@ -140,17 +141,35 @@ const Pair = (props: Props) => {
             <div className="flex w-5/12 justify-between">
               <div className="flex flex-col items-start">
                 <h1 className="text-4xl">Noto Sans</h1>
-                <p>San-Serif, display</p>
+                <p>San-Serif, {displayTitleSize}</p>
               </div>
-              <PlusIco className="w-8" />
+              <PlusIco
+                className="w-8"
+                onClick={() => {
+                  putFontSetToBox({
+                    family: "Noto Sans",
+                    weight: "bold",
+                    size: 32,
+                  });
+                }}
+              />
             </div>
             {/* 2nd set */}
             <div className="flex w-5/12 justify-between">
               <div className="flex flex-col items-start">
                 <h1 className="text-4xl">Noto Sans</h1>
-                <p>San-Serif, display</p>
+                <p>San-Serif, {displayContentSize}</p>
               </div>
-              <PlusIco className="w-8" />
+              <PlusIco
+                className="w-8"
+                onClick={() => {
+                  putFontSetToBox({
+                    family: "Noto Sans",
+                    weight: "bold",
+                    size: 12,
+                  });
+                }}
+              />
             </div>
           </div>
         </div>
