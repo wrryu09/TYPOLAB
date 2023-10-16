@@ -1,14 +1,13 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { HatIco } from "../../../../public/svgs";
+import { HatIco, PlusIco } from "../../../../public/svgs";
 import { getFontList, getFontPage } from "@/services/googleFont.apis";
-import * as cheerio from "cheerio";
-import styles from "./searchRes.module.css";
-import { FontInfoType, FontPageType } from "@/types/types";
+import { FontInfoType, FontPageType, FontSet } from "@/types/types";
 import SizedBox from "@/components/SizedBox";
 import BackArrow from "@/components/BackArrow";
 import Footer from "@/components/Footer";
+import { putFontSetToBox } from "@/services/putFontSetToBox";
 
 const SearchRes = ({ params }: { params: { fontName: string } }) => {
   const fontFamily = params.fontName.replaceAll("%20", " ");
@@ -145,6 +144,22 @@ const SearchRes = ({ params }: { params: { fontName: string } }) => {
               </div>
             );
           })}
+          <button
+            className="flex items-center gap-x-2 font-Bayon text-xl border px-2.5 py-2 rounded-md"
+            onClick={() => {
+              const fontSet: FontSet = {
+                family: fontFamily,
+                weight: varient,
+
+                // ❌ needs modification ❌
+                size: 55,
+              };
+              putFontSetToBox(fontSet);
+            }}
+          >
+            <p>SAVE THIS FONT SET</p>
+            <PlusIco className="w-8" />
+          </button>
         </div>
       ) : null}
 
