@@ -114,6 +114,8 @@ const Pair = (props: Props) => {
               visible={showTitleSetting}
               size={displayTitleSize}
               setSize={setDisplayTitleSize}
+              min={20}
+              max={120}
             />
             <h1 className="titleFontSize">Black Ops One</h1>
           </div>
@@ -125,6 +127,8 @@ const Pair = (props: Props) => {
               visible={showContentSetting}
               size={displayContentSize}
               setSize={setDisplayContentSize}
+              min={6}
+              max={50}
             />
             <p className="contentFontSize">
               happy happyhappy happyhappy happyhappy happyhappy happyhappy

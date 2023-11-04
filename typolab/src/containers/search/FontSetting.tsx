@@ -5,6 +5,8 @@ type Props = {
   size: number;
   setSize: React.Dispatch<React.SetStateAction<number>>;
   visible: boolean;
+  min: number;
+  max: number;
 };
 
 const FontSetting = (props: Props) => {
@@ -23,7 +25,12 @@ const FontSetting = (props: Props) => {
     >
       <p>FONTFAMILY</p>
       <p>SIZE</p>
-      <input type="range" min={6} max={120} onChange={handleInputChange} />
+      <input
+        type="range"
+        min={props.min}
+        max={props.max}
+        onChange={handleInputChange}
+      />
       {props.size}PT
       <button
         className="bg-greenGrey text-white px-2 py-0.5 rounded-md shrink-0"
