@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import SizedBox from "@/components/SizedBox";
 import BackArrow from "@/components/BackArrow";
 import Footer from "@/components/Footer";
@@ -41,6 +41,27 @@ const Pair = (props: Props) => {
     });
     setTagList(tagArr);
   }
+
+  const [titleText, setTitleText] = useState("");
+  const [bodyText, setBodyText] = useState("");
+  const textareaTitleRef = useRef<HTMLTextAreaElement | null>(null);
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+  const onTitleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setTitleText(e.currentTarget.value);
+    if (textareaTitleRef && textareaTitleRef.current) {
+      textareaTitleRef.current.style.height = "0px";
+      const scrollHeight = textareaTitleRef.current.scrollHeight;
+      textareaTitleRef.current.style.height = scrollHeight + "px";
+    }
+  };
+  const onBodyChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setBodyText(e.currentTarget.value);
+    if (textareaRef && textareaRef.current) {
+      textareaRef.current.style.height = "0px";
+      const scrollHeight = textareaRef.current.scrollHeight;
+      textareaRef.current.style.height = scrollHeight + "px";
+    }
+  };
 
   return (
     <div className="bg-fog h-full text-darkGreen flex flex-col items-center">
@@ -117,9 +138,16 @@ const Pair = (props: Props) => {
               min={20}
               max={120}
             />
-            <h1 className="titleFontSize">Black Ops One</h1>
+            <textarea
+              ref={textareaTitleRef}
+              value={titleText}
+              className="titleFontSize bg-fog w-full"
+              placeholder="Title"
+              onChange={onTitleChange}
+            />
           </div>
           <div
+            className="w-full"
             onMouseOver={() => setShowContentSetting(true)}
             onMouseOut={() => setShowContentSetting(false)}
           >
@@ -130,10 +158,13 @@ const Pair = (props: Props) => {
               min={6}
               max={50}
             />
-            <p className="contentFontSize">
-              happy happyhappy happyhappy happyhappy happyhappy happyhappy
-              happyhappy happy
-            </p>
+            <textarea
+              className="contentFontSize bg-fog w-full"
+              ref={textareaRef}
+              value={bodyText}
+              onChange={onBodyChange}
+              placeholder="body"
+            />
           </div>
         </div>
 
