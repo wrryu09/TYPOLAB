@@ -4,7 +4,7 @@ import React, { useRef, useState } from "react";
 import SizedBox from "@/components/SizedBox";
 import BackArrow from "@/components/BackArrow";
 import Footer from "@/components/Footer";
-import { HatIco, PlusIco } from "../../../public/svgs";
+import { CheckIco, HatIco, PlusIco } from "../../../public/svgs";
 import FontCard from "@/components/FontCard";
 import FontSetting from "@/containers/search/FontSetting";
 import putFontSetToBox from "@/services/putFontSetToBox";
@@ -42,6 +42,11 @@ const Pair = (props: Props) => {
     setTagList(tagArr);
   }
 
+  // Is fontSet in box
+  const [firstInBox, setFirstInBox] = useState(false);
+  const [scndInBox, setScndInBox] = useState(false);
+
+  // text area
   const [titleText, setTitleText] = useState("");
   const [bodyText, setBodyText] = useState("");
   const textareaTitleRef = useRef<HTMLTextAreaElement | null>(null);
@@ -128,6 +133,7 @@ const Pair = (props: Props) => {
               }
             `}</style>
           <div
+            className="w-full"
             onMouseOver={() => setShowTitleSetting(true)}
             onMouseOut={() => setShowTitleSetting(false)}
           >
@@ -178,16 +184,23 @@ const Pair = (props: Props) => {
                 <h1 className="text-4xl">Noto Sans</h1>
                 <p>San-Serif, {displayTitleSize}</p>
               </div>
-              <PlusIco
-                className="w-8"
-                onClick={() => {
-                  putFontSetToBox({
-                    family: "Noto Sans",
-                    weight: "bold",
-                    size: 32,
-                  });
-                }}
-              />
+              {firstInBox ? (
+                <CheckIco className={"fill-red w-8"} />
+              ) : (
+                <PlusIco
+                  className="w-8"
+                  onClick={() => {
+                    putFontSetToBox(
+                      {
+                        family: "Noto Sans",
+                        weight: "bold",
+                        size: 32,
+                      },
+                      setFirstInBox
+                    );
+                  }}
+                />
+              )}
             </div>
             {/* 2nd set */}
             <div className="flex w-5/12 justify-between">
@@ -195,16 +208,23 @@ const Pair = (props: Props) => {
                 <h1 className="text-4xl">Noto Sans</h1>
                 <p>San-Serif, {displayContentSize}</p>
               </div>
-              <PlusIco
-                className="w-8"
-                onClick={() => {
-                  putFontSetToBox({
-                    family: "Noto Sans",
-                    weight: "bold",
-                    size: 12,
-                  });
-                }}
-              />
+              {scndInBox ? (
+                <CheckIco className={"fill-red w-8"} />
+              ) : (
+                <PlusIco
+                  className="w-8"
+                  onClick={() => {
+                    putFontSetToBox(
+                      {
+                        family: "Noto Sans",
+                        weight: "bold",
+                        size: 12,
+                      },
+                      setScndInBox
+                    );
+                  }}
+                />
+              )}
             </div>
           </div>
         </div>
