@@ -39,7 +39,6 @@ const Box = (props: Props) => {
 
   // view storage on load
   useEffect(() => {
-    console.log("useEffect");
     const currentBox = localStorage.getItem("box");
     if (currentBox && currentBox !== "null" && currentBox !== "undefined") {
       const content: FontSetArr = JSON.parse(currentBox);

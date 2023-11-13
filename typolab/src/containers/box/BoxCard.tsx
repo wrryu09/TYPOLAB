@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { HatIco } from "../../../public/svgs";
 import { FontSet } from "@/types/types";
 
@@ -8,6 +8,27 @@ type Props = {
 };
 
 const BoxCard = (props: Props) => {
+  const [fontAlias, setFontAlias] = useState<string>(
+    props.fontSet.alias ? props.fontSet.alias : ""
+  );
+
+  const onAliasChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFontAlias(e.target.value);
+  };
+
+  const saveAlias = () => {
+    console.log("save alias");
+    const boxItem = localStorage.getItem("box");
+    if (boxItem) {
+      const boxItemList: [] = JSON.parse(boxItem);
+      boxItemList.map((item: FontSet) => {
+        if (item.family === props.fontSet.family) {
+          item.alias = fontAlias;
+        }
+      });
+      localStorage.setItem("box", JSON.stringify(boxItemList));
+    }
+  };
   return (
     <div className="w-10/12 h-[20rem] flex flex-col justify-center relative bg-white rounded-lg shadow ">
       <HatIco className="absolute rotate-270 w-1/5 right-0" />
@@ -32,9 +53,14 @@ const BoxCard = (props: Props) => {
           <input
             type="text"
             className="bg-fog rounded-tl-lg rounded-tr-[50px] rounded-bl-lg rounded-br-[50px]"
-            placeholder="Font alias here"
+            placeholder="폰트 별명 입력"
+            value={fontAlias}
+            onChange={onAliasChange}
           />
-          <button className="bg-darkGreen text-white hover:bg-yellow hover:text-darkGreen py-2 px-4 rounded-full">
+          <button
+            className="bg-darkGreen text-white hover:bg-yellow hover:text-darkGreen py-2 px-4 rounded-full"
+            onClick={saveAlias}
+          >
             save
           </button>
         </div>
