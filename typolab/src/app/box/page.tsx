@@ -7,10 +7,12 @@ import Footer from "@/components/Footer";
 import { DotLine, HatIco, PlusIco } from "../../../public/svgs";
 import BoxCard from "@/containers/box/BoxCard";
 import { FontSet, FontSetArr } from "@/types/types";
+import { useRouter } from "next/navigation";
 
 type Props = {};
 
 const Box = (props: Props) => {
+  const router = useRouter();
   const [boxContent, setBoxContent] = useState<FontSetArr>();
   const subTitleStyle = "font-Bayon text-6xl pb-8";
 
@@ -37,7 +39,6 @@ const Box = (props: Props) => {
 
   // view storage on load
   useEffect(() => {
-    console.log("useEffect");
     const currentBox = localStorage.getItem("box");
     if (currentBox && currentBox !== "null" && currentBox !== "undefined") {
       const content: FontSetArr = JSON.parse(currentBox);
@@ -89,7 +90,12 @@ const Box = (props: Props) => {
               })
             : null}
           <DotLine className="w-full mt-6 mb-6" />
-          <button className="flex h-auto px-8 py-4 bg-darkGreen text-white font-semibold rounded-full justify-center items-center">
+          <button
+            className="flex h-auto px-8 py-4 bg-darkGreen text-white font-semibold rounded-full justify-center items-center"
+            onClick={() => {
+              router.push("/box/designSys");
+            }}
+          >
             GENERATE
           </button>
         </div>

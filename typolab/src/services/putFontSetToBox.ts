@@ -1,6 +1,9 @@
 import { FontSet, FontSetArr } from "@/types/types";
 
-export default function putFontSetToBox(fontSet: FontSet) {
+export default function putFontSetToBox(
+  fontSet: FontSet,
+  setInBox: React.Dispatch<React.SetStateAction<boolean>>
+) {
   const currentBox = localStorage.getItem("box");
   if (currentBox && currentBox !== "null" && currentBox !== "undefined") {
     const addData: FontSetArr = JSON.parse(currentBox);
@@ -24,4 +27,5 @@ export default function putFontSetToBox(fontSet: FontSet) {
     localStorage.setItem("box", JSON.stringify([fontSet]));
   }
   console.log("boxSet :", localStorage.getItem("box"));
+  setInBox(true);
 }

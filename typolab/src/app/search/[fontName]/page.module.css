@@ -1,0 +1,12 @@
+.headLineTxt {
+  padding-left: 20%;
+  animation: move 8s linear infinite;
+}
+@keyframes move {
+  0% {
+    transform: translate(50%, 0);
+  }
+  100% {
+    transform: translate(-200%, 0);
+  }
+}

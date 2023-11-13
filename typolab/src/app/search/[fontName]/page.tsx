@@ -1,13 +1,14 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { HatIco, PlusIco } from "../../../../public/svgs";
+import { CheckIco, HatIco, PlusIco } from "../../../../public/svgs";
 import { getFontList, getFontPage } from "@/services/googleFont.apis";
 import { FontInfoType, FontPageType, FontSet } from "@/types/types";
 import SizedBox from "@/components/SizedBox";
 import BackArrow from "@/components/BackArrow";
 import Footer from "@/components/Footer";
 import putFontSetToBox from "@/services/putFontSetToBox";
+import styles from "./page.module.css";
 
 const SearchRes = ({ params }: { params: { fontName: string } }) => {
   const fontFamily = params.fontName.replaceAll("%20", " ");
@@ -32,6 +33,8 @@ const SearchRes = ({ params }: { params: { fontName: string } }) => {
   };
   const [fontSize, setFontSize] = useState<string>(fontSizeObj[5]);
   const subTitleStyle = "font-Bayon text-6xl pb-8";
+
+  const [fontInBox, setFontInBox] = useState(false);
 
   // get info of the font
   useEffect(() => {
@@ -77,7 +80,13 @@ const SearchRes = ({ params }: { params: { fontName: string } }) => {
       <SizedBox height={5} />
       {/* title */}
       <div className={`w-11/12`}>
-        <h1 className={`fontFamily text-[25vw] font-[900]`}>{fontFamily}</h1>
+        <h1
+          className={`fontFamily w-full text-[20vw] ${
+            fontFamily.length > 8 ? styles.headLineTxt : null
+          }  whitespace-nowrap font-[900]`}
+        >
+          {fontFamily}
+        </h1>
       </div>
       <SizedBox height={9} />
 
@@ -154,11 +163,15 @@ const SearchRes = ({ params }: { params: { fontName: string } }) => {
                 // ❌ needs modification ❌
                 size: 55,
               };
-              putFontSetToBox(fontSet);
+              putFontSetToBox(fontSet, setFontInBox);
             }}
           >
             <p>SAVE THIS FONT SET</p>
-            <PlusIco className="w-8" />
+            {fontInBox ? (
+              <CheckIco className={"fill-red w-8"} />
+            ) : (
+              <PlusIco className="w-8" />
+            )}
           </button>
         </div>
       ) : null}
