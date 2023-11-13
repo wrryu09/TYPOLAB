@@ -5,14 +5,14 @@ import { HatIco, LogoHatIco } from "../../../../public/svgs";
 import BackArrow from "@/components/BackArrow";
 import SizedBox from "@/components/SizedBox";
 import { FontSet } from "@/types/types";
-import { toPng, toJpeg } from "html-to-image";
+import { toPng, toJpeg, toSvg } from "html-to-image";
 
 type Props = {};
 
 const DesignSys = (props: Props) => {
   const designSysRef = useRef<HTMLDivElement>(null);
   const subTitleStyle = "font-Bayon text-6xl pb-8";
-  const [boxContent, setBoxContent] = useState([]);
+  const [boxContent, setBoxContent] = useState<FontSet[]>([]);
   useEffect(() => {
     const boxItems = localStorage.getItem("box");
     if (boxItems) {
@@ -21,7 +21,7 @@ const DesignSys = (props: Props) => {
     }
   }, []);
 
-  const handleSave = (saveType: "png" | "jpg" | "pdf") => {
+  const handleSave = (saveType: "png" | "jpg" | "svg") => {
     if (designSysRef.current === null) {
       return;
     }
@@ -41,6 +41,17 @@ const DesignSys = (props: Props) => {
         .then((dataUrl) => {
           const link = document.createElement("a");
           link.download = "typolab-designsystem.jpeg";
+          link.href = dataUrl;
+          link.click();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      toSvg(designSysRef.current, { cacheBust: true })
+        .then((dataUrl) => {
+          const link = document.createElement("a");
+          link.download = "typolab-designsystem.svg";
           link.href = dataUrl;
           link.click();
         })
@@ -70,12 +81,13 @@ const DesignSys = (props: Props) => {
                     <link
                       rel="stylesheet"
                       href={`https://fonts.googleapis.com/css2?family=${font.family}`}
+                      crossOrigin="anonymous"
                     />
                     <style>
                       {`.fontFamily${idx}{
-    font-family: ${font.family};
-    font-weight: ${font.weight};
-  }`}
+font-family: ${font.family};
+font-weight: ${font.weight};
+}`}
                     </style>
                     <div className="text-right text-sm font-normal font-['Noto Sans']">
                       {font.alias ? font.alias : "-"}
@@ -123,15 +135,15 @@ const DesignSys = (props: Props) => {
               <p className="text-5xl">JPEG</p>
             </div>
 
-            {/* PDF */}
+            {/* svg */}
             <div
               className="flex flex-col hover:text-yellow"
               onClick={() => {
-                console.log("pdf export");
+                handleSave("svg");
               }}
             >
               <HatIco width={"100%"} />
-              <p className="text-5xl">PDF</p>
+              <p className="text-5xl">SVG</p>
             </div>
           </div>
           {/* ~main btn */}
