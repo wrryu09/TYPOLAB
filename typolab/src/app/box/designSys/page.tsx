@@ -1,14 +1,16 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { HatIco, LogoHatIco } from "../../../../public/svgs";
 import BackArrow from "@/components/BackArrow";
 import SizedBox from "@/components/SizedBox";
 import { FontSet } from "@/types/types";
+import { toPng, toJpeg } from "html-to-image";
 
 type Props = {};
 
 const DesignSys = (props: Props) => {
+  const designSysRef = useRef<HTMLDivElement>(null);
   const subTitleStyle = "font-Bayon text-6xl pb-8";
   const [boxContent, setBoxContent] = useState([]);
   useEffect(() => {
@@ -18,6 +20,36 @@ const DesignSys = (props: Props) => {
       setBoxContent(boxItemsObj);
     }
   }, []);
+
+  const handleSave = (saveType: "png" | "jpg" | "pdf") => {
+    if (designSysRef.current === null) {
+      return;
+    }
+    if (saveType === "png") {
+      toPng(designSysRef.current, { cacheBust: true })
+        .then((dataUrl) => {
+          const link = document.createElement("a");
+          link.download = "typolab-designsystem.png";
+          link.href = dataUrl;
+          link.click();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else if (saveType === "jpg") {
+      toJpeg(designSysRef.current, { cacheBust: true })
+        .then((dataUrl) => {
+          const link = document.createElement("a");
+          link.download = "typolab-designsystem.jpeg";
+          link.href = dataUrl;
+          link.click();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  };
+
   return (
     <div className="bg-blueblue h-full text-darkGreen flex flex-col items-center">
       <BackArrow />
@@ -27,38 +59,40 @@ const DesignSys = (props: Props) => {
         <div className="w-full flex flex-col text-center items-center justify-center">
           <h1 className={subTitleStyle}>DESIGN SYSTEM</h1>
           {/* white box */}
-          <div className="w-full flex flex-col bg-white px-8 py-14 rounded-lg">
-            {boxContent.map((font: FontSet, idx) => {
-              return (
-                <div
-                  key={font.family + font.size + font.weight + "designSys"}
-                  className="w-full relative flex text-darkGreen gap-8"
-                >
-                  <link
-                    rel="stylesheet"
-                    href={`https://fonts.googleapis.com/css2?family=${font.family}`}
-                  />
-                  <style>
-                    {`.fontFamily${idx}{
+          <div ref={designSysRef} className="w-max h-max">
+            <div className="w-full flex flex-col bg-white px-8 py-14 rounded-lg">
+              {boxContent.map((font: FontSet, idx) => {
+                return (
+                  <div
+                    key={font.family + font.size + font.weight + "designSys"}
+                    className="w-full relative flex text-darkGreen gap-8"
+                  >
+                    <link
+                      rel="stylesheet"
+                      href={`https://fonts.googleapis.com/css2?family=${font.family}`}
+                    />
+                    <style>
+                      {`.fontFamily${idx}{
     font-family: ${font.family};
     font-weight: ${font.weight};
   }`}
-                  </style>
-                  <div className="text-right text-sm font-normal font-['Noto Sans']">
-                    {font.alias ? font.alias : "-"}
-                  </div>
-                  <div className="w-full flex-col justify-start items-start gap-2 inline-flex">
-                    <div className="justify-start items-start gap-3 inline-flex text-sm font-normal">
-                      {font.weight} {font.size}pt
+                    </style>
+                    <div className="text-right text-sm font-normal font-['Noto Sans']">
+                      {font.alias ? font.alias : "-"}
                     </div>
-                    <div className={`text-4xl ${"fontFamily" + idx}`}>
-                      {font.family}
+                    <div className="w-full flex-col justify-start items-start gap-2 inline-flex">
+                      <div className="justify-start items-start gap-3 inline-flex text-sm font-normal">
+                        {font.weight} {font.size}pt
+                      </div>
+                      <div className={`text-4xl ${"fontFamily" + idx}`}>
+                        {font.family}
+                      </div>
                     </div>
+                    <SizedBox height={8} />
                   </div>
-                  <SizedBox height={8} />
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
         </div>
         <SizedBox height={10} />
@@ -71,7 +105,7 @@ const DesignSys = (props: Props) => {
             <div
               className="flex flex-col hover:text-yellow"
               onClick={() => {
-                console.log("png export");
+                handleSave("png");
               }}
             >
               <HatIco width={"100%"} />
@@ -82,7 +116,7 @@ const DesignSys = (props: Props) => {
             <div
               className="flex flex-col  hover:text-yellow"
               onClick={() => {
-                console.log("jpeg export");
+                handleSave("jpg");
               }}
             >
               <HatIco width={"100%"} />
