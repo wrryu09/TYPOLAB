@@ -20,19 +20,6 @@ const DesignSys = (props: Props) => {
   }, []);
   return (
     <div className="bg-blueblue h-full text-darkGreen flex flex-col items-center">
-      {/* <link
-        rel="stylesheet"
-        href={`https://fonts.googleapis.com/css2?family=${fontFamily}`}
-      />
-      <style>
-        {`.fontFamily{
-    font-family: ${fontFamily};
-  }
-  .fontWeight{
-    font-weight: ${varient}
-  }
-  }`}
-      </style> */}
       <BackArrow />
       <HatIco width={"25%"} className="rotate-180 self-center top-0 absolute" />
       <SizedBox height={10} />
@@ -41,20 +28,30 @@ const DesignSys = (props: Props) => {
           <h1 className={subTitleStyle}>DESIGN SYSTEM</h1>
           {/* white box */}
           <div className="w-full flex flex-col bg-white px-8 py-14 rounded-lg">
-            {boxContent.map((font: FontSet) => {
+            {boxContent.map((font: FontSet, idx) => {
               return (
                 <div
                   key={font.family + font.size + font.weight + "designSys"}
                   className="w-full relative flex text-darkGreen gap-8"
                 >
+                  <link
+                    rel="stylesheet"
+                    href={`https://fonts.googleapis.com/css2?family=${font.family}`}
+                  />
+                  <style>
+                    {`.fontFamily${idx}{
+    font-family: ${font.family};
+    font-weight: ${font.weight};
+  }`}
+                  </style>
                   <div className="text-right text-sm font-normal font-['Noto Sans']">
                     {font.alias ? font.alias : "-"}
                   </div>
                   <div className="w-full flex-col justify-start items-start gap-2 inline-flex">
-                    <div className="justify-start items-start gap-3 inline-flex text-sm font-normal font-['Noto Sans']">
+                    <div className="justify-start items-start gap-3 inline-flex text-sm font-normal">
                       {font.weight} {font.size}pt
                     </div>
-                    <div className="text-4xl font-normal font-['Black Ops One']">
+                    <div className={`text-4xl ${"fontFamily" + idx}`}>
                       {font.family}
                     </div>
                   </div>
