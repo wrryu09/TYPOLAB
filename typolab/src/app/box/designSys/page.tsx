@@ -1,14 +1,23 @@
 "use client";
 
-import React from "react";
-import { HatIco, LogoHatIco, LogoIco } from "../../../../public/svgs";
+import React, { useEffect, useState } from "react";
+import { HatIco, LogoHatIco } from "../../../../public/svgs";
 import BackArrow from "@/components/BackArrow";
 import SizedBox from "@/components/SizedBox";
+import { FontSet } from "@/types/types";
 
 type Props = {};
 
 const DesignSys = (props: Props) => {
   const subTitleStyle = "font-Bayon text-6xl pb-8";
+  const [boxContent, setBoxContent] = useState([]);
+  useEffect(() => {
+    const boxItems = localStorage.getItem("box");
+    if (boxItems) {
+      const boxItemsObj = JSON.parse(boxItems);
+      setBoxContent(boxItemsObj);
+    }
+  }, []);
   return (
     <div className="bg-blueblue h-full text-darkGreen flex flex-col items-center">
       {/* <link
@@ -30,10 +39,29 @@ const DesignSys = (props: Props) => {
       <div className="w-11/12">
         <div className="w-full flex flex-col text-center items-center justify-center">
           <h1 className={subTitleStyle}>DESIGN SYSTEM</h1>
+          {/* white box */}
           <div className="w-full flex flex-col bg-white px-8 py-14 rounded-lg">
-            <p>Black Ops One Regular 99pt</p>
-            <p>Black Ops One Regular 99pt</p>
-            <p>Black Ops One Regular 99pt</p>
+            {boxContent.map((font: FontSet) => {
+              return (
+                <div
+                  key={font.family + font.size + font.weight + "designSys"}
+                  className="w-full relative flex text-darkGreen gap-8"
+                >
+                  <div className="text-right text-sm font-normal font-['Noto Sans']">
+                    {font.alias ? font.alias : "-"}
+                  </div>
+                  <div className="w-full flex-col justify-start items-start gap-2 inline-flex">
+                    <div className="justify-start items-start gap-3 inline-flex text-sm font-normal font-['Noto Sans']">
+                      {font.weight} {font.size}pt
+                    </div>
+                    <div className="text-4xl font-normal font-['Black Ops One']">
+                      {font.family}
+                    </div>
+                  </div>
+                  <SizedBox height={8} />
+                </div>
+              );
+            })}
           </div>
         </div>
         <SizedBox height={10} />

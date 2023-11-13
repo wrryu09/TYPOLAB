@@ -61,4 +61,5 @@ export interface FontSet {
   family: string;
   weight: string;
   size: number;
+  alias?: string;
 }
