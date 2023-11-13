@@ -47,19 +47,6 @@ const Box = (props: Props) => {
   }, []);
   return (
     <div className="bg-blueblue h-full text-darkGreen flex flex-col items-center">
-      {/* <link
-        rel="stylesheet"
-        href={`https://fonts.googleapis.com/css2?family=${fontFamily}`}
-      />
-      <style>
-        {`.fontFamily{
-    font-family: ${fontFamily};
-  }
-  .fontWeight{
-    font-weight: ${varient}
-  }
-  }`}
-      </style> */}
       <BackArrow />
       <HatIco width={"25%"} className="rotate-180 self-center top-0 absolute" />
       <SizedBox height={10} />
@@ -67,12 +54,13 @@ const Box = (props: Props) => {
         <h1 className={subTitleStyle}>MY BOX</h1>
         <div className="w-full items-center flex flex-col gap-y-8 mb-40">
           {boxContent
-            ? boxContent.map((ele) => {
+            ? boxContent.map((ele, idx) => {
                 return (
                   <BoxCard
                     key={ele.family + ele.weight + ele.size}
                     fontSet={ele}
                     removeItemFromBox={removeItemFromBox}
+                    idx={idx}
                   />
                 );
               })
