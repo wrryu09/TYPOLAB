@@ -5,6 +5,7 @@ import { FontSet } from "@/types/types";
 type Props = {
   fontSet: FontSet;
   removeItemFromBox(fontSet: FontSet): void;
+  idx: number;
 };
 
 const BoxCard = (props: Props) => {
@@ -40,13 +41,24 @@ const BoxCard = (props: Props) => {
           props.removeItemFromBox(props.fontSet);
         }}
       />
-
+      <link
+        rel="stylesheet"
+        href={`https://fonts.googleapis.com/css2?family=${props.fontSet.family}`}
+      />
+      <style>
+        {`.fontFamily${props.idx}{
+    font-family: ${props.fontSet.family};
+    font-weight: ${props.fontSet.weight};
+  }`}
+      </style>
       {/* text section */}
       <div className="flex flex-col items-start pl-[5%]">
         <p>
           {props.fontSet.weight}, {props.fontSet.size}pt
         </p>
-        <h1 className="text-4xl font-extrabold">{props.fontSet.family}</h1>
+        <h1 className={`text-4xl fontFamily${props.idx}`}>
+          {props.fontSet.family}
+        </h1>
 
         {/* alias input */}
         <div className="flex mt-3 gap-x-3">
