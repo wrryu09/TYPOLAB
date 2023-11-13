@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { HatIco, PlusIco } from "../../../../public/svgs";
+import { CheckIco, HatIco, PlusIco } from "../../../../public/svgs";
 import { getFontList, getFontPage } from "@/services/googleFont.apis";
 import { FontInfoType, FontPageType, FontSet } from "@/types/types";
 import SizedBox from "@/components/SizedBox";
@@ -33,6 +33,8 @@ const SearchRes = ({ params }: { params: { fontName: string } }) => {
   };
   const [fontSize, setFontSize] = useState<string>(fontSizeObj[5]);
   const subTitleStyle = "font-Bayon text-6xl pb-8";
+
+  const [fontInBox, setFontInBox] = useState(false);
 
   // get info of the font
   useEffect(() => {
@@ -161,11 +163,15 @@ const SearchRes = ({ params }: { params: { fontName: string } }) => {
                 // ❌ needs modification ❌
                 size: 55,
               };
-              putFontSetToBox(fontSet);
+              putFontSetToBox(fontSet, setFontInBox);
             }}
           >
             <p>SAVE THIS FONT SET</p>
-            <PlusIco className="w-8" />
+            {fontInBox ? (
+              <CheckIco className={"fill-red w-8"} />
+            ) : (
+              <PlusIco className="w-8" />
+            )}
           </button>
         </div>
       ) : null}
