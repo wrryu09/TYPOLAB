@@ -23,7 +23,11 @@ const BoxCard = (props: Props) => {
     if (boxItem) {
       const boxItemList: [] = JSON.parse(boxItem);
       boxItemList.map((item: FontSet) => {
-        if (item.family === props.fontSet.family) {
+        if (
+          item.family === props.fontSet.family &&
+          item.size === props.fontSet.size &&
+          item.weight === props.fontSet.weight
+        ) {
           item.alias = fontAlias;
         }
       });
