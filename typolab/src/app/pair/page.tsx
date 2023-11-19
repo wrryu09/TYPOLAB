@@ -10,6 +10,7 @@ import FontSetting from "@/containers/search/FontSetting";
 import putFontSetToBox from "@/services/putFontSetToBox";
 import { getKoreanFontList } from "@/services/getKoreanFontList";
 import { getKoreanFontInfoDB } from "@/services/getKoreanFontInfoDB";
+import FontDisplayBox from "@/containers/pair/FontDisplayBox";
 
 type Props = {};
 
@@ -31,9 +32,6 @@ const Pair = (props: Props) => {
   const [displayTitleSize, setDisplayTitleSize] = useState(32);
   const [displayContentSize, setDisplayContentSize] = useState(12);
 
-  const [showTitleSetting, setShowTitleSetting] = useState(false);
-  const [showContentSetting, setShowContentSetting] = useState(false);
-
   function handleTagSelection(tagId: number) {
     const tagArr = [...tagList];
     tagList.forEach((tag) => {
@@ -53,28 +51,6 @@ const Pair = (props: Props) => {
   // Is fontSet in box
   const [firstInBox, setFirstInBox] = useState(false);
   const [scndInBox, setScndInBox] = useState(false);
-
-  // text area
-  const [titleText, setTitleText] = useState("");
-  const [bodyText, setBodyText] = useState("");
-  const textareaTitleRef = useRef<HTMLTextAreaElement | null>(null);
-  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
-  const onTitleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setTitleText(e.currentTarget.value);
-    if (textareaTitleRef && textareaTitleRef.current) {
-      textareaTitleRef.current.style.height = "0px";
-      const scrollHeight = textareaTitleRef.current.scrollHeight;
-      textareaTitleRef.current.style.height = scrollHeight + "px";
-    }
-  };
-  const onBodyChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setBodyText(e.currentTarget.value);
-    if (textareaRef && textareaRef.current) {
-      textareaRef.current.style.height = "0px";
-      const scrollHeight = textareaRef.current.scrollHeight;
-      textareaRef.current.style.height = scrollHeight + "px";
-    }
-  };
 
   // koreanFontList가 없을 때만 서버에 국문폰트명리스트요청
   const saveKoreanFontList = () => {
@@ -224,56 +200,12 @@ const Pair = (props: Props) => {
         </div>
 
         {/* font display box */}
-        <div className="w-full flex flex-col items-start gap-y-2 border border-greenGrey px-8 py-[34px] rounded-lg mb-60">
-          <style>{`
-              .titleFontSize{
-                font-size: ${displayTitleSize}pt;
-              }
-              .contentFontSize{
-                font-size: ${displayContentSize}pt;
-              }
-            `}</style>
-          <div
-            className="w-full"
-            onMouseOver={() => setShowTitleSetting(true)}
-            onMouseOut={() => setShowTitleSetting(false)}
-          >
-            <FontSetting
-              visible={showTitleSetting}
-              size={displayTitleSize}
-              setSize={setDisplayTitleSize}
-              min={20}
-              max={120}
-            />
-            <textarea
-              ref={textareaTitleRef}
-              value={titleText}
-              className="titleFontSize bg-fog w-full"
-              placeholder="Title"
-              onChange={onTitleChange}
-            />
-          </div>
-          <div
-            className="w-full"
-            onMouseOver={() => setShowContentSetting(true)}
-            onMouseOut={() => setShowContentSetting(false)}
-          >
-            <FontSetting
-              visible={showContentSetting}
-              size={displayContentSize}
-              setSize={setDisplayContentSize}
-              min={6}
-              max={50}
-            />
-            <textarea
-              className="contentFontSize bg-fog w-full"
-              ref={textareaRef}
-              value={bodyText}
-              onChange={onBodyChange}
-              placeholder="body"
-            />
-          </div>
-        </div>
+        <FontDisplayBox
+          displayContentSize={displayContentSize}
+          displayTitleSize={displayTitleSize}
+          setDisplayContentSize={setDisplayContentSize}
+          setDisplayTitleSize={setDisplayTitleSize}
+        />
 
         {/* box section */}
         <div className="w-full mb-60">
