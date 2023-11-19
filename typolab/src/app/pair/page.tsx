@@ -9,6 +9,7 @@ import FontCard from "@/components/FontCard";
 import FontSetting from "@/containers/search/FontSetting";
 import putFontSetToBox from "@/services/putFontSetToBox";
 import { getKoreanFontList } from "@/services/getKoreanFontList";
+import { getKoreanFontInfoDB } from "@/services/getKoreanFontInfoDB";
 
 type Props = {};
 
@@ -46,6 +47,8 @@ const Pair = (props: Props) => {
   const [koreanFont, setKoreanFont] = useState("none");
   const [showKoreanFontList, setShowKoreanFontList] = useState(false);
   const [koreanFontList, setKoreanFontList] = useState([]);
+  const [selectedFirstInfo, setSelectedFirstInfo] = useState({});
+  const [selectedScndInfo, setSelectedScndInfo] = useState({});
 
   // Is fontSet in box
   const [firstInBox, setFirstInBox] = useState(false);
@@ -85,6 +88,17 @@ const Pair = (props: Props) => {
           console.log(err);
         });
     }
+  };
+
+  const putKoreanFontData = (fontName: string) => {
+    console.log("putKoreanFontData");
+    getKoreanFontInfoDB(fontName)
+      .then((res) => {
+        setSelectedFirstInfo(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -129,40 +143,78 @@ const Pair = (props: Props) => {
 
         {/* font section */}
         <div className="flex self-start gap-32 mb-16">
-          <div className="border-greenGrey">
-            <p>폰트 선택</p>
-            {koreanFontList.map((fontName, idx) => {
-              return (
-                <p
-                  key={fontName + idx}
-                  onClick={() => {
-                    // 해당하는 폰트 정보 불러오기
-                    setKoreanFont(fontName);
-                  }}
-                >
-                  {fontName}
-                </p>
-              );
-            })}
-          </div>
+          {/* 국문 선택 폰트 모달 */}
+          {showKoreanFontList ? (
+            <div className="border-greenGrey">
+              <p>폰트 선택</p>
+              {koreanFontList.map((fontName, idx) => {
+                return (
+                  <div
+                    key={fontName + idx}
+                    onClick={() => {
+                      setKoreanFont(fontName);
+                      // 해당하는 폰트 정보 불러오기
+                      putKoreanFontData(fontName);
+                      // 폰트 선택 리스트 닫기
+                      setShowKoreanFontList(false);
+                    }}
+                  >
+                    <link
+                      rel="stylesheet"
+                      href={`https://fonts.googleapis.com/css2?family=${fontName}`}
+                    />
+                    <style>
+                      {`.fontFamilykoreanFontListCss${idx}{
+    font-family: ${fontName};
+  }
+  .fontWeight{
+    font-weight: 400;
+  }
+  }`}
+                    </style>
+                    <p className={`fontFamilykoreanFontListCss${idx}`}>
+                      {fontName}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+          ) : null}
+
           {/* 1st set */}
-          {koreanFont === "none" ? (
-            <div
-              className="flex flex-col items-start"
-              onClick={() => {
-                setShowKoreanFontList(true);
-                saveKoreanFontList();
-              }}
-            >
-              <h1 className="text-4xl">국문 폰트 선택</h1>
-              <p>선택 가능 폰트 보기</p>
-            </div>
-          ) : (
-            <div className="flex flex-col items-start">
-              <h1 className="text-4xl">{koreanFont}</h1>
-              <p>San-Serif, display</p>
-            </div>
-          )}
+          <div
+            onClick={() => {
+              setShowKoreanFontList(true);
+              saveKoreanFontList();
+            }}
+          >
+            {koreanFont === "none" ? (
+              <div className="flex flex-col items-start">
+                <h1 className="text-4xl">국문 폰트 선택</h1>
+                <p>선택 가능 폰트 보기</p>
+              </div>
+            ) : (
+              <div className="flex flex-col items-start">
+                <link
+                  rel="stylesheet"
+                  href={`https://fonts.googleapis.com/css2?family=${koreanFont}`}
+                />
+                <style>
+                  {`.fontFamilykoreanFontFam{
+    font-family: ${koreanFont};
+  }
+  .fontWeight{
+    font-weight: 400;
+  }
+  }`}
+                </style>
+                <h1 className="text-4xl fontFamilykoreanFontFam">
+                  {koreanFont}
+                </h1>
+                <p>San-Serif, display</p>
+              </div>
+            )}
+          </div>
 
           {/* 2nd set */}
           <div className="flex flex-col items-start">
