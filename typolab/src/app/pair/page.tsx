@@ -8,6 +8,7 @@ import { CheckIco, HatIco, PlusIco } from "../../../public/svgs";
 import FontCard from "@/components/FontCard";
 import FontSetting from "@/containers/search/FontSetting";
 import putFontSetToBox from "@/services/putFontSetToBox";
+import { getKoreanFontList } from "@/services/getKoreanFontList";
 
 type Props = {};
 
@@ -42,6 +43,10 @@ const Pair = (props: Props) => {
     setTagList(tagArr);
   }
 
+  const [koreanFont, setKoreanFont] = useState("none");
+  const [showKoreanFontList, setShowKoreanFontList] = useState(false);
+  const [koreanFontList, setKoreanFontList] = useState([]);
+
   // Is fontSet in box
   const [firstInBox, setFirstInBox] = useState(false);
   const [scndInBox, setScndInBox] = useState(false);
@@ -65,6 +70,20 @@ const Pair = (props: Props) => {
       textareaRef.current.style.height = "0px";
       const scrollHeight = textareaRef.current.scrollHeight;
       textareaRef.current.style.height = scrollHeight + "px";
+    }
+  };
+
+  // koreanFontList가 없을 때만 서버에 국문폰트명리스트요청
+  const saveKoreanFontList = () => {
+    if (koreanFontList.length === 0) {
+      console.log("get korean font list");
+      getKoreanFontList()
+        .then((res) => {
+          setKoreanFontList(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   };
 
@@ -110,11 +129,31 @@ const Pair = (props: Props) => {
 
         {/* font section */}
         <div className="flex self-start gap-32 mb-16">
-          {/* 1st set */}
-          <div className="flex flex-col items-start">
-            <h1 className="text-4xl">Black Ops One</h1>
-            <p>San-Serif, display</p>
+          <div className="border-greenGrey">
+            <p>폰트 선택</p>
+            {koreanFontList.map((fontName, idx) => {
+              return <p key={fontName + idx}>{fontName}</p>;
+            })}
           </div>
+          {/* 1st set */}
+          {koreanFont === "none" ? (
+            <div
+              className="flex flex-col items-start"
+              onClick={() => {
+                setShowKoreanFontList(true);
+                saveKoreanFontList();
+              }}
+            >
+              <h1 className="text-4xl">국문 폰트 선택</h1>
+              <p>선택 가능 폰트 보기</p>
+            </div>
+          ) : (
+            <div className="flex flex-col items-start">
+              <h1 className="text-4xl">Black Ops One</h1>
+              <p>San-Serif, display</p>
+            </div>
+          )}
+
           {/* 2nd set */}
           <div className="flex flex-col items-start">
             <h1 className="text-4xl">Noto Sans</h1>
