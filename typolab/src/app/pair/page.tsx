@@ -132,7 +132,17 @@ const Pair = (props: Props) => {
           <div className="border-greenGrey">
             <p>폰트 선택</p>
             {koreanFontList.map((fontName, idx) => {
-              return <p key={fontName + idx}>{fontName}</p>;
+              return (
+                <p
+                  key={fontName + idx}
+                  onClick={() => {
+                    // 해당하는 폰트 정보 불러오기
+                    setKoreanFont(fontName);
+                  }}
+                >
+                  {fontName}
+                </p>
+              );
             })}
           </div>
           {/* 1st set */}
@@ -149,7 +159,7 @@ const Pair = (props: Props) => {
             </div>
           ) : (
             <div className="flex flex-col items-start">
-              <h1 className="text-4xl">Black Ops One</h1>
+              <h1 className="text-4xl">{koreanFont}</h1>
               <p>San-Serif, display</p>
             </div>
           )}
