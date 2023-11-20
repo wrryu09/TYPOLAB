@@ -13,6 +13,7 @@ import FontDisplayBox from "@/containers/pair/FontDisplayBox";
 import { FontInfoFromDB, FontNameNVar } from "@/types/types";
 import { convertFontDBDatatoFontInfo } from "@/services/convertFontDBDatatoFontInfo";
 import { fontInfoFromDBDummyData } from "@/containers/pair/FontInfoFromDBDummyData";
+import SelectFontModal from "@/containers/pair/SelectFontModal";
 
 type Props = {};
 
@@ -134,40 +135,12 @@ const Pair = (props: Props) => {
         <div className="flex self-start gap-32 mb-16">
           {/* 국문 선택 폰트 모달 */}
           {showKoreanFontList ? (
-            <div className="border-greenGrey">
-              <p>폰트 선택</p>
-              {koreanFontList.map((fontName, idx) => {
-                return (
-                  <div
-                    key={fontName.name + fontName.variants + idx}
-                    onClick={() => {
-                      setKoreanFont(fontName);
-                      // 해당하는 폰트 정보 불러오기
-                      putKoreanFontData(fontName.name);
-                      // 폰트 선택 리스트 닫기
-                      setShowKoreanFontList(false);
-                    }}
-                  >
-                    <link
-                      rel="stylesheet"
-                      href={`https://fonts.googleapis.com/css2?family=${fontName.name}`}
-                    />
-                    <style>
-                      {`.fontFamilykoreanFontListCss${idx}{
-    font-family: ${fontName.name};
-  }
-  .fontWeight{
-    font-weight: ${fontName.variants};
-  }
-  }`}
-                    </style>
-                    <p className={`fontFamilykoreanFontListCss${idx}`}>
-                      {fontName.name} {fontName.variants}
-                    </p>
-                  </div>
-                );
-              })}
-            </div>
+            <SelectFontModal
+              fontList={koreanFontList}
+              putFontData={putKoreanFontData}
+              setFont={setKoreanFont}
+              setShowFontList={setShowKoreanFontList}
+            />
           ) : null}
 
           {/* 1st set */}
