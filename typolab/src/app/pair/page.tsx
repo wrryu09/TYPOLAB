@@ -1,16 +1,18 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import SizedBox from "@/components/SizedBox";
 import BackArrow from "@/components/BackArrow";
 import Footer from "@/components/Footer";
 import { CheckIco, HatIco, PlusIco } from "../../../public/svgs";
 import FontCard from "@/components/FontCard";
-import FontSetting from "@/containers/search/FontSetting";
 import putFontSetToBox from "@/services/putFontSetToBox";
 import { getKoreanFontList } from "@/services/getKoreanFontList";
 import { getKoreanFontInfoDB } from "@/services/getKoreanFontInfoDB";
 import FontDisplayBox from "@/containers/pair/FontDisplayBox";
+import { FontInfoFromDB, FontNameNVar } from "@/types/types";
+import { convertFontDBDatatoFontInfo } from "@/services/convertFontDBDatatoFontInfo";
+import { fontInfoFromDBDummyData } from "@/containers/pair/FontInfoFromDBDummyData";
 
 type Props = {};
 
@@ -42,10 +44,21 @@ const Pair = (props: Props) => {
     setTagList(tagArr);
   }
 
-  const [koreanFont, setKoreanFont] = useState("none");
+  // 국문폰트셋
+  const [koreanFont, setKoreanFont] = useState<FontNameNVar>({
+    name: "none",
+    variants: "none",
+  });
   const [showKoreanFontList, setShowKoreanFontList] = useState(false);
-  const [koreanFontList, setKoreanFontList] = useState([]);
-  const [selectedFirstInfo, setSelectedFirstInfo] = useState({});
+  const [koreanFontList, setKoreanFontList] = useState<FontNameNVar[]>([]);
+  const [selectedFirstInfo, setSelectedFirstInfo] = useState<FontInfoFromDB>(
+    fontInfoFromDBDummyData
+  );
+
+  const [latinFont, setLatinFont] = useState<FontNameNVar>({
+    name: "none",
+    variants: "none",
+  });
   const [selectedScndInfo, setSelectedScndInfo] = useState({});
 
   // Is fontSet in box
@@ -57,7 +70,7 @@ const Pair = (props: Props) => {
     if (koreanFontList.length === 0) {
       console.log("get korean font list");
       getKoreanFontList()
-        .then((res) => {
+        .then((res: FontNameNVar[]) => {
           setKoreanFontList(res);
         })
         .catch((err) => {
@@ -126,30 +139,30 @@ const Pair = (props: Props) => {
               {koreanFontList.map((fontName, idx) => {
                 return (
                   <div
-                    key={fontName + idx}
+                    key={fontName.name + fontName.variants + idx}
                     onClick={() => {
                       setKoreanFont(fontName);
                       // 해당하는 폰트 정보 불러오기
-                      putKoreanFontData(fontName);
+                      putKoreanFontData(fontName.name);
                       // 폰트 선택 리스트 닫기
                       setShowKoreanFontList(false);
                     }}
                   >
                     <link
                       rel="stylesheet"
-                      href={`https://fonts.googleapis.com/css2?family=${fontName}`}
+                      href={`https://fonts.googleapis.com/css2?family=${fontName.name}`}
                     />
                     <style>
                       {`.fontFamilykoreanFontListCss${idx}{
-    font-family: ${fontName};
+    font-family: ${fontName.name};
   }
   .fontWeight{
-    font-weight: 400;
+    font-weight: ${fontName.variants};
   }
   }`}
                     </style>
                     <p className={`fontFamilykoreanFontListCss${idx}`}>
-                      {fontName}
+                      {fontName.name} {fontName.variants}
                     </p>
                   </div>
                 );
@@ -160,11 +173,11 @@ const Pair = (props: Props) => {
           {/* 1st set */}
           <div
             onClick={() => {
-              setShowKoreanFontList(true);
+              setShowKoreanFontList(!showKoreanFontList);
               saveKoreanFontList();
             }}
           >
-            {koreanFont === "none" ? (
+            {koreanFont.name === "none" ? (
               <div className="flex flex-col items-start">
                 <h1 className="text-4xl">국문 폰트 선택</h1>
                 <p>선택 가능 폰트 보기</p>
@@ -173,29 +186,71 @@ const Pair = (props: Props) => {
               <div className="flex flex-col items-start">
                 <link
                   rel="stylesheet"
-                  href={`https://fonts.googleapis.com/css2?family=${koreanFont}`}
+                  href={`https://fonts.googleapis.com/css2?family=${koreanFont.name}`}
                 />
                 <style>
                   {`.fontFamilykoreanFontFam{
-    font-family: ${koreanFont};
+    font-family: ${koreanFont.name};
   }
   .fontWeight{
-    font-weight: 400;
+    font-weight: ${koreanFont.variants};
   }
   }`}
                 </style>
                 <h1 className="text-4xl fontFamilykoreanFontFam">
-                  {koreanFont}
+                  {koreanFont.name} {koreanFont.variants}
                 </h1>
-                <p>San-Serif, display</p>
+                <div className="flex gap-2">
+                  {selectedFirstInfo.classifications.map((classifi) => {
+                    return (
+                      <p key={selectedFirstInfo.family + classifi}>
+                        {classifi}
+                      </p>
+                    );
+                  })}
+                  <p>{selectedFirstInfo.category}</p>
+                </div>
               </div>
             )}
           </div>
 
           {/* 2nd set */}
-          <div className="flex flex-col items-start">
-            <h1 className="text-4xl">Noto Sans</h1>
-            <p>San-Serif, display</p>
+          <div>
+            {latinFont.name === "none" ? (
+              <div className="flex flex-col items-start">
+                <h1 className="text-4xl">추천 영문 폰트</h1>
+                <p>국문 폰트를 선택하세요</p>
+              </div>
+            ) : (
+              <div className="flex flex-col items-start">
+                <link
+                  rel="stylesheet"
+                  href={`https://fonts.googleapis.com/css2?family=${koreanFont.name}`}
+                />
+                <style>
+                  {`.fontFamilykoreanFontFam{
+    font-family: ${koreanFont.name};
+  }
+  .fontWeight{
+    font-weight: ${koreanFont.variants};
+  }
+  }`}
+                </style>
+                <h1 className="text-4xl fontFamilykoreanFontFam">
+                  {koreanFont.name} {koreanFont.variants}
+                </h1>
+                <div className="flex gap-2">
+                  {selectedFirstInfo.classifications.map((classifi) => {
+                    return (
+                      <p key={selectedFirstInfo.family + classifi}>
+                        {classifi}
+                      </p>
+                    );
+                  })}
+                  <p>{selectedFirstInfo.category}</p>
+                </div>
+              </div>
+            )}
           </div>
         </div>
 
@@ -265,8 +320,14 @@ const Pair = (props: Props) => {
         {/* font info section */}
         <div className="mb-96">
           <h1 className={subTitleStyle}>FONT INFO</h1>
-          {/* <FontCard idx={0} />
-        <FontCard idx={1}/> */}
+          {/* first FontCard */}
+          {selectedFirstInfo.family !== "none" ? (
+            <FontCard
+              idx={0}
+              data={convertFontDBDatatoFontInfo(selectedFirstInfo)}
+            />
+          ) : null}
+          {/* <FontCard idx={1}/> */}
           <HatIco className="absolute w-full left-0 right-0" />
         </div>
 
@@ -277,14 +338,17 @@ const Pair = (props: Props) => {
             {/* 해당되는 태그만 보이기 */}
             {tagList.map((tag) => {
               return (
-                <h1
-                  key={tag.id + tag.name + "selected"}
-                  className={`px-3 py-1 border border-lightGrey rounded-md flex shrink-0 justify-center
+                <div key={tag.id + tag.name + "selected"}>
+                  {tag.selected === true ? (
+                    <h1
+                      className={`px-3 py-1 border border-lightGrey rounded-md flex shrink-0 justify-center
                   bg-fog
                 `}
-                >
-                  {tag.name}
-                </h1>
+                    >
+                      {tag.name}
+                    </h1>
+                  ) : null}
+                </div>
               );
             })}
           </div>
