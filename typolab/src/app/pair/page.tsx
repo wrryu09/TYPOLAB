@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SizedBox from "@/components/SizedBox";
 import BackArrow from "@/components/BackArrow";
 import Footer from "@/components/Footer";
@@ -14,6 +14,7 @@ import { FontInfoFromDB, FontNameNVar } from "@/types/types";
 import { convertFontDBDatatoFontInfo } from "@/services/convertFontDBDatatoFontInfo";
 import SelectFontModal from "@/containers/pair/SelectFontModal";
 import { fontInfoFromDBDummyData } from "@/containers/pair/fontInfoFromDBDummyData";
+import { inferSimillarLatin } from "@/services/apis/inferSimillarLatin";
 
 type Props = {};
 
@@ -56,11 +57,56 @@ const Pair = (props: Props) => {
     fontInfoFromDBDummyData
   );
 
+  const [inferredLatinFont, setInferredLationFont] = useState<FontNameNVar[]>([
+    {
+      name: "none",
+      variants: "none",
+    },
+  ]);
+
+  // inferred된 latinFont 중에서 선택한 폰트
   const [latinFont, setLatinFont] = useState<FontNameNVar>({
     name: "none",
     variants: "none",
   });
-  const [selectedScndInfo, setSelectedScndInfo] = useState({});
+
+  // koreanFont 있으면 비슷한 latinFont 추천 결과 받아오기
+  useEffect(() => {
+    console.log("infer simillar latin");
+    if (koreanFont.name !== "none") {
+      inferSimillarLatin(koreanFont)
+        .then((res) => {
+          const inferredArray: FontNameNVar[] = [];
+          res.map(
+            (ele: {
+              id: string;
+              score: Float32Array;
+              values: [];
+              metadata: {
+                lang: "eng" | "kor";
+              };
+            }) => {
+              const inferredFontNameNVar: FontNameNVar = {
+                name: ele.id,
+                variants: "idk",
+              };
+              inferredArray.push(inferredFontNameNVar);
+            }
+          );
+          setInferredLationFont(inferredArray);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      console.log("no koreanFont data");
+    }
+  }, [koreanFont]);
+
+  // 영문폰트 상세정보
+  const [selectedScndInfo, setSelectedScndInfo] = useState<FontInfoFromDB>(
+    fontInfoFromDBDummyData
+  );
 
   // Is fontSet in box
   const [firstInBox, setFirstInBox] = useState(false);
@@ -189,7 +235,7 @@ const Pair = (props: Props) => {
 
           {/* 2nd set */}
           <div>
-            {latinFont.name === "none" ? (
+            {inferredLatinFont[0].name === "none" ? (
               <div className="flex flex-col items-start">
                 <h1 className="text-4xl">추천 영문 폰트</h1>
                 <p>국문 폰트를 선택하세요</p>
@@ -198,30 +244,32 @@ const Pair = (props: Props) => {
               <div className="flex flex-col items-start">
                 <link
                   rel="stylesheet"
-                  href={`https://fonts.googleapis.com/css2?family=${koreanFont.name}`}
+                  href={`https://fonts.googleapis.com/css2?family=${inferredLatinFont[0].name}`}
                 />
                 <style>
                   {`.fontFamilykoreanFontFam{
-    font-family: ${koreanFont.name};
+    font-family: ${inferredLatinFont[0].name};
   }
   .fontWeight{
-    font-weight: ${koreanFont.variants};
+    font-weight: ${inferredLatinFont[0].variants};
   }
   }`}
                 </style>
                 <h1 className="text-4xl fontFamilykoreanFontFam">
-                  {koreanFont.name} {koreanFont.variants}
+                  {inferredLatinFont[0].name} {inferredLatinFont[0].variants}
                 </h1>
-                <div className="flex gap-2">
-                  {selectedFirstInfo.classifications.map((classifi) => {
+
+                {/* 추천된 영문폰트 info 받으면 해제 */}
+                {/* <div className="flex gap-2">
+                  {selectedScndInfo.classifications.map((classifi) => {
                     return (
-                      <p key={selectedFirstInfo.family + classifi}>
+                      <p key={selectedScndInfo.family + classifi}>
                         {classifi}
                       </p>
                     );
                   })}
-                  <p>{selectedFirstInfo.category}</p>
-                </div>
+                  <p>{selectedScndInfo.category}</p>
+                </div> */}
               </div>
             )}
           </div>
