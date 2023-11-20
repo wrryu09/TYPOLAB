@@ -6,7 +6,7 @@ import BackArrow from "@/components/BackArrow";
 import Footer from "@/components/Footer";
 import { HatIco, PlusIco } from "../../../../public/svgs/index";
 import SearchInput from "@/components/SearchInput";
-import { getFontList } from "@/services/googleFont.apis";
+import { getFontList } from "@/services/apis/googleFont.apis";
 
 type Props = {};
 

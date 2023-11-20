@@ -7,13 +7,13 @@ import Footer from "@/components/Footer";
 import { CheckIco, HatIco, PlusIco } from "../../../public/svgs";
 import FontCard from "@/components/FontCard";
 import putFontSetToBox from "@/services/putFontSetToBox";
-import { getKoreanFontList } from "@/services/getKoreanFontList";
-import { getKoreanFontInfoDB } from "@/services/getKoreanFontInfoDB";
+import { getKoreanFontList } from "@/services/apis/getKoreanFontList";
+import { getKoreanFontInfoDB } from "@/services/apis/getKoreanFontInfoDB";
 import FontDisplayBox from "@/containers/pair/FontDisplayBox";
 import { FontInfoFromDB, FontNameNVar } from "@/types/types";
 import { convertFontDBDatatoFontInfo } from "@/services/convertFontDBDatatoFontInfo";
-import { fontInfoFromDBDummyData } from "@/containers/pair/FontInfoFromDBDummyData";
 import SelectFontModal from "@/containers/pair/SelectFontModal";
+import { fontInfoFromDBDummyData } from "@/containers/pair/fontInfoFromDBDummyData";
 
 type Props = {};
 

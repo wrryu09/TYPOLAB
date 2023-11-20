@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { CheckIco, HatIco, PlusIco } from "../../../../public/svgs";
-import { getFontList, getFontPage } from "@/services/googleFont.apis";
+import { getFontList, getFontPage } from "@/services/apis/googleFont.apis";
 import { FontInfoType, FontPageType, FontSet } from "@/types/types";
 import SizedBox from "@/components/SizedBox";
 import BackArrow from "@/components/BackArrow";
