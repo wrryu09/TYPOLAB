@@ -63,3 +63,47 @@ export interface FontSet {
   size: number;
   alias?: string;
 }
+
+// pairPage
+export interface FontNameNVar {
+  name: string;
+  variants: string;
+}
+export interface FontInfoFromDB {
+  // _id: new ObjectId('654cc9bc7c666d554bc7b076'),
+  family: string;
+  displayName: string;
+  coverage: object;
+  fonts: object;
+  axes: string[];
+  description: string;
+  license: string;
+  designers: { name: string; bio: string; imageUrl: string }[];
+  fontUses: string;
+  category: string;
+  stroke: string;
+  classifications: string[];
+  lastModified: string;
+  size: number;
+  isNoto: boolean;
+  colorCapabilities: string[];
+  primaryScript: string;
+  primaryLanguage: string;
+  article: string;
+  variants: string[];
+  subsets: string[];
+  files: Object;
+  kind: string;
+  menu: string;
+  linked: string[];
+  sampleText: Object;
+}
+
+// FontCard
+export interface FontInfo {
+  family: string;
+  category: string;
+  kind: string;
+  menu: string;
+  link: string;
+}

@@ -4,10 +4,11 @@ import FullLine from "./FullLine";
 import SizedBox from "./SizedBox";
 import { useRouter } from "next/navigation";
 import styles from "./fontCard.module.css";
+import { FontInfo } from "@/types/types";
 
 type Props = {
   idx: number;
-  data: any;
+  data: FontInfo;
 };
 
 const FontCard = (props: Props) => {
@@ -18,13 +19,6 @@ const FontCard = (props: Props) => {
     `${styles.flipCardBack} bg-blueblue text-yellow overflow-hidden`,
     `${styles.flipCardBack} bg-greenGrey text-black overflow-hidden`,
   ];
-  interface FontInfo {
-    family: string;
-    category: string;
-    kind: string;
-    menu: string;
-    link: string;
-  }
   const exFontData: FontInfo = {
     family: "FontName",
     category: "sans-serif",

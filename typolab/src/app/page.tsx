@@ -15,7 +15,7 @@ import { useRouter } from "next/navigation";
 import SearchInputSection from "@/containers/main/SearchInputSection";
 import LineTxt from "@/containers/main/LineTxt";
 import FontCard from "@/components/FontCard";
-import { getFontList } from "@/services/googleFont.apis";
+import { getFontList } from "@/services/apis/googleFont.apis";
 import { SortCriteria } from "@/types/types";
 
 const MainPage = (): JSX.Element => {
