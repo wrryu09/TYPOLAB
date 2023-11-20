@@ -247,7 +247,7 @@ const Pair = (props: Props) => {
                   href={`https://fonts.googleapis.com/css2?family=${inferredLatinFont[0].name}`}
                 />
                 <style>
-                  {`.fontFamilykoreanFontFam{
+                  {`.fontFamilyLatinFontFam{
     font-family: ${inferredLatinFont[0].name};
   }
   .fontWeight{
@@ -255,7 +255,7 @@ const Pair = (props: Props) => {
   }
   }`}
                 </style>
-                <h1 className="text-4xl fontFamilykoreanFontFam">
+                <h1 className="text-4xl fontFamilyLatinFontFam">
                   {inferredLatinFont[0].name} {inferredLatinFont[0].variants}
                 </h1>
 
