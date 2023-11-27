@@ -73,6 +73,11 @@ export interface FontNameVarSet {
   name: string;
   variants: string;
 }
+export interface InferredFont {
+  fontName: string;
+  fontVar: string;
+  fontScore: number;
+}
 export interface FontInfoFromDB {
   // _id: new ObjectId('654cc9bc7c666d554bc7b076'),
   family: string;

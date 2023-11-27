@@ -10,7 +10,12 @@ import putFontSetToBox from "@/services/putFontSetToBox";
 import { getKoreanFontList } from "@/services/apis/getKoreanFontList";
 import { getKoreanFontInfoDB } from "@/services/apis/getKoreanFontInfoDB";
 import FontDisplayBox from "@/containers/pair/FontDisplayBox";
-import { FontInfoFromDB, FontNameNVar, FontNameVarSet } from "@/types/types";
+import {
+  FontInfoFromDB,
+  FontNameNVar,
+  FontNameVarSet,
+  InferredFont,
+} from "@/types/types";
 import { convertFontDBDatatoFontInfo } from "@/services/convertFontDBDatatoFontInfo";
 import { fontInfoFromDBDummyData } from "@/containers/pair/fontInfoFromDBDummyData";
 import { inferSimillarLatin } from "@/services/apis/inferSimillarLatin";
@@ -68,14 +73,13 @@ const Pair = (props: Props) => {
   );
 
   // list of inferred lation font
-  const [inferredLatinFont, setInferredLationFont] = useState<FontNameVarSet[]>(
-    [
-      {
-        name: "none",
-        variants: "none",
-      },
-    ]
-  );
+  const [inferredLatinFont, setInferredLationFont] = useState<InferredFont[]>([
+    {
+      fontName: "none",
+      fontVar: "none",
+      fontScore: 0,
+    },
+  ]);
 
   // inferred된 latinFont 중에서 선택한 폰트
   const [latinFont, setLatinFont] = useState<FontNameVarSet>({
@@ -89,24 +93,8 @@ const Pair = (props: Props) => {
     if (koreanFont.name !== "none") {
       inferSimillarLatin(koreanFont)
         .then((res) => {
-          const inferredArray: FontNameVarSet[] = [];
-          res.map(
-            (ele: {
-              id: string;
-              score: Float32Array;
-              values: [];
-              metadata: {
-                lang: "eng" | "kor";
-              };
-            }) => {
-              const inferredFontNameNVar: FontNameVarSet = {
-                name: ele.id,
-                variants: "idk",
-              };
-              inferredArray.push(inferredFontNameNVar);
-            }
-          );
-          setInferredLationFont(inferredArray);
+          console.log(res);
+          setInferredLationFont(res);
           setShowLatinRecModal(true);
         })
         .catch((err) => {
@@ -256,7 +244,7 @@ const Pair = (props: Props) => {
 
           {/* 2nd set */}
           <div>
-            {inferredLatinFont[0].name === "none" ? (
+            {inferredLatinFont[0].fontName === "none" ? (
               <div className="flex flex-col items-start">
                 <h1 className="text-4xl">추천 영문 폰트</h1>
                 <p>국문 폰트를 선택하세요</p>
