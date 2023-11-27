@@ -1,4 +1,4 @@
-import { useRouter } from "next/navigation";
+import { FontNameVarSet } from "@/types/types";
 import React from "react";
 
 type Props = {
@@ -7,14 +7,15 @@ type Props = {
   visible: boolean;
   min: number;
   max: number;
+  fontFamily: FontNameVarSet;
+  onChange: (e: EventTarget & HTMLInputElement) => void;
 };
 
 const FontSetting = (props: Props) => {
-  const router = useRouter();
-
   function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
     const val: number = Number(e.currentTarget.value);
     props.setSize(val);
+    props.onChange(e.currentTarget);
   }
 
   return (
@@ -24,6 +25,8 @@ const FontSetting = (props: Props) => {
       }`}
     >
       <p>FONTFAMILY</p>
+      <p>{props.fontFamily.name}</p>
+      <p>{props.fontFamily.variants}</p>
       <p>SIZE</p>
       <input
         type="range"
@@ -32,14 +35,6 @@ const FontSetting = (props: Props) => {
         onChange={handleInputChange}
       />
       {props.size}PT
-      <button
-        className="bg-greenGrey text-white px-2 py-0.5 rounded-md shrink-0"
-        onClick={() => {
-          router.push("/pair/changeFont");
-        }}
-      >
-        CHANGE FONT
-      </button>
     </div>
   );
 };

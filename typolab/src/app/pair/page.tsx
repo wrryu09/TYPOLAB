@@ -9,7 +9,6 @@ import FontCard from "@/components/FontCard";
 import putFontSetToBox from "@/services/putFontSetToBox";
 import { getKoreanFontList } from "@/services/apis/getKoreanFontList";
 import { getKoreanFontInfoDB } from "@/services/apis/getKoreanFontInfoDB";
-import FontDisplayBox from "@/containers/pair/FontDisplayBox";
 import {
   FontInfoFromDB,
   FontNameNVar,
@@ -22,6 +21,7 @@ import { inferSimillarLatin } from "@/services/apis/inferSimillarLatin";
 import KoreanFontList from "@/containers/pair/KoreanFontList";
 import LatinRecRes from "@/containers/pair/LatinRecRes";
 import { getLatinsFontInfoDB } from "@/services/apis/getLatinFontInfoDB";
+import PreviewBox from "@/containers/pair/PreviewBox";
 
 type Props = {};
 
@@ -40,8 +40,10 @@ const Pair = (props: Props) => {
     { id: 5, name: "#발표자료에좋은", selected: true },
     { id: 6, name: "#코딩하기좋은", selected: true },
   ]);
-  const [displayTitleSize, setDisplayTitleSize] = useState(32);
-  const [displayContentSize, setDisplayContentSize] = useState(12);
+  // const [displayTitleSize, setDisplayTitleSize] = useState(32);
+  // const [displayContentSize, setDisplayContentSize] = useState(12);
+  const [displayFirstSize, setDisplayFirstSize] = useState(32);
+  const [displayScndSize, setDisplayScndSize] = useState(32);
 
   function handleTagSelection(tagId: number) {
     const tagArr = [...tagList];
@@ -178,7 +180,7 @@ const Pair = (props: Props) => {
         </div>
 
         {/* font section */}
-        <div className="flex self-start gap-32 mb-16">
+        <div className="flex self-start gap-32 mb-40">
           {/* 국문 선택 폰트 모달 */}
           {showKoreanFontList ? (
             <KoreanFontList
@@ -278,12 +280,20 @@ const Pair = (props: Props) => {
         </div>
 
         {/* font display box */}
-        <FontDisplayBox
-          displayContentSize={displayContentSize}
-          displayTitleSize={displayTitleSize}
-          setDisplayContentSize={setDisplayContentSize}
-          setDisplayTitleSize={setDisplayTitleSize}
-        />
+        <div className="flex flex-col w-full mb-40">
+          <PreviewBox
+            fontSize={displayFirstSize}
+            setFontSize={setDisplayFirstSize}
+            fontFamily={koreanFont}
+            boxNum={1}
+          />
+          <PreviewBox
+            fontSize={displayScndSize}
+            setFontSize={setDisplayScndSize}
+            fontFamily={latinFont}
+            boxNum={2}
+          />
+        </div>
 
         {/* box section */}
         <div className="w-full mb-60">
@@ -297,7 +307,7 @@ const Pair = (props: Props) => {
                     {koreanFont.name}
                   </h1>
                   <p>
-                    {koreanFont.variants}, {displayTitleSize}
+                    {koreanFont.variants}, {displayFirstSize}
                   </p>
                 </div>
                 {firstInBox ? (
@@ -310,7 +320,7 @@ const Pair = (props: Props) => {
                         {
                           family: koreanFont.name,
                           weight: koreanFont.variants,
-                          size: 32,
+                          size: displayFirstSize,
                         },
                         setFirstInBox
                       );
@@ -332,7 +342,7 @@ const Pair = (props: Props) => {
                     {latinFont.name}
                   </h1>
                   <p>
-                    {latinFont.variants}, {displayContentSize}
+                    {latinFont.variants}, {displayScndSize}
                   </p>
                 </div>
                 {scndInBox ? (
@@ -345,7 +355,7 @@ const Pair = (props: Props) => {
                         {
                           family: latinFont.name,
                           weight: latinFont.variants,
-                          size: 12,
+                          size: displayFirstSize,
                         },
                         setScndInBox
                       );
