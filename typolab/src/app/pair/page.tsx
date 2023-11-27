@@ -10,11 +10,12 @@ import putFontSetToBox from "@/services/putFontSetToBox";
 import { getKoreanFontList } from "@/services/apis/getKoreanFontList";
 import { getKoreanFontInfoDB } from "@/services/apis/getKoreanFontInfoDB";
 import FontDisplayBox from "@/containers/pair/FontDisplayBox";
-import { FontInfoFromDB, FontNameNVar } from "@/types/types";
+import { FontInfoFromDB, FontNameNVar, FontNameVarSet } from "@/types/types";
 import { convertFontDBDatatoFontInfo } from "@/services/convertFontDBDatatoFontInfo";
-import SelectFontModal from "@/containers/pair/SelectFontModal";
 import { fontInfoFromDBDummyData } from "@/containers/pair/fontInfoFromDBDummyData";
 import { inferSimillarLatin } from "@/services/apis/inferSimillarLatin";
+import KoreanFontList from "@/containers/pair/KoreanFontList";
+import LatinRecRes from "@/containers/pair/LatinRecRes";
 
 type Props = {};
 
@@ -47,25 +48,37 @@ const Pair = (props: Props) => {
   }
 
   // 국문폰트셋
-  const [koreanFont, setKoreanFont] = useState<FontNameNVar>({
+  const [koreanFont, setKoreanFont] = useState<FontNameVarSet>({
     name: "none",
     variants: "none",
   });
+
+  // show modal options
+  // select korean font
   const [showKoreanFontList, setShowKoreanFontList] = useState(false);
+  // select latin font above recommendation
+  const [showLatinRecModal, setShowLatinRecModal] = useState(false);
+
+  // all korean fonts list from db
   const [koreanFontList, setKoreanFontList] = useState<FontNameNVar[]>([]);
+
+  // metadata for selected korean font
   const [selectedFirstInfo, setSelectedFirstInfo] = useState<FontInfoFromDB>(
     fontInfoFromDBDummyData
   );
 
-  const [inferredLatinFont, setInferredLationFont] = useState<FontNameNVar[]>([
-    {
-      name: "none",
-      variants: "none",
-    },
-  ]);
+  // list of inferred lation font
+  const [inferredLatinFont, setInferredLationFont] = useState<FontNameVarSet[]>(
+    [
+      {
+        name: "none",
+        variants: "none",
+      },
+    ]
+  );
 
   // inferred된 latinFont 중에서 선택한 폰트
-  const [latinFont, setLatinFont] = useState<FontNameNVar>({
+  const [latinFont, setLatinFont] = useState<FontNameVarSet>({
     name: "none",
     variants: "none",
   });
@@ -76,7 +89,7 @@ const Pair = (props: Props) => {
     if (koreanFont.name !== "none") {
       inferSimillarLatin(koreanFont)
         .then((res) => {
-          const inferredArray: FontNameNVar[] = [];
+          const inferredArray: FontNameVarSet[] = [];
           res.map(
             (ele: {
               id: string;
@@ -86,7 +99,7 @@ const Pair = (props: Props) => {
                 lang: "eng" | "kor";
               };
             }) => {
-              const inferredFontNameNVar: FontNameNVar = {
+              const inferredFontNameNVar: FontNameVarSet = {
                 name: ele.id,
                 variants: "idk",
               };
@@ -94,6 +107,7 @@ const Pair = (props: Props) => {
             }
           );
           setInferredLationFont(inferredArray);
+          setShowLatinRecModal(true);
         })
         .catch((err) => {
           console.log(err);
@@ -181,11 +195,21 @@ const Pair = (props: Props) => {
         <div className="flex self-start gap-32 mb-16">
           {/* 국문 선택 폰트 모달 */}
           {showKoreanFontList ? (
-            <SelectFontModal
+            <KoreanFontList
               fontList={koreanFontList}
               putFontData={putKoreanFontData}
               setFont={setKoreanFont}
               setShowFontList={setShowKoreanFontList}
+            />
+          ) : null}
+
+          {/* 영문 선택 폰트 모달 */}
+          {showLatinRecModal ? (
+            <LatinRecRes
+              setShowLatinRecModal={setShowLatinRecModal}
+              inferredLatinFont={inferredLatinFont}
+              koreanFont={koreanFont}
+              setLatinFont={setLatinFont}
             />
           ) : null}
 
@@ -210,10 +234,7 @@ const Pair = (props: Props) => {
                 <style>
                   {`.fontFamilykoreanFontFam{
     font-family: ${koreanFont.name};
-  }
-  .fontWeight{
     font-weight: ${koreanFont.variants};
-  }
   }`}
                 </style>
                 <h1 className="text-4xl fontFamilykoreanFontFam">
@@ -244,19 +265,16 @@ const Pair = (props: Props) => {
               <div className="flex flex-col items-start">
                 <link
                   rel="stylesheet"
-                  href={`https://fonts.googleapis.com/css2?family=${inferredLatinFont[0].name}`}
+                  href={`https://fonts.googleapis.com/css2?family=${latinFont.name}`}
                 />
                 <style>
                   {`.fontFamilyLatinFontFam{
-    font-family: ${inferredLatinFont[0].name};
-  }
-  .fontWeight{
-    font-weight: ${inferredLatinFont[0].variants};
-  }
+    font-family: ${latinFont.name};
+    font-weight: ${latinFont.variants};
   }`}
                 </style>
                 <h1 className="text-4xl fontFamilyLatinFontFam">
-                  {inferredLatinFont[0].name} {inferredLatinFont[0].variants}
+                  {latinFont.name} {latinFont.variants}
                 </h1>
 
                 {/* 추천된 영문폰트 info 받으면 해제 */}
@@ -290,8 +308,10 @@ const Pair = (props: Props) => {
             {/* 1st set */}
             <div className="flex w-5/12 justify-between">
               <div className="flex flex-col items-start">
-                <h1 className="text-4xl">Noto Sans</h1>
-                <p>San-Serif, {displayTitleSize}</p>
+                <h1 className="text-4xl">{koreanFont.name}</h1>
+                <p>
+                  {koreanFont.variants}, {displayTitleSize}
+                </p>
               </div>
               {firstInBox ? (
                 <CheckIco className={"fill-red w-8"} />
@@ -301,8 +321,8 @@ const Pair = (props: Props) => {
                   onClick={() => {
                     putFontSetToBox(
                       {
-                        family: "Noto Sans",
-                        weight: "bold",
+                        family: koreanFont.name,
+                        weight: koreanFont.variants,
                         size: 32,
                       },
                       setFirstInBox
@@ -314,8 +334,10 @@ const Pair = (props: Props) => {
             {/* 2nd set */}
             <div className="flex w-5/12 justify-between">
               <div className="flex flex-col items-start">
-                <h1 className="text-4xl">Noto Sans</h1>
-                <p>San-Serif, {displayContentSize}</p>
+                <h1 className="text-4xl">{latinFont.name}</h1>
+                <p>
+                  {latinFont.variants}, {displayContentSize}
+                </p>
               </div>
               {scndInBox ? (
                 <CheckIco className={"fill-red w-8"} />
@@ -325,8 +347,8 @@ const Pair = (props: Props) => {
                   onClick={() => {
                     putFontSetToBox(
                       {
-                        family: "Noto Sans",
-                        weight: "bold",
+                        family: latinFont.name,
+                        weight: latinFont.variants,
                         size: 12,
                       },
                       setScndInBox
