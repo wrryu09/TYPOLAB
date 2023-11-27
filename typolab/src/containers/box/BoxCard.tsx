@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { HatIco } from "../../../public/svgs";
+import { HatRightIco } from "../../../public/svgs";
 import { FontSet } from "@/types/types";
+import { getFontList } from "@/services/apis/googleFont.apis";
 
 type Props = {
   fontSet: FontSet;
@@ -34,17 +35,40 @@ const BoxCard = (props: Props) => {
       localStorage.setItem("box", JSON.stringify(boxItemList));
     }
   };
+
+  const downloadFont = () => {
+    getFontList("trending", props.fontSet.family)
+      .then((res) => {
+        if (res.data.items[0]) {
+          let weight = props.fontSet.weight;
+          if (weight === "400") {
+            weight = "regular";
+          }
+          const downloadUrl = res.data.items[0].files[weight];
+          const a = document.createElement("a");
+          a.href = downloadUrl;
+          a.click();
+        } else {
+          console.log("no file!");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   return (
-    <div className="w-10/12 h-[20rem] flex flex-col justify-center relative bg-white rounded-lg shadow ">
-      <HatIco className="absolute rotate-270 w-1/5 right-0" />
+    <div className="w-10/12 h-[20rem] flex flex-col justify-center relative bg-white rounded-lg shadow">
+      <HatRightIco className="absolute w-[7%] right-0" />
 
       {/* remove btn */}
       <div
-        className="absolute w-[15%] h-[8%] top-0 self-end m-3 bg-lightGrey rounded-sm"
+        className="hover:bg-red absolute w-[15%] h-[8%] top-0 self-end m-3 bg-lightGrey rounded-sm"
         onClick={() => {
           props.removeItemFromBox(props.fontSet);
         }}
-      />
+      >
+        remove
+      </div>
       <link
         rel="stylesheet"
         href={`https://fonts.googleapis.com/css2?family=${props.fontSet.family}`}
@@ -83,7 +107,10 @@ const BoxCard = (props: Props) => {
       </div>
 
       {/* download btn */}
-      <div className="absolute flex items-center w-auto h-[10%] self-end m-3 px-2 bottom-0 bg-white border rounded-sm hover:bg-lightGrey">
+      <div
+        className="absolute flex items-center w-auto h-[10%] self-end m-3 px-2 bottom-0 bg-white border rounded-sm hover:bg-lightGrey"
+        onClick={downloadFont}
+      >
         download
       </div>
     </div>
