@@ -1,16 +1,17 @@
-import { FontNameVarSet } from "@/types/types";
+import { FontNameVarSet, InferredFont } from "@/types/types";
 import React, { SetStateAction, useState } from "react";
 
 type Props = {
   setShowLatinRecModal: React.Dispatch<SetStateAction<boolean>>;
-  inferredLatinFont: FontNameVarSet[];
+  inferredLatinFont: InferredFont[];
   koreanFont: FontNameVarSet;
   setLatinFont: React.Dispatch<SetStateAction<FontNameVarSet>>;
+  putFontData: (fontName: string) => void;
 };
 
 const LatinRecRes = (props: Props) => {
   const [selectedFont, setSelectedFont] = useState<FontNameVarSet>({
-    name: "choose",
+    name: "none",
     variants: "none",
   });
 
@@ -20,44 +21,38 @@ const LatinRecRes = (props: Props) => {
       <div className="w-[90%] p-8 rounded-lg border border-greenGrey bg-fog flex justify-between text-darkGreen">
         <div className="flex w-full justify-between">
           <div className="flex-col justify-start items-start gap-4 inline-flex">
-            <div className="">No.</div>
-            <div className="">1</div>
-            <div className="">2</div>
-            <div className="">3</div>
-            <div className="">4</div>
-            <div className="">5</div>
-          </div>
-          <div className="flex-col justify-start items-start gap-4 inline-flex">
-            <div className="">Font Family</div>
-            {props.inferredLatinFont.map((ele) => {
+            <div className="flex gap-2">
+              <div>No.</div>
+              <div>Font</div>
+              <div>Variant</div>
+              <div>Score</div>
+            </div>
+            {props.inferredLatinFont.map((ele, idx) => {
               return (
                 <div
-                  key={ele.name + ele.variants + "inferredLatin"}
+                  key={
+                    ele.fontName + ele.fontVar + ele.fontScore + "inferredLatin"
+                  }
                   className={`${
-                    selectedFont.name === ele.name &&
-                    selectedFont.variants === ele.variants
+                    selectedFont.name === ele.fontName &&
+                    selectedFont.variants === ele.fontVar
                       ? "text-red"
                       : "text-darkGreen"
-                  }`}
+                  } flex gap-2`}
                   onClick={() => {
                     setSelectedFont({
-                      name: ele.name,
-                      variants: ele.variants,
+                      name: ele.fontName,
+                      variants: ele.fontVar,
                     });
                   }}
                 >
-                  {ele.name} {ele.variants}
+                  <div>{idx}</div>
+                  <div>{ele.fontName}</div>
+                  <div>{ele.fontVar}</div>
+                  <div>{ele.fontScore}</div>
                 </div>
               );
             })}
-          </div>
-          <div className="flex-col justify-start items-start gap-4 inline-flex">
-            <div className="">Variants</div>
-            <div className="">regular</div>
-            <div className="">bold</div>
-            <div className="">semibold</div>
-            <div className="">extrabold</div>
-            <div className="">black</div>
           </div>
           <div className="flex-col items-end justify-between inline-flex">
             <div className="flex-col justify-end items-end flex text-right">
@@ -72,24 +67,30 @@ font-weight: ${props.koreanFont.variants};
 }`}
               </style>
               <div className="text-6xl koreanFontCss">안녕하세요</div>
-              <link
-                rel="stylesheet"
-                href={`https://fonts.googleapis.com/css2?family=${selectedFont.name}`}
-              />
-              <style>
-                {`.latinFontCss{
+              {selectedFont.name !== "none" ? (
+                <>
+                  <link
+                    rel="stylesheet"
+                    href={`https://fonts.googleapis.com/css2?family=${selectedFont.name}`}
+                  />
+                  <style>
+                    {`.latinFontCss{
 font-family: ${selectedFont.name};
 font-weight: ${selectedFont.variants};
 }`}
-              </style>
-              <div className="text-6xl latinFontCss">Black Ops One</div>
+                  </style>
+                </>
+              ) : null}
+
+              <div className="text-6xl latinFontCss">TypoLab</div>
             </div>
             <div className="px-12 py-2 bg-darkGreen rounded-full justify-center items-center inline-flex">
               <div
                 className="text-center text-white text-7xl font-['Bayon']"
                 onClick={() => {
-                  props.setShowLatinRecModal(false);
                   props.setLatinFont(selectedFont);
+                  props.putFontData(selectedFont.name);
+                  props.setShowLatinRecModal(false);
                 }}
               >
                 ok
