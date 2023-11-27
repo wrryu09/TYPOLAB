@@ -294,57 +294,66 @@ const Pair = (props: Props) => {
           <h1 className={subTitleStyle}>ADD TO YOUR BOX</h1>
           <div className="flex flex-col items-center gap-y-6">
             {/* 1st set */}
-            <div className="flex w-5/12 justify-between">
-              <div className="flex flex-col items-start">
-                <h1 className="text-4xl">{koreanFont.name}</h1>
-                <p>
-                  {koreanFont.variants}, {displayTitleSize}
-                </p>
+            {koreanFont.name !== "none" ? (
+              <div className="flex w-5/12 justify-between">
+                <div className="flex flex-col items-start">
+                  <h1 className="text-4xl">{koreanFont.name}</h1>
+                  <p>
+                    {koreanFont.variants}, {displayTitleSize}
+                  </p>
+                </div>
+                {firstInBox ? (
+                  <CheckIco className={"fill-red w-8"} />
+                ) : (
+                  <PlusIco
+                    className="w-8"
+                    onClick={() => {
+                      putFontSetToBox(
+                        {
+                          family: koreanFont.name,
+                          weight: koreanFont.variants,
+                          size: 32,
+                        },
+                        setFirstInBox
+                      );
+                    }}
+                  />
+                )}
               </div>
-              {firstInBox ? (
-                <CheckIco className={"fill-red w-8"} />
-              ) : (
-                <PlusIco
-                  className="w-8"
-                  onClick={() => {
-                    putFontSetToBox(
-                      {
-                        family: koreanFont.name,
-                        weight: koreanFont.variants,
-                        size: 32,
-                      },
-                      setFirstInBox
-                    );
-                  }}
-                />
-              )}
-            </div>
+            ) : (
+              <div className="flex flex-col items-start">
+                <h1 className="text-4xl">폰트를 선택해주세요!</h1>
+              </div>
+            )}
+
             {/* 2nd set */}
-            <div className="flex w-5/12 justify-between">
-              <div className="flex flex-col items-start">
-                <h1 className="text-4xl">{latinFont.name}</h1>
-                <p>
-                  {latinFont.variants}, {displayContentSize}
-                </p>
+            {latinFont.name !== "none" ? (
+              <div className="flex w-5/12 justify-between">
+                <div className="flex flex-col items-start">
+                  <h1 className="text-4xl">{latinFont.name}</h1>
+                  <p>
+                    {latinFont.variants}, {displayContentSize}
+                  </p>
+                </div>
+                {scndInBox ? (
+                  <CheckIco className={"fill-red w-8"} />
+                ) : (
+                  <PlusIco
+                    className="w-8"
+                    onClick={() => {
+                      putFontSetToBox(
+                        {
+                          family: latinFont.name,
+                          weight: latinFont.variants,
+                          size: 12,
+                        },
+                        setScndInBox
+                      );
+                    }}
+                  />
+                )}
               </div>
-              {scndInBox ? (
-                <CheckIco className={"fill-red w-8"} />
-              ) : (
-                <PlusIco
-                  className="w-8"
-                  onClick={() => {
-                    putFontSetToBox(
-                      {
-                        family: latinFont.name,
-                        weight: latinFont.variants,
-                        size: 12,
-                      },
-                      setScndInBox
-                    );
-                  }}
-                />
-              )}
-            </div>
+            ) : null}
           </div>
         </div>
 
