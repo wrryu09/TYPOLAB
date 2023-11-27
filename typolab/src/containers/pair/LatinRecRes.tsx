@@ -6,6 +6,7 @@ type Props = {
   inferredLatinFont: InferredFont[];
   koreanFont: FontNameVarSet;
   setLatinFont: React.Dispatch<SetStateAction<FontNameVarSet>>;
+  putFontData: (fontName: string) => void;
 };
 
 const LatinRecRes = (props: Props) => {
@@ -87,8 +88,9 @@ font-weight: ${selectedFont.variants};
               <div
                 className="text-center text-white text-7xl font-['Bayon']"
                 onClick={() => {
-                  props.setShowLatinRecModal(false);
                   props.setLatinFont(selectedFont);
+                  props.putFontData(selectedFont.name);
+                  props.setShowLatinRecModal(false);
                 }}
               >
                 ok

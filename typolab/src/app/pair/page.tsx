@@ -21,6 +21,7 @@ import { fontInfoFromDBDummyData } from "@/containers/pair/fontInfoFromDBDummyDa
 import { inferSimillarLatin } from "@/services/apis/inferSimillarLatin";
 import KoreanFontList from "@/containers/pair/KoreanFontList";
 import LatinRecRes from "@/containers/pair/LatinRecRes";
+import { getLatinsFontInfoDB } from "@/services/apis/getLatinFontInfoDB";
 
 type Props = {};
 
@@ -138,22 +139,19 @@ const Pair = (props: Props) => {
         console.log(err);
       });
   };
+  const putLatinFontData = (fontName: string) => {
+    console.log("putLatinFontData");
+    getLatinsFontInfoDB(fontName)
+      .then((res) => {
+        setSelectedScndInfo(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <div className="bg-fog h-full text-darkGreen flex flex-col items-center">
-      {/* <link
-        rel="stylesheet"
-        href={`https://fonts.googleapis.com/css2?family=${fontFamily}`}
-      />
-      <style>
-        {`.fontFamily{
-    font-family: ${fontFamily};
-  }
-  .fontWeight{
-    font-weight: ${varient}
-  }
-  }`}
-      </style> */}
       <BackArrow />
       <HatIco width={"25%"} className="rotate-180 self-center top-0 absolute" />
       <SizedBox height={10} />
@@ -198,6 +196,7 @@ const Pair = (props: Props) => {
               inferredLatinFont={inferredLatinFont}
               koreanFont={koreanFont}
               setLatinFont={setLatinFont}
+              putFontData={putLatinFontData}
             />
           ) : null}
 
@@ -265,17 +264,14 @@ const Pair = (props: Props) => {
                   {latinFont.name} {latinFont.variants}
                 </h1>
 
-                {/* 추천된 영문폰트 info 받으면 해제 */}
-                {/* <div className="flex gap-2">
+                <div className="flex gap-2">
                   {selectedScndInfo.classifications.map((classifi) => {
                     return (
-                      <p key={selectedScndInfo.family + classifi}>
-                        {classifi}
-                      </p>
+                      <p key={selectedScndInfo.family + classifi}>{classifi}</p>
                     );
                   })}
                   <p>{selectedScndInfo.category}</p>
-                </div> */}
+                </div>
               </div>
             )}
           </div>
@@ -359,16 +355,26 @@ const Pair = (props: Props) => {
 
         {/* font info section */}
         <div className="mb-96">
-          <h1 className={subTitleStyle}>FONT INFO</h1>
-          {/* first FontCard */}
-          {selectedFirstInfo.family !== "none" ? (
-            <FontCard
-              idx={0}
-              data={convertFontDBDatatoFontInfo(selectedFirstInfo)}
-            />
-          ) : null}
-          {/* <FontCard idx={1}/> */}
-          <HatIco className="absolute w-full left-0 right-0" />
+          <h1 className={`${subTitleStyle} mb-40`}>FONT INFO</h1>
+          {/* FONT CARDS */}
+          <div className="relative w-screen flex">
+            <div className="flex flex-wrap gap-4 z-10 absolute left-1/2 -translate-x-1/2 -top-32">
+              {/* first FontCard */}
+              {selectedFirstInfo.family !== "none" ? (
+                <FontCard
+                  idx={0}
+                  data={convertFontDBDatatoFontInfo(selectedFirstInfo)}
+                />
+              ) : null}
+              {selectedScndInfo.family !== "none" ? (
+                <FontCard
+                  idx={1}
+                  data={convertFontDBDatatoFontInfo(selectedScndInfo)}
+                />
+              ) : null}
+            </div>
+            <HatIco className="left-0 right-0 absolute" />
+          </div>
         </div>
 
         {/* user guide section */}
