@@ -40,10 +40,6 @@ const KoreanFontList = (props: Props) => {
                   <style>
                     {`.fontFamilykoreanFontListCss${idx}{
 font-family: ${fontName.name};
-}
-.fontWeight{
-font-weight: ${fontName.variants};
-}
 }`}
                   </style>
                   <p
@@ -88,10 +84,7 @@ font-weight: ${fontName.variants};
                   <style>
                     {`.disPlayKrFont{
 font-family: ${selectedFont.name};
-}
-.fontWeight{
 font-weight: ${selectedVar};
-}
 }`}
                   </style>
                 </>
