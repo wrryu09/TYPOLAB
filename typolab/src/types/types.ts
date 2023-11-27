@@ -67,6 +67,10 @@ export interface FontSet {
 // pairPage
 export interface FontNameNVar {
   name: string;
+  variants: string[];
+}
+export interface FontNameVarSet {
+  name: string;
   variants: string;
 }
 export interface FontInfoFromDB {

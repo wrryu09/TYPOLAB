@@ -10,7 +10,7 @@ import putFontSetToBox from "@/services/putFontSetToBox";
 import { getKoreanFontList } from "@/services/apis/getKoreanFontList";
 import { getKoreanFontInfoDB } from "@/services/apis/getKoreanFontInfoDB";
 import FontDisplayBox from "@/containers/pair/FontDisplayBox";
-import { FontInfoFromDB, FontNameNVar } from "@/types/types";
+import { FontInfoFromDB, FontNameNVar, FontNameVarSet } from "@/types/types";
 import { convertFontDBDatatoFontInfo } from "@/services/convertFontDBDatatoFontInfo";
 import SelectFontModal from "@/containers/pair/SelectFontModal";
 import { fontInfoFromDBDummyData } from "@/containers/pair/fontInfoFromDBDummyData";
@@ -49,7 +49,7 @@ const Pair = (props: Props) => {
   }
 
   // 국문폰트셋
-  const [koreanFont, setKoreanFont] = useState<FontNameNVar>({
+  const [koreanFont, setKoreanFont] = useState<FontNameVarSet>({
     name: "none",
     variants: "none",
   });
@@ -62,14 +62,14 @@ const Pair = (props: Props) => {
   const [inferredLatinFont, setInferredLationFont] = useState<FontNameNVar[]>([
     {
       name: "none",
-      variants: "none",
+      variants: ["none"],
     },
   ]);
 
   // inferred된 latinFont 중에서 선택한 폰트
   const [latinFont, setLatinFont] = useState<FontNameNVar>({
     name: "none",
-    variants: "none",
+    variants: ["none"],
   });
 
   // koreanFont 있으면 비슷한 latinFont 추천 결과 받아오기
@@ -90,7 +90,7 @@ const Pair = (props: Props) => {
             }) => {
               const inferredFontNameNVar: FontNameNVar = {
                 name: ele.id,
-                variants: "idk",
+                variants: ["idk"],
               };
               inferredArray.push(inferredFontNameNVar);
             }
@@ -179,13 +179,12 @@ const Pair = (props: Props) => {
           })}
         </div>
 
-        <KoreanFontList />
         {/* <LatinRecRes /> */}
         {/* font section */}
         <div className="flex self-start gap-32 mb-16">
           {/* 국문 선택 폰트 모달 */}
           {showKoreanFontList ? (
-            <SelectFontModal
+            <KoreanFontList
               fontList={koreanFontList}
               putFontData={putKoreanFontData}
               setFont={setKoreanFont}
