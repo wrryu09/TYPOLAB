@@ -22,6 +22,7 @@ import KoreanFontList from "@/containers/pair/KoreanFontList";
 import LatinRecRes from "@/containers/pair/LatinRecRes";
 import { getLatinsFontInfoDB } from "@/services/apis/getLatinFontInfoDB";
 import PreviewBox from "@/containers/pair/PreviewBox";
+import FontSet from "@/containers/pair/FontSet";
 
 type Props = {};
 
@@ -203,45 +204,14 @@ const Pair = (props: Props) => {
           ) : null}
 
           {/* 1st set */}
-          <div
-            onClick={() => {
-              setShowKoreanFontList(!showKoreanFontList);
-              saveKoreanFontList();
-            }}
-          >
-            {koreanFont.name === "none" ? (
-              <div className="flex flex-col items-start">
-                <h1 className="text-4xl">국문 폰트 선택</h1>
-                <p>선택 가능 폰트 보기</p>
-              </div>
-            ) : (
-              <div className="flex flex-col items-start">
-                <link
-                  rel="stylesheet"
-                  href={`https://fonts.googleapis.com/css2?family=${koreanFont.name}`}
-                />
-                <style>
-                  {`.fontFamilykoreanFontFam{
-    font-family: ${koreanFont.name};
-    font-weight: ${koreanFont.variants};
-  }`}
-                </style>
-                <h1 className="text-4xl fontFamilykoreanFontFam">
-                  {koreanFont.name} {koreanFont.variants}
-                </h1>
-                <div className="flex gap-2">
-                  {selectedFirstInfo.classifications.map((classifi) => {
-                    return (
-                      <p key={selectedFirstInfo.family + classifi}>
-                        {classifi}
-                      </p>
-                    );
-                  })}
-                  <p>{selectedFirstInfo.category}</p>
-                </div>
-              </div>
-            )}
-          </div>
+          <FontSet
+            setShowFontList={setShowKoreanFontList}
+            showFontList={showKoreanFontList}
+            saveFontList={saveKoreanFontList}
+            Font={koreanFont}
+            selectedInfo={selectedFirstInfo}
+            fontSetNum={1}
+          />
 
           {/* 2nd set */}
           <div>
@@ -251,30 +221,13 @@ const Pair = (props: Props) => {
                 <p>국문 폰트를 선택하세요</p>
               </div>
             ) : (
-              <div className="flex flex-col items-start">
-                <link
-                  rel="stylesheet"
-                  href={`https://fonts.googleapis.com/css2?family=${latinFont.name}`}
-                />
-                <style>
-                  {`.fontFamilyLatinFontFam{
-    font-family: ${latinFont.name};
-    font-weight: ${latinFont.variants};
-  }`}
-                </style>
-                <h1 className="text-4xl fontFamilyLatinFontFam">
-                  {latinFont.name} {latinFont.variants}
-                </h1>
-
-                <div className="flex gap-2">
-                  {selectedScndInfo.classifications.map((classifi) => {
-                    return (
-                      <p key={selectedScndInfo.family + classifi}>{classifi}</p>
-                    );
-                  })}
-                  <p>{selectedScndInfo.category}</p>
-                </div>
-              </div>
+              <FontSet
+                Font={latinFont}
+                selectedInfo={selectedScndInfo}
+                setShowFontList={setShowLatinRecModal}
+                showFontList={showLatinRecModal}
+                fontSetNum={2}
+              />
             )}
           </div>
         </div>
