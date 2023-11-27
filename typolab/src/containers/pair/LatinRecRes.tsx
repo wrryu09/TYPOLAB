@@ -88,8 +88,10 @@ font-weight: ${selectedFont.variants};
               <div
                 className="text-center text-white text-7xl font-['Bayon']"
                 onClick={() => {
-                  props.setLatinFont(selectedFont);
-                  props.putFontData(selectedFont.name);
+                  if (selectedFont.name !== "none") {
+                    props.setLatinFont(selectedFont);
+                    props.putFontData(selectedFont.name);
+                  }
                   props.setShowLatinRecModal(false);
                 }}
               >

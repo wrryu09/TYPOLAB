@@ -10,7 +10,7 @@ type Props = {
 
 const KoreanFontList = (props: Props) => {
   const [selectedFont, setSelectedFont] = useState<FontNameNVar>({
-    name: "choose",
+    name: "none",
     variants: ["regular"],
   });
   const [selectedVar, setSelectedVar] = useState<string>("regular");
@@ -95,11 +95,14 @@ font-weight: ${selectedVar};
               <div
                 className="text-center text-white text-7xl font-['Bayon']"
                 onClick={() => {
-                  props.setFont({
-                    name: selectedFont.name,
-                    variants: selectedVar,
-                  });
-                  props.putFontData(selectedFont.name);
+                  // set font if only selected
+                  if (selectedFont.name !== "none") {
+                    props.setFont({
+                      name: selectedFont.name,
+                      variants: selectedVar,
+                    });
+                    props.putFontData(selectedFont.name);
+                  }
                   props.setShowFontList(false);
                 }}
               >
