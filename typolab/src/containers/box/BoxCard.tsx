@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { HatIco } from "../../../public/svgs";
+import { HatRightIco } from "../../../public/svgs";
 import { FontSet } from "@/types/types";
 
 type Props = {
@@ -35,8 +35,8 @@ const BoxCard = (props: Props) => {
     }
   };
   return (
-    <div className="w-10/12 h-[20rem] flex flex-col justify-center relative bg-white rounded-lg shadow ">
-      <HatIco className="absolute rotate-270 w-1/5 right-0" />
+    <div className="w-10/12 h-[20rem] flex flex-col justify-center relative bg-white rounded-lg shadow">
+      <HatRightIco className="absolute w-[7%] right-0" />
 
       {/* remove btn */}
       <div

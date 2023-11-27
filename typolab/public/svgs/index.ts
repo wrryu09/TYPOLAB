@@ -11,6 +11,7 @@ import BackIco from "./backIco.svg";
 import DotLine from "./dotLine.svg";
 import LogoHatIco from "./logoHat.svg";
 import CheckIco from "./checkIco.svg";
+import HatRightIco from "./hatRight.svg";
 
 export {
   HatIco,
@@ -26,4 +27,5 @@ export {
   DotLine,
   LogoHatIco,
   CheckIco,
+  HatRightIco,
 };
