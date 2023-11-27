@@ -53,12 +53,22 @@ const Pair = (props: Props) => {
     name: "none",
     variants: "none",
   });
+
+  // show modal options
+  // select korean font
   const [showKoreanFontList, setShowKoreanFontList] = useState(false);
+  // select latin font above recommendation
+  const [showLatinRecModal, setShowLatinRecModal] = useState(false);
+
+  // all korean fonts list from db
   const [koreanFontList, setKoreanFontList] = useState<FontNameNVar[]>([]);
+
+  // metadata for selected korean font
   const [selectedFirstInfo, setSelectedFirstInfo] = useState<FontInfoFromDB>(
     fontInfoFromDBDummyData
   );
 
+  // list of inferred lation font
   const [inferredLatinFont, setInferredLationFont] = useState<FontNameNVar[]>([
     {
       name: "none",
@@ -96,6 +106,7 @@ const Pair = (props: Props) => {
             }
           );
           setInferredLationFont(inferredArray);
+          setShowLatinRecModal(true);
         })
         .catch((err) => {
           console.log(err);
@@ -179,7 +190,6 @@ const Pair = (props: Props) => {
           })}
         </div>
 
-        {/* <LatinRecRes /> */}
         {/* font section */}
         <div className="flex self-start gap-32 mb-16">
           {/* 국문 선택 폰트 모달 */}
@@ -191,6 +201,9 @@ const Pair = (props: Props) => {
               setShowFontList={setShowKoreanFontList}
             />
           ) : null}
+
+          {/* 영문 선택 폰트 모달 */}
+          {showLatinRecModal ? <LatinRecRes /> : null}
 
           {/* 1st set */}
           <div
