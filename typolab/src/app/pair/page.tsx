@@ -293,7 +293,9 @@ const Pair = (props: Props) => {
             {koreanFont.name !== "none" ? (
               <div className="flex w-5/12 justify-between">
                 <div className="flex flex-col items-start">
-                  <h1 className="text-4xl">{koreanFont.name}</h1>
+                  <h1 className="text-4xl fontFamilykoreanFontFam">
+                    {koreanFont.name}
+                  </h1>
                   <p>
                     {koreanFont.variants}, {displayTitleSize}
                   </p>
@@ -326,7 +328,9 @@ const Pair = (props: Props) => {
             {latinFont.name !== "none" ? (
               <div className="flex w-5/12 justify-between">
                 <div className="flex flex-col items-start">
-                  <h1 className="text-4xl">{latinFont.name}</h1>
+                  <h1 className="text-4xl fontFamilyLatinFontFam">
+                    {latinFont.name}
+                  </h1>
                   <p>
                     {latinFont.variants}, {displayContentSize}
                   </p>
