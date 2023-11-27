@@ -2,17 +2,21 @@ import React from "react";
 
 type Props = {};
 
-const KoreanFontList = (props: Props) => {
+const LatinRecRes = (props: Props) => {
   return (
     <div className="absolute flex flex-col z-10 w-full h-full top-0 left-0 items-center justify-center bg-black bg-opacity-80">
-      <h2 className="font-Bayon text-6xl pb-8 text-white">Choose your font</h2>
+      <h2 className="font-Bayon text-6xl pb-8 text-red">Result</h2>
       <div className="w-[90%] p-8 rounded-lg border border-greenGrey bg-fog flex justify-between text-darkGreen">
         <div className="flex w-full justify-between">
           <div className="flex-col justify-start items-start gap-4 inline-flex">
-            <div className="">Font Family</div>
-            <div className="">Font Family</div>
-            <div className="">Font Family</div>
-            <div className="">Font Family</div>
+            <div className="">No.</div>
+            <div className="">1</div>
+            <div className="">2</div>
+            <div className="">3</div>
+            <div className="">4</div>
+            <div className="">5</div>
+          </div>
+          <div className="flex-col justify-start items-start gap-4 inline-flex">
             <div className="">Font Family</div>
             <div className="">Font Family</div>
             <div className="">Font Family</div>
@@ -47,4 +51,4 @@ const KoreanFontList = (props: Props) => {
   );
 };
 
-export default KoreanFontList;
+export default LatinRecRes;

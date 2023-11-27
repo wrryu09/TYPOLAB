@@ -16,6 +16,7 @@ import SelectFontModal from "@/containers/pair/SelectFontModal";
 import { fontInfoFromDBDummyData } from "@/containers/pair/fontInfoFromDBDummyData";
 import { inferSimillarLatin } from "@/services/apis/inferSimillarLatin";
 import KoreanFontList from "@/containers/pair/KoreanFontList";
+import LatinRecRes from "@/containers/pair/LatinRecRes";
 
 type Props = {};
 
@@ -179,6 +180,7 @@ const Pair = (props: Props) => {
         </div>
 
         <KoreanFontList />
+        {/* <LatinRecRes /> */}
         {/* font section */}
         <div className="flex self-start gap-32 mb-16">
           {/* 국문 선택 폰트 모달 */}
