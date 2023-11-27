@@ -4,9 +4,8 @@ import React, { useEffect, useState } from "react";
 import SizedBox from "@/components/SizedBox";
 import BackArrow from "@/components/BackArrow";
 import Footer from "@/components/Footer";
-import { CheckIco, HatIco, PlusIco } from "../../../public/svgs";
+import { HatIco } from "../../../public/svgs";
 import FontCard from "@/components/FontCard";
-import putFontSetToBox from "@/services/putFontSetToBox";
 import { getKoreanFontList } from "@/services/apis/getKoreanFontList";
 import { getKoreanFontInfoDB } from "@/services/apis/getKoreanFontInfoDB";
 import {
@@ -23,6 +22,7 @@ import LatinRecRes from "@/containers/pair/LatinRecRes";
 import { getLatinsFontInfoDB } from "@/services/apis/getLatinFontInfoDB";
 import PreviewBox from "@/containers/pair/PreviewBox";
 import FontSet from "@/containers/pair/FontSet";
+import BoxSet from "@/containers/pair/BoxSet";
 
 type Props = {};
 
@@ -202,7 +202,25 @@ const Pair = (props: Props) => {
               putFontData={putLatinFontData}
             />
           ) : null}
-
+          <link
+            rel="stylesheet"
+            href={`https://fonts.googleapis.com/css2?family=${koreanFont.name}`}
+          />
+          <link
+            rel="stylesheet"
+            href={`https://fonts.googleapis.com/css2?family=${latinFont.name}`}
+          />
+          <style>
+            {`.fontFamily1FontFam{
+    font-family: ${koreanFont.name};
+    font-weight: ${koreanFont.variants};
+  }
+  .fontFamily2FontFam{
+    font-family: ${latinFont.name};
+    font-weight: ${latinFont.variants};
+  }
+  `}
+          </style>
           {/* 1st set */}
           <FontSet
             setShowFontList={setShowKoreanFontList}
@@ -253,70 +271,22 @@ const Pair = (props: Props) => {
           <h1 className={subTitleStyle}>ADD TO YOUR BOX</h1>
           <div className="flex flex-col items-center gap-y-6">
             {/* 1st set */}
-            {koreanFont.name !== "none" ? (
-              <div className="flex w-5/12 justify-between">
-                <div className="flex flex-col items-start">
-                  <h1 className="text-4xl fontFamilykoreanFontFam">
-                    {koreanFont.name}
-                  </h1>
-                  <p>
-                    {koreanFont.variants}, {displayFirstSize}
-                  </p>
-                </div>
-                {firstInBox ? (
-                  <CheckIco className={"fill-red w-8"} />
-                ) : (
-                  <PlusIco
-                    className="w-8"
-                    onClick={() => {
-                      putFontSetToBox(
-                        {
-                          family: koreanFont.name,
-                          weight: koreanFont.variants,
-                          size: displayFirstSize,
-                        },
-                        setFirstInBox
-                      );
-                    }}
-                  />
-                )}
-              </div>
-            ) : (
-              <div className="flex flex-col items-start">
-                <h1 className="text-4xl">폰트를 선택해주세요!</h1>
-              </div>
-            )}
+            <BoxSet
+              displaySize={displayFirstSize}
+              isInBox={firstInBox}
+              font={koreanFont}
+              setItInBox={setFirstInBox}
+              boxNum={1}
+            />
 
             {/* 2nd set */}
-            {latinFont.name !== "none" ? (
-              <div className="flex w-5/12 justify-between">
-                <div className="flex flex-col items-start">
-                  <h1 className="text-4xl fontFamilyLatinFontFam">
-                    {latinFont.name}
-                  </h1>
-                  <p>
-                    {latinFont.variants}, {displayScndSize}
-                  </p>
-                </div>
-                {scndInBox ? (
-                  <CheckIco className={"fill-red w-8"} />
-                ) : (
-                  <PlusIco
-                    className="w-8"
-                    onClick={() => {
-                      putFontSetToBox(
-                        {
-                          family: latinFont.name,
-                          weight: latinFont.variants,
-                          size: displayFirstSize,
-                        },
-                        setScndInBox
-                      );
-                    }}
-                  />
-                )}
-              </div>
-            ) : null}
+            <BoxSet
+              displaySize={displayScndSize}
+              font={latinFont}
+              isInBox={scndInBox}
+              setItInBox={setScndInBox}
+              boxNum={2}
+            />
           </div>
         </div>
 

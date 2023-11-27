@@ -27,16 +27,6 @@ const FontSet = (props: Props) => {
         </div>
       ) : (
         <div className="flex flex-col items-start">
-          <link
-            rel="stylesheet"
-            href={`https://fonts.googleapis.com/css2?family=${props.Font.name}`}
-          />
-          <style>
-            {`.fontFamily${props.fontSetNum}FontFam{
-    font-family: ${props.Font.name};
-    font-weight: ${props.Font.variants};
-  }`}
-          </style>
           <h1 className={`text-4xl fontFamily${props.fontSetNum}FontFam`}>
             {props.Font.name} {props.Font.variants}
           </h1>
