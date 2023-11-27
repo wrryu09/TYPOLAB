@@ -13,6 +13,7 @@ import {
   FontNameNVar,
   FontNameVarSet,
   InferredFont,
+  Tag,
 } from "@/types/types";
 import { convertFontDBDatatoFontInfo } from "@/services/convertFontDBDatatoFontInfo";
 import { fontInfoFromDBDummyData } from "@/containers/pair/fontInfoFromDBDummyData";
@@ -23,16 +24,13 @@ import { getLatinsFontInfoDB } from "@/services/apis/getLatinFontInfoDB";
 import PreviewBox from "@/containers/pair/PreviewBox";
 import FontSet from "@/containers/pair/FontSet";
 import BoxSet from "@/containers/pair/BoxSet";
+import TagSection from "@/containers/pair/TagSection";
 
 type Props = {};
 
 const Pair = (props: Props) => {
   const subTitleStyle = "font-Bayon text-6xl pb-8";
-  type Tag = {
-    id: number;
-    name: string;
-    selected: boolean;
-  };
+
   const [tagList, setTagList] = useState<Tag[]>([
     { id: 1, name: "#이화여자대학교", selected: true },
     { id: 2, name: "#도전학기제", selected: true },
@@ -41,8 +39,7 @@ const Pair = (props: Props) => {
     { id: 5, name: "#발표자료에좋은", selected: true },
     { id: 6, name: "#코딩하기좋은", selected: true },
   ]);
-  // const [displayTitleSize, setDisplayTitleSize] = useState(32);
-  // const [displayContentSize, setDisplayContentSize] = useState(12);
+
   const [displayFirstSize, setDisplayFirstSize] = useState(32);
   const [displayScndSize, setDisplayScndSize] = useState(32);
 
@@ -161,24 +158,11 @@ const Pair = (props: Props) => {
 
       <div className="w-10/12 flex flex-col text-center items-center justify-center">
         {/* tag section */}
-        <h1 className={subTitleStyle}>TAG</h1>
-        <div className="flex flex-wrap gap-2 mb-40">
-          {tagList.map((tag) => {
-            return (
-              <h1
-                key={tag.id + tag.name}
-                className={`px-3 py-1 border border-lightGrey rounded-md flex shrink-0 justify-center hover:bg-red ${
-                  tag.selected ? "bg-red font-semibold" : "bg-fog"
-                }`}
-                onClick={() => {
-                  handleTagSelection(tag.id);
-                }}
-              >
-                {tag.name}
-              </h1>
-            );
-          })}
-        </div>
+        <TagSection
+          handleTagSelection={handleTagSelection}
+          subTitleStyle={subTitleStyle}
+          tagList={tagList}
+        />
 
         {/* font section */}
         <div className="flex self-start gap-32 mb-40">

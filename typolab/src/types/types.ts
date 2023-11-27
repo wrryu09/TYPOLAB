@@ -65,6 +65,12 @@ export interface FontSet {
 }
 
 // pairPage
+export type Tag = {
+  id: number;
+  name: string;
+  selected: boolean;
+};
+
 export interface FontNameNVar {
   name: string;
   variants: string[];
