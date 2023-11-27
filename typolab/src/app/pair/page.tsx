@@ -4,9 +4,8 @@ import React, { useEffect, useState } from "react";
 import SizedBox from "@/components/SizedBox";
 import BackArrow from "@/components/BackArrow";
 import Footer from "@/components/Footer";
-import { CheckIco, HatIco, PlusIco } from "../../../public/svgs";
+import { HatIco } from "../../../public/svgs";
 import FontCard from "@/components/FontCard";
-import putFontSetToBox from "@/services/putFontSetToBox";
 import { getKoreanFontList } from "@/services/apis/getKoreanFontList";
 import { getKoreanFontInfoDB } from "@/services/apis/getKoreanFontInfoDB";
 import {
@@ -14,6 +13,7 @@ import {
   FontNameNVar,
   FontNameVarSet,
   InferredFont,
+  Tag,
 } from "@/types/types";
 import { convertFontDBDatatoFontInfo } from "@/services/convertFontDBDatatoFontInfo";
 import { fontInfoFromDBDummyData } from "@/containers/pair/fontInfoFromDBDummyData";
@@ -22,16 +22,15 @@ import KoreanFontList from "@/containers/pair/KoreanFontList";
 import LatinRecRes from "@/containers/pair/LatinRecRes";
 import { getLatinsFontInfoDB } from "@/services/apis/getLatinFontInfoDB";
 import PreviewBox from "@/containers/pair/PreviewBox";
+import FontSet from "@/containers/pair/FontSet";
+import TagSection from "@/containers/pair/TagSection";
+import BoxSection from "@/containers/pair/BoxSection";
 
 type Props = {};
 
 const Pair = (props: Props) => {
   const subTitleStyle = "font-Bayon text-6xl pb-8";
-  type Tag = {
-    id: number;
-    name: string;
-    selected: boolean;
-  };
+
   const [tagList, setTagList] = useState<Tag[]>([
     { id: 1, name: "#이화여자대학교", selected: true },
     { id: 2, name: "#도전학기제", selected: true },
@@ -40,8 +39,7 @@ const Pair = (props: Props) => {
     { id: 5, name: "#발표자료에좋은", selected: true },
     { id: 6, name: "#코딩하기좋은", selected: true },
   ]);
-  // const [displayTitleSize, setDisplayTitleSize] = useState(32);
-  // const [displayContentSize, setDisplayContentSize] = useState(12);
+
   const [displayFirstSize, setDisplayFirstSize] = useState(32);
   const [displayScndSize, setDisplayScndSize] = useState(32);
 
@@ -160,24 +158,11 @@ const Pair = (props: Props) => {
 
       <div className="w-10/12 flex flex-col text-center items-center justify-center">
         {/* tag section */}
-        <h1 className={subTitleStyle}>TAG</h1>
-        <div className="flex flex-wrap gap-2 mb-40">
-          {tagList.map((tag) => {
-            return (
-              <h1
-                key={tag.id + tag.name}
-                className={`px-3 py-1 border border-lightGrey rounded-md flex shrink-0 justify-center hover:bg-red ${
-                  tag.selected ? "bg-red font-semibold" : "bg-fog"
-                }`}
-                onClick={() => {
-                  handleTagSelection(tag.id);
-                }}
-              >
-                {tag.name}
-              </h1>
-            );
-          })}
-        </div>
+        <TagSection
+          handleTagSelection={handleTagSelection}
+          subTitleStyle={subTitleStyle}
+          tagList={tagList}
+        />
 
         {/* font section */}
         <div className="flex self-start gap-32 mb-40">
@@ -201,47 +186,34 @@ const Pair = (props: Props) => {
               putFontData={putLatinFontData}
             />
           ) : null}
-
-          {/* 1st set */}
-          <div
-            onClick={() => {
-              setShowKoreanFontList(!showKoreanFontList);
-              saveKoreanFontList();
-            }}
-          >
-            {koreanFont.name === "none" ? (
-              <div className="flex flex-col items-start">
-                <h1 className="text-4xl">국문 폰트 선택</h1>
-                <p>선택 가능 폰트 보기</p>
-              </div>
-            ) : (
-              <div className="flex flex-col items-start">
-                <link
-                  rel="stylesheet"
-                  href={`https://fonts.googleapis.com/css2?family=${koreanFont.name}`}
-                />
-                <style>
-                  {`.fontFamilykoreanFontFam{
+          <link
+            rel="stylesheet"
+            href={`https://fonts.googleapis.com/css2?family=${koreanFont.name}`}
+          />
+          <link
+            rel="stylesheet"
+            href={`https://fonts.googleapis.com/css2?family=${latinFont.name}`}
+          />
+          <style>
+            {`.fontFamily1FontFam{
     font-family: ${koreanFont.name};
     font-weight: ${koreanFont.variants};
-  }`}
-                </style>
-                <h1 className="text-4xl fontFamilykoreanFontFam">
-                  {koreanFont.name} {koreanFont.variants}
-                </h1>
-                <div className="flex gap-2">
-                  {selectedFirstInfo.classifications.map((classifi) => {
-                    return (
-                      <p key={selectedFirstInfo.family + classifi}>
-                        {classifi}
-                      </p>
-                    );
-                  })}
-                  <p>{selectedFirstInfo.category}</p>
-                </div>
-              </div>
-            )}
-          </div>
+  }
+  .fontFamily2FontFam{
+    font-family: ${latinFont.name};
+    font-weight: ${latinFont.variants};
+  }
+  `}
+          </style>
+          {/* 1st set */}
+          <FontSet
+            setShowFontList={setShowKoreanFontList}
+            showFontList={showKoreanFontList}
+            saveFontList={saveKoreanFontList}
+            Font={koreanFont}
+            selectedInfo={selectedFirstInfo}
+            fontSetNum={1}
+          />
 
           {/* 2nd set */}
           <div>
@@ -251,30 +223,13 @@ const Pair = (props: Props) => {
                 <p>국문 폰트를 선택하세요</p>
               </div>
             ) : (
-              <div className="flex flex-col items-start">
-                <link
-                  rel="stylesheet"
-                  href={`https://fonts.googleapis.com/css2?family=${latinFont.name}`}
-                />
-                <style>
-                  {`.fontFamilyLatinFontFam{
-    font-family: ${latinFont.name};
-    font-weight: ${latinFont.variants};
-  }`}
-                </style>
-                <h1 className="text-4xl fontFamilyLatinFontFam">
-                  {latinFont.name} {latinFont.variants}
-                </h1>
-
-                <div className="flex gap-2">
-                  {selectedScndInfo.classifications.map((classifi) => {
-                    return (
-                      <p key={selectedScndInfo.family + classifi}>{classifi}</p>
-                    );
-                  })}
-                  <p>{selectedScndInfo.category}</p>
-                </div>
-              </div>
+              <FontSet
+                Font={latinFont}
+                selectedInfo={selectedScndInfo}
+                setShowFontList={setShowLatinRecModal}
+                showFontList={showLatinRecModal}
+                fontSetNum={2}
+              />
             )}
           </div>
         </div>
@@ -296,76 +251,17 @@ const Pair = (props: Props) => {
         </div>
 
         {/* box section */}
-        <div className="w-full mb-60">
-          <h1 className={subTitleStyle}>ADD TO YOUR BOX</h1>
-          <div className="flex flex-col items-center gap-y-6">
-            {/* 1st set */}
-            {koreanFont.name !== "none" ? (
-              <div className="flex w-5/12 justify-between">
-                <div className="flex flex-col items-start">
-                  <h1 className="text-4xl fontFamilykoreanFontFam">
-                    {koreanFont.name}
-                  </h1>
-                  <p>
-                    {koreanFont.variants}, {displayFirstSize}
-                  </p>
-                </div>
-                {firstInBox ? (
-                  <CheckIco className={"fill-red w-8"} />
-                ) : (
-                  <PlusIco
-                    className="w-8"
-                    onClick={() => {
-                      putFontSetToBox(
-                        {
-                          family: koreanFont.name,
-                          weight: koreanFont.variants,
-                          size: displayFirstSize,
-                        },
-                        setFirstInBox
-                      );
-                    }}
-                  />
-                )}
-              </div>
-            ) : (
-              <div className="flex flex-col items-start">
-                <h1 className="text-4xl">폰트를 선택해주세요!</h1>
-              </div>
-            )}
-
-            {/* 2nd set */}
-            {latinFont.name !== "none" ? (
-              <div className="flex w-5/12 justify-between">
-                <div className="flex flex-col items-start">
-                  <h1 className="text-4xl fontFamilyLatinFontFam">
-                    {latinFont.name}
-                  </h1>
-                  <p>
-                    {latinFont.variants}, {displayScndSize}
-                  </p>
-                </div>
-                {scndInBox ? (
-                  <CheckIco className={"fill-red w-8"} />
-                ) : (
-                  <PlusIco
-                    className="w-8"
-                    onClick={() => {
-                      putFontSetToBox(
-                        {
-                          family: latinFont.name,
-                          weight: latinFont.variants,
-                          size: displayFirstSize,
-                        },
-                        setScndInBox
-                      );
-                    }}
-                  />
-                )}
-              </div>
-            ) : null}
-          </div>
-        </div>
+        <BoxSection
+          displayFirstSize={displayFirstSize}
+          displayScndSize={displayScndSize}
+          firstInBox={firstInBox}
+          koreanFont={koreanFont}
+          latinFont={latinFont}
+          scndInBox={scndInBox}
+          setFirstInBox={setFirstInBox}
+          setScndInBox={setScndInBox}
+          subTitleStyle={subTitleStyle}
+        />
 
         {/* font info section */}
         <div className="mb-96">
