@@ -50,13 +50,13 @@ const FontDisplayBox = (props: Props) => {
         onMouseOver={() => setShowTitleSetting(true)}
         onMouseOut={() => setShowTitleSetting(false)}
       >
-        <FontSetting
+        {/* <FontSetting
           visible={showTitleSetting}
           size={props.displayTitleSize}
           setSize={props.setDisplayTitleSize}
           min={20}
           max={120}
-        />
+        /> */}
         <textarea
           ref={textareaTitleRef}
           value={titleText}
@@ -70,13 +70,13 @@ const FontDisplayBox = (props: Props) => {
         onMouseOver={() => setShowContentSetting(true)}
         onMouseOut={() => setShowContentSetting(false)}
       >
-        <FontSetting
+        {/* <FontSetting
           visible={showContentSetting}
           size={props.displayContentSize}
           setSize={props.setDisplayContentSize}
           min={6}
           max={50}
-        />
+        /> */}
         <textarea
           className="contentFontSize bg-fog w-full"
           ref={textareaRef}
