@@ -23,8 +23,8 @@ import LatinRecRes from "@/containers/pair/LatinRecRes";
 import { getLatinsFontInfoDB } from "@/services/apis/getLatinFontInfoDB";
 import PreviewBox from "@/containers/pair/PreviewBox";
 import FontSet from "@/containers/pair/FontSet";
-import BoxSet from "@/containers/pair/BoxSet";
 import TagSection from "@/containers/pair/TagSection";
+import BoxSection from "@/containers/pair/BoxSection";
 
 type Props = {};
 
@@ -251,28 +251,17 @@ const Pair = (props: Props) => {
         </div>
 
         {/* box section */}
-        <div className="w-full mb-60">
-          <h1 className={subTitleStyle}>ADD TO YOUR BOX</h1>
-          <div className="flex flex-col items-center gap-y-6">
-            {/* 1st set */}
-            <BoxSet
-              displaySize={displayFirstSize}
-              isInBox={firstInBox}
-              font={koreanFont}
-              setItInBox={setFirstInBox}
-              boxNum={1}
-            />
-
-            {/* 2nd set */}
-            <BoxSet
-              displaySize={displayScndSize}
-              font={latinFont}
-              isInBox={scndInBox}
-              setItInBox={setScndInBox}
-              boxNum={2}
-            />
-          </div>
-        </div>
+        <BoxSection
+          displayFirstSize={displayFirstSize}
+          displayScndSize={displayScndSize}
+          firstInBox={firstInBox}
+          koreanFont={koreanFont}
+          latinFont={latinFont}
+          scndInBox={scndInBox}
+          setFirstInBox={setFirstInBox}
+          setScndInBox={setScndInBox}
+          subTitleStyle={subTitleStyle}
+        />
 
         {/* font info section */}
         <div className="mb-96">
