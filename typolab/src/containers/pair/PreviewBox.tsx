@@ -11,11 +11,20 @@ type Props = {
 
 const PreviewBox = (props: Props) => {
   const [showSetting, setShowSetting] = useState(false);
-  const [text, setText] = useState("다람쥐 헌 쳇바퀴에 타고파");
+  const [text1, setText1] = useState("다람쥐 헌 쳇바퀴에 타고파");
+  const [text2, setText2] = useState(
+    "“A wizard’s job is to vex chumps quickly in fog.”"
+  );
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
   const onTxtChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setText(e.currentTarget.value);
+    if (props.boxNum === 1) {
+      // korean
+      setText1(e.currentTarget.value);
+    } else {
+      // english
+      setText2(e.currentTarget.value);
+    }
     if (textareaRef && textareaRef.current) {
       textareaRef.current.style.height = "0px";
       const scrollHeight = textareaRef.current.scrollHeight;
@@ -60,7 +69,7 @@ const PreviewBox = (props: Props) => {
         />
         <textarea
           ref={textareaRef}
-          value={text}
+          value={props.boxNum === 1 ? text1 : text2}
           className={`fontSize${props.boxNum} bg-fog w-full`}
           placeholder="Title"
           onChange={onTxtChange}

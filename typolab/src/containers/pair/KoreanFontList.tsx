@@ -94,7 +94,7 @@ font-weight: ${selectedVar};
                   </style>
                 </>
               ) : null}
-              <div className="text-6xl disPlayKrFont">안녕하세요</div>
+              <div className="text-6xl disPlayKrFont">TypoLab</div>
             </div>
             <div className="px-12 py-2 bg-darkGreen rounded-full justify-center items-center inline-flex">
               <div
