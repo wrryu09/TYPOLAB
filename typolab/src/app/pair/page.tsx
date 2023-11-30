@@ -152,6 +152,10 @@ const Pair = (props: Props) => {
 
   return (
     <div className="bg-fog h-full text-darkGreen flex flex-col items-center">
+      <link
+        rel="stylesheet"
+        href={`https://fonts.googleapis.com/css2?family=Inter`}
+      />
       <BackArrow />
       <HatIco width={"25%"} className="rotate-180 self-center top-0 absolute" />
       <SizedBox height={10} />
@@ -186,14 +190,18 @@ const Pair = (props: Props) => {
               putFontData={putLatinFontData}
             />
           ) : null}
-          <link
-            rel="stylesheet"
-            href={`https://fonts.googleapis.com/css2?family=${koreanFont.name}`}
-          />
-          <link
-            rel="stylesheet"
-            href={`https://fonts.googleapis.com/css2?family=${latinFont.name}`}
-          />
+          {koreanFont.name !== "none" ? (
+            <link
+              rel="stylesheet"
+              href={`https://fonts.googleapis.com/css2?family=${koreanFont.name}`}
+            />
+          ) : null}
+          {latinFont.name !== "none" ? (
+            <link
+              rel="stylesheet"
+              href={`https://fonts.googleapis.com/css2?family=${latinFont.name}`}
+            />
+          ) : null}
           <style>
             {`.fontFamily1FontFam{
     font-family: ${koreanFont.name};

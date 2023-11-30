@@ -35,7 +35,11 @@ const PreviewBox = (props: Props) => {
     <div className="w-full flex flex-col items-start gap-y-2 border border-greenGrey px-8 py-4 rounded-lg mb-10">
       <style>{`
               .fontSize${props.boxNum}{
-                font-family: ${props.fontFamily.name};
+                font-family: ${
+                  props.fontFamily.name && props.fontFamily.name !== "none"
+                    ? props.fontFamily.name
+                    : "Inter"
+                };
                 font-weight: ${props.fontFamily.variants};
                 font-size: ${props.fontSize}pt;
               }

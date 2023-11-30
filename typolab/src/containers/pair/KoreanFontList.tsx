@@ -33,10 +33,12 @@ const KoreanFontList = (props: Props) => {
                     setSelectedFont(fontName);
                   }}
                 >
-                  <link
-                    rel="stylesheet"
-                    href={`https://fonts.googleapis.com/css2?family=${fontName.name}`}
-                  />
+                  {fontName.name !== "none" ? (
+                    <link
+                      rel="stylesheet"
+                      href={`https://fonts.googleapis.com/css2?family=${fontName.name}`}
+                    />
+                  ) : null}
                   <style>
                     {`.fontFamilykoreanFontListCss${idx}{
 font-family: ${fontName.name};
@@ -77,10 +79,13 @@ font-family: ${fontName.name};
             <div className="flex-col justify-end items-end flex text-right">
               {selectedFont.name !== "choose" ? (
                 <>
-                  <link
-                    rel="stylesheet"
-                    href={`https://fonts.googleapis.com/css2?family=${selectedFont.name}`}
-                  />
+                  {selectedFont.name !== "none" ? (
+                    <link
+                      rel="stylesheet"
+                      href={`https://fonts.googleapis.com/css2?family=${selectedFont.name}`}
+                    />
+                  ) : null}
+
                   <style>
                     {`.disPlayKrFont{
 font-family: ${selectedFont.name};
