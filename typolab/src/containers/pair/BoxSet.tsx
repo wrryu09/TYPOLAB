@@ -42,11 +42,7 @@ const BoxSet = (props: Props) => {
             />
           )}
         </div>
-      ) : (
-        <div className="flex flex-col items-start">
-          <h1 className="text-4xl">폰트를 선택해주세요!</h1>
-        </div>
-      )}
+      ) : null}
     </div>
   );
 };
