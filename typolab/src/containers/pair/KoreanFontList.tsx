@@ -16,87 +16,114 @@ const KoreanFontList = (props: Props) => {
   const [selectedVar, setSelectedVar] = useState<string>("regular");
 
   return (
-    <div className="absolute flex flex-col z-10 w-full h-full top-0 left-0 items-center justify-start bg-black bg-opacity-80">
-      <h2 className="font-Bayon text-6xl p-8 text-white">Choose your font</h2>
+    <div>
+      {/* modal background */}
       <div
-        className={`w-[90%] h-fit p-8 rounded-lg border border-greenGrey bg-fog flex justify-between`}
-      >
-        <div className="flex w-full justify-between">
-          <div className="flex-col justify-start items-start gap-4 inline-flex">
-            <div className="">Font Family</div>
-            {props.fontList.map((fontName, idx) => {
-              return (
-                <div
-                  key={fontName.name + fontName.variants + idx}
-                  className=""
-                  onClick={() => {
-                    setSelectedFont(fontName);
-                  }}
-                >
-                  {fontName.name !== "none" ? (
-                    <link
-                      rel="stylesheet"
-                      href={`https://fonts.googleapis.com/css2?family=${fontName.name}`}
-                    />
-                  ) : null}
-                  <style>
-                    {`.fontFamilykoreanFontListCss${idx}{
+        className="absolute w-full h-full top-0 left-0 bg-black bg-opacity-80"
+        onClick={() => {
+          props.setShowFontList(false);
+        }}
+      />
+
+      {/* modal */}
+      <div className="absolute w-10/12 left-1/2 top-6 -translate-x-1/2 translate-y-0">
+        {/* CHOOSE YOUR FONT */}
+        <h2 className="font-Bayon text-6xl p-8 text-white">Choose your font</h2>
+
+        <div
+          className={`w-[90%] h-fit p-8 rounded-lg border border-greenGrey bg-fog flex flex-col items-center`}
+        >
+          <div className="flex flex-col mb-12">
+            {/* font family */}
+            <div>
+              <div className="text-greenGrey font-Bayon text-xl mb-4">
+                Font Family
+              </div>
+              <div className="flex flex-wrap justify-start items-start gap-4 mb-12">
+                {props.fontList.map((fontName, idx) => {
+                  return (
+                    <div
+                      key={fontName.name + fontName.variants + idx}
+                      className=""
+                      onClick={() => {
+                        setSelectedFont(fontName);
+                      }}
+                    >
+                      {fontName.name !== "none" ? (
+                        <link
+                          rel="stylesheet"
+                          href={`https://fonts.googleapis.com/css2?family=${fontName.name}`}
+                        />
+                      ) : null}
+                      <style>
+                        {`.fontFamilykoreanFontListCss${idx}{
 font-family: ${fontName.name};
 }`}
-                  </style>
-                  <p
-                    className={`fontFamilykoreanFontListCss${idx} ${
-                      selectedFont.name === fontName.name
-                        ? "text-red"
-                        : "text-darkGreen"
+                      </style>
+                      <p
+                        className={`fontFamilykoreanFontListCss${idx} ${
+                          selectedFont.name === fontName.name
+                            ? "text-red"
+                            : "text-darkGreen"
+                        }`}
+                      >
+                        {fontName.name}
+                      </p>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* variants */}
+            <div className="text-greenGrey font-Bayon text-xl mb-4">
+              Variants
+            </div>
+            <div className="flex justify-start items-start gap-4">
+              {selectedFont.variants.map((variant) => {
+                return (
+                  <div
+                    key={selectedFont + variant + "selectVar"}
+                    className={`${
+                      selectedVar === variant ? "text-red" : "text-darkGreen"
                     }`}
+                    onClick={() => {
+                      setSelectedVar(variant);
+                    }}
                   >
-                    {fontName.name}
-                  </p>
-                </div>
-              );
-            })}
+                    {variant}
+                  </div>
+                );
+              })}
+            </div>
           </div>
-          <div className="flex-col justify-start items-start gap-4 inline-flex">
-            <div className="">Variants</div>
-            {selectedFont.variants.map((variant) => {
-              return (
-                <div
-                  key={selectedFont + variant + "selectVar"}
-                  className={`${
-                    selectedVar === variant ? "text-red" : "text-darkGreen"
-                  }`}
-                  onClick={() => {
-                    setSelectedVar(variant);
-                  }}
-                >
-                  {variant}
-                </div>
-              );
-            })}
-          </div>
+
+          {/* font preview */}
           <div className="flex-col items-end justify-between inline-flex">
             <div className="flex-col justify-end items-end flex text-right">
-              {selectedFont.name !== "choose" ? (
+              {selectedFont.name !== "none" ? (
                 <>
-                  {selectedFont.name !== "none" ? (
-                    <link
-                      rel="stylesheet"
-                      href={`https://fonts.googleapis.com/css2?family=${selectedFont.name}`}
-                    />
-                  ) : null}
-
+                  <link
+                    rel="stylesheet"
+                    href={`https://fonts.googleapis.com/css2?family=${selectedFont.name}`}
+                  />
                   <style>
                     {`.disPlayKrFont{
 font-family: ${selectedFont.name};
 font-weight: ${selectedVar};
 }`}
                   </style>
+                  <div className="text-6xl disPlayKrFont mb-20">TypoLab</div>
                 </>
               ) : null}
-              <div className="text-6xl disPlayKrFont">TypoLab</div>
             </div>
-            <div className="px-12 py-2 bg-darkGreen rounded-full justify-center items-center inline-flex">
+          </div>
+
+          {/* OK Btn */}
+          {selectedFont.name !== "none" ? (
+            <div
+              className={`hover:bg-red w-10/12 px-12 py-2 bg-darkGreen rounded-full justify-center items-center inline-flex`}
+            >
               <div
                 className="text-center text-white text-7xl font-['Bayon']"
                 onClick={() => {
@@ -114,7 +141,20 @@ font-weight: ${selectedVar};
                 ok
               </div>
             </div>
-          </div>
+          ) : (
+            <div
+              className={`hover:bg-red px-12 py-2 bg-darkGreen rounded-full justify-center items-center inline-flex`}
+            >
+              <div
+                className="text-center text-white text-7xl font-['Bayon']"
+                onClick={() => {
+                  props.setShowFontList(false);
+                }}
+              >
+                close
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
