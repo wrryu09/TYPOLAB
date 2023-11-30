@@ -99,7 +99,6 @@ const Pair = (props: Props) => {
         .then((res) => {
           console.log(res);
           setInferredLationFont(res);
-          setShowLatinRecModal(true);
         })
         .catch((err) => {
           console.log(err);
