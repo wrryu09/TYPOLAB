@@ -44,7 +44,10 @@ const BoxCard = (props: Props) => {
           if (weight === "400") {
             weight = "regular";
           }
-          const downloadUrl = res.data.items[0].files[weight];
+          const downloadUrl = res.data.items[0].files[weight].replace(
+            "http:",
+            ""
+          );
           const a = document.createElement("a");
           a.href = downloadUrl;
           a.click();
