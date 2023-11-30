@@ -226,23 +226,25 @@ const Pair = (props: Props) => {
             fontSetNum={1}
           />
 
-          {/* 2nd set */}
-          <div>
-            {inferredLatinFont[0].fontName === "none" ? (
-              <div className="flex flex-col items-start">
-                <h1 className="text-4xl">추천 영문 폰트</h1>
-                <p>국문 폰트를 선택하세요</p>
-              </div>
-            ) : (
-              <FontSet
-                Font={latinFont}
-                selectedInfo={selectedScndInfo}
-                setShowFontList={setShowLatinRecModal}
-                showFontList={showLatinRecModal}
-                fontSetNum={2}
-              />
-            )}
-          </div>
+          {koreanFont.name !== "none" ? (
+            <div>
+              {/* 2nd set */}
+              {inferredLatinFont[0].fontName === "none" ? (
+                <div className="flex flex-col items-start">
+                  <h1 className="text-4xl">추천 영문 폰트</h1>
+                  <p>국문 폰트를 선택하세요</p>
+                </div>
+              ) : (
+                <FontSet
+                  Font={latinFont}
+                  selectedInfo={selectedScndInfo}
+                  setShowFontList={setShowLatinRecModal}
+                  showFontList={showLatinRecModal}
+                  fontSetNum={2}
+                />
+              )}
+            </div>
+          ) : null}
         </div>
 
         {/* font display box */}
