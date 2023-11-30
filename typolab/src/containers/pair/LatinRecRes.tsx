@@ -21,7 +21,7 @@ const LatinRecRes = (props: Props) => {
       <div className="w-[90%] p-8 rounded-lg border border-greenGrey bg-fog flex justify-between text-darkGreen">
         <div className="flex w-full justify-between">
           <div className="flex-col justify-start items-start gap-4 inline-flex">
-            <div className="flex gap-2">
+            <div className="flex gap-2 text-greenGrey font-Bayon text-xl mb-4">
               <div>No.</div>
               <div>Font</div>
               <div>Variant</div>
@@ -84,20 +84,35 @@ font-weight: ${selectedFont.variants};
 
               <div className="text-6xl latinFontCss">TypoLab</div>
             </div>
-            <div className="px-12 py-2 bg-darkGreen rounded-full justify-center items-center inline-flex">
-              <div
-                className="text-center text-white text-7xl font-['Bayon']"
-                onClick={() => {
-                  if (selectedFont.name !== "none") {
-                    props.setLatinFont(selectedFont);
-                    props.putFontData(selectedFont.name);
-                  }
-                  props.setShowLatinRecModal(false);
-                }}
-              >
-                ok
+
+            {/* OK Btn */}
+            {selectedFont.name !== "none" ? (
+              <div className="px-12 py-2 bg-darkGreen rounded-full justify-center items-center inline-flex">
+                <div
+                  className="text-center text-white text-7xl font-['Bayon']"
+                  onClick={() => {
+                    if (selectedFont.name !== "none") {
+                      props.setLatinFont(selectedFont);
+                      props.putFontData(selectedFont.name);
+                    }
+                    props.setShowLatinRecModal(false);
+                  }}
+                >
+                  ok
+                </div>
               </div>
-            </div>
+            ) : (
+              <div className="hover:bg-red px-12 py-2 bg-darkGreen rounded-full justify-center items-center inline-flex">
+                <div
+                  className="text-center text-white text-7xl font-['Bayon']"
+                  onClick={() => {
+                    props.setShowLatinRecModal(false);
+                  }}
+                >
+                  ClOSE
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
