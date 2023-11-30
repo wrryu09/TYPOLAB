@@ -29,28 +29,44 @@ const LatinRecRes = (props: Props) => {
             </div>
             {props.inferredLatinFont.map((ele, idx) => {
               return (
-                <div
-                  key={
-                    ele.fontName + ele.fontVar + ele.fontScore + "inferredLatin"
-                  }
-                  className={`${
-                    selectedFont.name === ele.fontName &&
-                    selectedFont.variants === ele.fontVar
-                      ? "text-red"
-                      : "text-darkGreen"
-                  } flex gap-2`}
-                  onClick={() => {
-                    setSelectedFont({
-                      name: ele.fontName,
-                      variants: ele.fontVar,
-                    });
-                  }}
-                >
-                  <div>{idx}</div>
-                  <div>{ele.fontName}</div>
-                  <div>{ele.fontVar}</div>
-                  <div>{ele.fontScore}</div>
-                </div>
+                <>
+                  {ele.fontName !== "none" ? (
+                    <link
+                      rel="stylesheet"
+                      href={`https://fonts.googleapis.com/css2?family=${ele.fontName}`}
+                    />
+                  ) : null}
+                  <style>
+                    {`.fontFamilylatinFontListCss${idx}{
+font-family: ${ele.fontName};
+}`}
+                  </style>
+                  <div
+                    key={
+                      ele.fontName +
+                      ele.fontVar +
+                      ele.fontScore +
+                      "inferredLatin"
+                    }
+                    className={`${
+                      selectedFont.name === ele.fontName &&
+                      selectedFont.variants === ele.fontVar
+                        ? "text-red"
+                        : "text-darkGreen"
+                    } flex gap-2 fontFamilylatinFontListCss${idx}`}
+                    onClick={() => {
+                      setSelectedFont({
+                        name: ele.fontName,
+                        variants: ele.fontVar,
+                      });
+                    }}
+                  >
+                    <div>{idx}</div>
+                    <div>{ele.fontName}</div>
+                    <div>{ele.fontVar}</div>
+                    <div>{Number(ele.fontScore.toFixed(5)) * 100}%</div>
+                  </div>
+                </>
               );
             })}
           </div>
@@ -66,7 +82,7 @@ font-family: ${props.koreanFont.name};
 font-weight: ${props.koreanFont.variants};
 }`}
               </style>
-              <div className="text-6xl koreanFontCss">안녕하세요</div>
+              <div className="text-6xl koreanFontCss">타이포랩!</div>
               {selectedFont.name !== "none" ? (
                 <>
                   <link
@@ -79,36 +95,35 @@ font-family: ${selectedFont.name};
 font-weight: ${selectedFont.variants};
 }`}
                   </style>
+                  <div className="text-6xl latinFontCss">TypoLab</div>
                 </>
               ) : null}
-
-              <div className="text-6xl latinFontCss">TypoLab</div>
             </div>
 
             {/* OK Btn */}
             {selectedFont.name !== "none" ? (
-              <div className="px-12 py-2 bg-darkGreen rounded-full justify-center items-center inline-flex">
-                <div
-                  className="text-center text-white text-7xl font-['Bayon']"
-                  onClick={() => {
-                    if (selectedFont.name !== "none") {
-                      props.setLatinFont(selectedFont);
-                      props.putFontData(selectedFont.name);
-                    }
-                    props.setShowLatinRecModal(false);
-                  }}
-                >
+              <div
+                className="hover:bg-red px-12 py-2 bg-darkGreen rounded-full justify-center items-center inline-flex"
+                onClick={() => {
+                  if (selectedFont.name !== "none") {
+                    props.setLatinFont(selectedFont);
+                    props.putFontData(selectedFont.name);
+                  }
+                  props.setShowLatinRecModal(false);
+                }}
+              >
+                <div className="text-center text-white text-7xl font-['Bayon']">
                   ok
                 </div>
               </div>
             ) : (
-              <div className="hover:bg-red px-12 py-2 bg-darkGreen rounded-full justify-center items-center inline-flex">
-                <div
-                  className="text-center text-white text-7xl font-['Bayon']"
-                  onClick={() => {
-                    props.setShowLatinRecModal(false);
-                  }}
-                >
+              <div
+                className="hover:bg-red px-12 py-2 bg-darkGreen rounded-full justify-center items-center inline-flex"
+                onClick={() => {
+                  props.setShowLatinRecModal(false);
+                }}
+              >
+                <div className="text-center text-white text-7xl font-['Bayon']">
                   ClOSE
                 </div>
               </div>
