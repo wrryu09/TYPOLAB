@@ -123,34 +123,30 @@ font-weight: ${selectedVar};
           {selectedFont.name !== "none" ? (
             <div
               className={`hover:bg-red w-10/12 px-12 py-2 bg-darkGreen rounded-full justify-center items-center inline-flex`}
+              onClick={() => {
+                // set font if only selected
+                if (selectedFont.name !== "none") {
+                  props.setFont({
+                    name: selectedFont.name,
+                    variants: selectedVar,
+                  });
+                  props.putFontData(selectedFont.name);
+                }
+                props.setShowFontList(false);
+              }}
             >
-              <div
-                className="text-center text-white text-7xl font-['Bayon']"
-                onClick={() => {
-                  // set font if only selected
-                  if (selectedFont.name !== "none") {
-                    props.setFont({
-                      name: selectedFont.name,
-                      variants: selectedVar,
-                    });
-                    props.putFontData(selectedFont.name);
-                  }
-                  props.setShowFontList(false);
-                }}
-              >
+              <div className="text-center text-white text-7xl font-['Bayon']">
                 ok
               </div>
             </div>
           ) : (
             <div
               className={`hover:bg-red px-12 py-2 bg-darkGreen rounded-full justify-center items-center inline-flex`}
+              onClick={() => {
+                props.setShowFontList(false);
+              }}
             >
-              <div
-                className="text-center text-white text-7xl font-['Bayon']"
-                onClick={() => {
-                  props.setShowFontList(false);
-                }}
-              >
+              <div className="text-center text-white text-7xl font-['Bayon']">
                 close
               </div>
             </div>

@@ -24,7 +24,7 @@ const MainPage = (): JSX.Element => {
         height={32}
         className="mobile:ml-4 mobile:w-6 ml-8 pt-4 fill-darkGreen"
       />
-      <div className="flex flex-col items-center pb-[16rem]">
+      <div className="flex flex-col items-center">
         <p className="pb-[32rem]">BEST FONT PAIRING FOR YOUR SERVICE</p>
 
         {/* main btn */}
