@@ -16,8 +16,8 @@ type Props = {
 
 const BoxSection = (props: Props) => {
   return (
-    <div className="w-full mb-60">
-      <h1 className={props.subTitleStyle}>ADD TO YOUR BOX</h1>
+    <div className="w-full py-20 mb-60 bg-gradient-to-tr from-[#4f93ab0b] to-[#b66f441f] border-4 border-lightGrey rounded-3xl shadow-xl">
+      <h1 className={`${props.subTitleStyle} mb-10`}>ADD TO YOUR BOX</h1>
       <div className="flex flex-col items-center gap-y-6">
         {/* 1st set */}
         <BoxSet
