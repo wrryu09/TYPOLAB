@@ -10,6 +10,7 @@ type Props = {
 };
 
 const BoxCard = (props: Props) => {
+  const [isAliasSaved, setIsAliasSaved] = useState(false);
   const [fontAlias, setFontAlias] = useState<string>(
     props.fontSet.alias ? props.fontSet.alias : ""
   );
@@ -32,6 +33,11 @@ const BoxCard = (props: Props) => {
           item.alias = fontAlias;
         }
       });
+      if (fontAlias === "") {
+        setIsAliasSaved(false);
+      } else {
+        setIsAliasSaved(true);
+      }
       localStorage.setItem("box", JSON.stringify(boxItemList));
     }
   };
@@ -100,11 +106,17 @@ const BoxCard = (props: Props) => {
             value={fontAlias}
             onChange={onAliasChange}
           />
+
+          {/* save btn */}
           <button
-            className="bg-darkGreen text-white hover:bg-yellow hover:text-darkGreen py-2 px-4 rounded-full"
+            className={`${
+              isAliasSaved
+                ? "bg-yellow text-darkGreen"
+                : "bg-darkGreen text-white"
+            } hover:bg-yellow hover:text-darkGreen py-2 px-4 rounded-full`}
             onClick={saveAlias}
           >
-            save
+            {isAliasSaved ? "saved!" : "save"}
           </button>
         </div>
       </div>
