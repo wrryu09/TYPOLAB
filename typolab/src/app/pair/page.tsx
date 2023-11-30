@@ -65,6 +65,9 @@ const Pair = (props: Props) => {
   // select latin font above recommendation
   const [showLatinRecModal, setShowLatinRecModal] = useState(false);
 
+  // view guide section
+  const [showGuide, setShowGuide] = useState(false);
+
   // all korean fonts list from db
   const [koreanFontList, setKoreanFontList] = useState<FontNameNVar[]>([]);
 
@@ -297,29 +300,41 @@ const Pair = (props: Props) => {
 
         {/* user guide section */}
         <div className="mb-40">
-          <h1 className={subTitleStyle}>HOW TO USE</h1>
-          <div className="flex flex-wrap gap-2 mb-10">
-            {/* 해당되는 태그만 보이기 */}
-            {tagList.map((tag) => {
-              return (
-                <div key={tag.id + tag.name + "selected"}>
-                  {tag.selected === true ? (
-                    <h1
-                      className={`px-3 py-1 border border-lightGrey rounded-md flex shrink-0 justify-center
+          {/* view guide */}
+          {showGuide ? (
+            <div>
+              <h1 className={subTitleStyle}>HOW TO USE</h1>
+              <div className="flex flex-wrap gap-2 mb-10">
+                {/* 해당되는 태그만 보이기 */}
+                {tagList.map((tag) => {
+                  return (
+                    <div key={tag.id + tag.name + "selected"}>
+                      {tag.selected === true ? (
+                        <h1
+                          className={`px-3 py-1 border border-lightGrey rounded-md flex shrink-0 justify-center
                   bg-fog
                 `}
-                    >
-                      {tag.name}
-                    </h1>
-                  ) : null}
-                </div>
-              );
-            })}
-          </div>
-          <p>
-            happy happyhappy happyhappy happyhappy happyhappy happyhappy
-            happyhappy happy
-          </p>
+                        >
+                          {tag.name}
+                        </h1>
+                      ) : null}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          ) : (
+            <div
+              className="mb-40 px-12 py-4 bg-darkGreen hover:bg-red rounded-full justify-center items-center inline-flex"
+              onClick={() => {
+                setShowGuide(true);
+              }}
+            >
+              <p className="text-center text-white text-7xl font-['Bayon']">
+                view guide
+              </p>
+            </div>
+          )}
         </div>
       </div>
       <SizedBox height={20} />
