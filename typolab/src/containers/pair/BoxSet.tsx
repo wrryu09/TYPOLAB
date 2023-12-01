@@ -21,7 +21,7 @@ const BoxSet = (props: Props) => {
               {props.font.name}
             </h1>
             <p>
-              {props.font.variants}, {props.displaySize}
+              {props.font.variants}, {props.displaySize}pt
             </p>
           </div>
           {props.isInBox ? (

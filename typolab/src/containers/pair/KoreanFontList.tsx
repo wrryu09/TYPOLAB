@@ -39,12 +39,12 @@ const KoreanFontList = (props: Props) => {
               <div className="text-greenGrey font-Bayon text-xl mb-4">
                 Font Family
               </div>
-              <div className="flex flex-wrap justify-start items-start gap-4 mb-12">
+              <div className="flex flex-wrap justify-start items-start gap-2 mb-12">
                 {props.fontList.map((fontName, idx) => {
                   return (
                     <div
                       key={fontName.name + fontName.variants + idx}
-                      className=""
+                      className="py-2 px-4"
                       onClick={() => {
                         setSelectedFont(fontName);
                       }}

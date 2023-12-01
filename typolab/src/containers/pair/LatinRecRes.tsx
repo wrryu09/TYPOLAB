@@ -64,7 +64,7 @@ font-family: ${ele.fontName};
                     <div>{idx}</div>
                     <div>{ele.fontName}</div>
                     <div>{ele.fontVar}</div>
-                    <div>{Number(ele.fontScore.toFixed(5)) * 100}%</div>
+                    <div>{ele.fontScore.toFixed(3)}%</div>
                   </div>
                 </>
               );
@@ -82,7 +82,7 @@ font-family: ${props.koreanFont.name};
 font-weight: ${props.koreanFont.variants};
 }`}
               </style>
-              <div className="text-6xl koreanFontCss">타이포랩!</div>
+              <div className="text-6xl koreanFontCss pb-4">타이포랩!</div>
               {selectedFont.name !== "none" ? (
                 <>
                   <link
@@ -95,7 +95,7 @@ font-family: ${selectedFont.name};
 font-weight: ${selectedFont.variants};
 }`}
                   </style>
-                  <div className="text-6xl latinFontCss">TypoLab</div>
+                  <div className="text-6xl latinFontCss">TypoLab!</div>
                 </>
               ) : null}
             </div>
