@@ -31,21 +31,34 @@ type Props = {};
 const Pair = (props: Props) => {
   const subTitleStyle = "font-Bayon text-6xl pb-8";
 
-  const [tagList, setTagList] = useState<Tag[]>([
-    { id: 1, name: "#이화여자대학교", selected: true },
-    { id: 2, name: "#도전학기제", selected: true },
-    { id: 3, name: "#16기", selected: false },
-    { id: 4, name: "#타이포랩", selected: true },
-    { id: 5, name: "#발표자료에좋은", selected: true },
-    { id: 6, name: "#코딩하기좋은", selected: true },
-  ]);
+  const [tagList, setTagList] = useState<{ classTag: Tag[]; useTag: Tag[] }>({
+    classTag: [
+      { id: 1, name: "Display", selected: false },
+      { id: 2, name: "Handwriting", selected: false },
+      { id: 3, name: "Monospace", selected: false },
+    ],
+    useTag: [
+      { id: 4, name: "Arrows", selected: false },
+      { id: 5, name: "Spacing Modifier", selected: false },
+      { id: 6, name: "Math Operators", selected: false },
+      { id: 7, name: "Misc Symbols", selected: false },
+      { id: 8, name: "Kangxi Radicals", selected: false },
+    ],
+  });
 
   const [displayFirstSize, setDisplayFirstSize] = useState(32);
   const [displayScndSize, setDisplayScndSize] = useState(32);
 
   function handleTagSelection(tagId: number) {
-    const tagArr = [...tagList];
-    tagList.forEach((tag) => {
+    const tagArr = { ...tagList };
+    tagArr.classTag.forEach((tag) => {
+      if (tag.id === tagId) {
+        tag.selected = !tag.selected;
+      }else{
+        tag.selected = false;
+      }
+    });
+    tagArr.useTag.forEach((tag) => {
       if (tag.id === tagId) {
         tag.selected = !tag.selected;
       }
@@ -342,7 +355,22 @@ const Pair = (props: Props) => {
                       <h1 className={subTitleStyle}>HOW TO USE</h1>
                       <div className="flex flex-wrap gap-2 mb-10">
                         {/* 해당되는 태그만 보이기 */}
-                        {tagList.map((tag) => {
+                        {tagList.classTag.map((tag) => {
+                          return (
+                            <div key={tag.id + tag.name + "selected"}>
+                              {tag.selected === true ? (
+                                <h1
+                                  className={`px-3 py-1 border border-lightGrey rounded-md flex shrink-0 justify-center
+                  bg-fog
+                `}
+                                >
+                                  {tag.name}
+                                </h1>
+                              ) : null}
+                            </div>
+                          );
+                        })}
+                        {tagList.useTag.map((tag) => {
                           return (
                             <div key={tag.id + tag.name + "selected"}>
                               {tag.selected === true ? (
