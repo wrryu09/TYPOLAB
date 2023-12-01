@@ -21,12 +21,14 @@ const FontSet = (props: Props) => {
       }}
     >
       {props.Font.name === "none" ? (
-        <div className="flex flex-col items-start">
-          <h1 className="text-4xl">국문 폰트 선택</h1>
-          <p>선택 가능 폰트 보기</p>
+        <div className="hover:bg-red flex text-white bg-darkGreen px-12 py-6 rounded-full justify-center items-center shadow-lg">
+          <h1 className="text-4xl font-semibold">
+            {props.fontSetNum === 1 ? "한글 폰트 선택하기" : "추천 영문 폰트"}
+          </h1>
         </div>
       ) : (
         <div className="flex flex-col items-start">
+          {props.fontSetNum === 1 ? "국문 폰트" : "영문 폰트"}
           <h1 className={`text-4xl fontFamily${props.fontSetNum}FontFam`}>
             {props.Font.name} {props.Font.variants}
           </h1>

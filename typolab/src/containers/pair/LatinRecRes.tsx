@@ -21,7 +21,7 @@ const LatinRecRes = (props: Props) => {
       <div className="w-[90%] p-8 rounded-lg border border-greenGrey bg-fog flex justify-between text-darkGreen">
         <div className="flex w-full justify-between">
           <div className="flex-col justify-start items-start gap-4 inline-flex">
-            <div className="flex gap-2">
+            <div className="flex gap-2 text-greenGrey font-Bayon text-xl mb-4">
               <div>No.</div>
               <div>Font</div>
               <div>Variant</div>
@@ -29,28 +29,44 @@ const LatinRecRes = (props: Props) => {
             </div>
             {props.inferredLatinFont.map((ele, idx) => {
               return (
-                <div
-                  key={
-                    ele.fontName + ele.fontVar + ele.fontScore + "inferredLatin"
-                  }
-                  className={`${
-                    selectedFont.name === ele.fontName &&
-                    selectedFont.variants === ele.fontVar
-                      ? "text-red"
-                      : "text-darkGreen"
-                  } flex gap-2`}
-                  onClick={() => {
-                    setSelectedFont({
-                      name: ele.fontName,
-                      variants: ele.fontVar,
-                    });
-                  }}
-                >
-                  <div>{idx}</div>
-                  <div>{ele.fontName}</div>
-                  <div>{ele.fontVar}</div>
-                  <div>{ele.fontScore}</div>
-                </div>
+                <>
+                  {ele.fontName !== "none" ? (
+                    <link
+                      rel="stylesheet"
+                      href={`https://fonts.googleapis.com/css2?family=${ele.fontName}`}
+                    />
+                  ) : null}
+                  <style>
+                    {`.fontFamilylatinFontListCss${idx}{
+font-family: ${ele.fontName};
+}`}
+                  </style>
+                  <div
+                    key={
+                      ele.fontName +
+                      ele.fontVar +
+                      ele.fontScore +
+                      "inferredLatin"
+                    }
+                    className={`${
+                      selectedFont.name === ele.fontName &&
+                      selectedFont.variants === ele.fontVar
+                        ? "text-red"
+                        : "text-darkGreen"
+                    } flex gap-2 fontFamilylatinFontListCss${idx}`}
+                    onClick={() => {
+                      setSelectedFont({
+                        name: ele.fontName,
+                        variants: ele.fontVar,
+                      });
+                    }}
+                  >
+                    <div>{idx}</div>
+                    <div>{ele.fontName}</div>
+                    <div>{ele.fontVar}</div>
+                    <div>{ele.fontScore.toFixed(3)}%</div>
+                  </div>
+                </>
               );
             })}
           </div>
@@ -66,7 +82,7 @@ font-family: ${props.koreanFont.name};
 font-weight: ${props.koreanFont.variants};
 }`}
               </style>
-              <div className="text-6xl koreanFontCss">안녕하세요</div>
+              <div className="text-6xl koreanFontCss pb-4">타이포랩!</div>
               {selectedFont.name !== "none" ? (
                 <>
                   <link
@@ -79,14 +95,15 @@ font-family: ${selectedFont.name};
 font-weight: ${selectedFont.variants};
 }`}
                   </style>
+                  <div className="text-6xl latinFontCss">TypoLab!</div>
                 </>
               ) : null}
-
-              <div className="text-6xl latinFontCss">TypoLab</div>
             </div>
-            <div className="px-12 py-2 bg-darkGreen rounded-full justify-center items-center inline-flex">
+
+            {/* OK Btn */}
+            {selectedFont.name !== "none" ? (
               <div
-                className="text-center text-white text-7xl font-['Bayon']"
+                className="hover:bg-red px-12 py-2 bg-darkGreen rounded-full justify-center items-center inline-flex"
                 onClick={() => {
                   if (selectedFont.name !== "none") {
                     props.setLatinFont(selectedFont);
@@ -95,9 +112,22 @@ font-weight: ${selectedFont.variants};
                   props.setShowLatinRecModal(false);
                 }}
               >
-                ok
+                <div className="text-center text-white text-7xl font-['Bayon']">
+                  ok
+                </div>
               </div>
-            </div>
+            ) : (
+              <div
+                className="hover:bg-red px-12 py-2 bg-darkGreen rounded-full justify-center items-center inline-flex"
+                onClick={() => {
+                  props.setShowLatinRecModal(false);
+                }}
+              >
+                <div className="text-center text-white text-7xl font-['Bayon']">
+                  ClOSE
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

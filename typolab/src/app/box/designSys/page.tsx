@@ -70,13 +70,13 @@ const DesignSys = (props: Props) => {
         <div className="w-full flex flex-col text-center items-center justify-center">
           <h1 className={subTitleStyle}>DESIGN SYSTEM</h1>
           {/* white box */}
-          <div ref={designSysRef} className="w-max h-max">
+          <div ref={designSysRef} className="w-full h-max">
             <div className="w-full flex flex-col bg-white px-8 py-14 rounded-lg">
               {boxContent.map((font: FontSet, idx) => {
                 return (
                   <div
                     key={font.family + font.size + font.weight + "designSys"}
-                    className="w-full relative flex text-darkGreen gap-8"
+                    className="w-full relative flex text-darkGreen gap-10"
                   >
                     <link
                       rel="stylesheet"
@@ -89,9 +89,12 @@ font-family: ${font.family};
 font-weight: ${font.weight};
 }`}
                     </style>
-                    <div className="text-right text-sm font-normal font-['Noto Sans']">
+                    {/* alias */}
+                    <div className="w-1/4 text-right text-sm font-normal font-['Noto Sans']">
                       {font.alias ? font.alias : "-"}
                     </div>
+
+                    {/* fonts */}
                     <div className="w-full flex-col justify-start items-start gap-2 inline-flex">
                       <div className="justify-start items-start gap-3 inline-flex text-sm font-normal">
                         {font.weight} {font.size}pt

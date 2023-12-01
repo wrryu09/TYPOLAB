@@ -11,6 +11,7 @@ const TagSection = (props: Props) => {
   return (
     <div>
       <h1 className={props.subTitleStyle}>TAG</h1>
+      <p className="font-semibold py-4">한글 폰트에 적용할 태그 선택</p>
       <div className="flex flex-wrap gap-2 mb-40">
         {props.tagList.map((tag) => {
           return (

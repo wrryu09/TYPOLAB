@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 const Footer = () => {
   const router = useRouter();
   return (
-    <div className="w-full">
+    <div className="w-full mb-20 flex flex-col justify-center items-start">
       <div className="pl-8 mobile:pl-4">
         <Wrapper type="col">
           <div
@@ -23,11 +23,13 @@ const Footer = () => {
             <RightArrowIco className="w-1/12 mobile:w-12 tablet:w-24" />
           </div>
           <SizedBox height={1} />
-          <TypoLabIco width={'30%'} className="mobile:w-48 tablet:w-64" />
+          <TypoLabIco width={"30%"} className="mobile:w-48 tablet:w-64" />
         </Wrapper>
       </div>
       <SizedBox height={1} />
-      <FullLine color="darkGreen" />
+      <div className="w-full flex justify-center">
+        <FullLine color="darkGreen" />
+      </div>
       <SizedBox height={1} />
       <div className="pl-8">
         <Wrapper type="col">

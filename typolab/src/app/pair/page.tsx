@@ -99,7 +99,6 @@ const Pair = (props: Props) => {
         .then((res) => {
           console.log(res);
           setInferredLationFont(res);
-          setShowLatinRecModal(true);
         })
         .catch((err) => {
           console.log(err);
@@ -164,12 +163,28 @@ const Pair = (props: Props) => {
       <SizedBox height={10} />
 
       <div className="w-10/12 flex flex-col text-center items-center justify-center">
-        {/* tag section */}
-        <TagSection
-          handleTagSelection={handleTagSelection}
-          subTitleStyle={subTitleStyle}
-          tagList={tagList}
-        />
+        {koreanFont.name !== "none" ? (
+          <div
+            className="hover:bg-red hover:border-darkGreen self-start text-darkGreen border-2 bg-lightGrey border-greenGrey font-semibold text-xl px-4 py-2 mb-10 rounded-full"
+            onClick={() => {
+              setKoreanFont({ name: "none", variants: "none" });
+              setLatinFont({ name: "none", variants: "none" });
+              setSelectedFirstInfo(fontInfoFromDBDummyData);
+              setSelectedScndInfo(fontInfoFromDBDummyData);
+            }}
+          >
+            다시 선택하기
+          </div>
+        ) : (
+          <>
+            {/* tag section */}
+            <TagSection
+              handleTagSelection={handleTagSelection}
+              subTitleStyle={subTitleStyle}
+              tagList={tagList}
+            />
+          </>
+        )}
 
         {/* font section */}
         <div className="flex self-start gap-32 mb-40">
@@ -226,116 +241,130 @@ const Pair = (props: Props) => {
             fontSetNum={1}
           />
 
-          {/* 2nd set */}
-          <div>
-            {inferredLatinFont[0].fontName === "none" ? (
-              <div className="flex flex-col items-start">
-                <h1 className="text-4xl">추천 영문 폰트</h1>
-                <p>국문 폰트를 선택하세요</p>
-              </div>
-            ) : (
-              <FontSet
-                Font={latinFont}
-                selectedInfo={selectedScndInfo}
-                setShowFontList={setShowLatinRecModal}
-                showFontList={showLatinRecModal}
-                fontSetNum={2}
-              />
-            )}
-          </div>
+          {koreanFont.name !== "none" ? (
+            <div>
+              {/* 2nd set */}
+              {inferredLatinFont[0].fontName === "none" ? (
+                <div className="flex flex-col items-start">
+                  <h1 className="text-4xl">추천 영문 폰트</h1>
+                  <p>국문 폰트를 선택하세요</p>
+                </div>
+              ) : (
+                <FontSet
+                  Font={latinFont}
+                  selectedInfo={selectedScndInfo}
+                  setShowFontList={setShowLatinRecModal}
+                  showFontList={showLatinRecModal}
+                  fontSetNum={2}
+                />
+              )}
+            </div>
+          ) : null}
         </div>
 
         {/* font display box */}
         <div className="flex flex-col w-full mb-40">
-          <PreviewBox
-            fontSize={displayFirstSize}
-            setFontSize={setDisplayFirstSize}
-            fontFamily={koreanFont}
-            boxNum={1}
-          />
-          <PreviewBox
-            fontSize={displayScndSize}
-            setFontSize={setDisplayScndSize}
-            fontFamily={latinFont}
-            boxNum={2}
-          />
+          {koreanFont.name !== "none" ? (
+            <PreviewBox
+              fontSize={displayFirstSize}
+              setFontSize={setDisplayFirstSize}
+              fontFamily={koreanFont}
+              boxNum={1}
+            />
+          ) : null}
+          {latinFont.name !== "none" ? (
+            <PreviewBox
+              fontSize={displayScndSize}
+              setFontSize={setDisplayScndSize}
+              fontFamily={latinFont}
+              boxNum={2}
+            />
+          ) : null}
         </div>
 
-        {/* box section */}
-        <BoxSection
-          displayFirstSize={displayFirstSize}
-          displayScndSize={displayScndSize}
-          firstInBox={firstInBox}
-          koreanFont={koreanFont}
-          latinFont={latinFont}
-          scndInBox={scndInBox}
-          setFirstInBox={setFirstInBox}
-          setScndInBox={setScndInBox}
-          subTitleStyle={subTitleStyle}
-        />
+        {koreanFont.name !== "none" || latinFont.name !== "none" ? (
+          <>
+            {/* box section */}
+            <BoxSection
+              displayFirstSize={displayFirstSize}
+              displayScndSize={displayScndSize}
+              firstInBox={firstInBox}
+              koreanFont={koreanFont}
+              latinFont={latinFont}
+              scndInBox={scndInBox}
+              setFirstInBox={setFirstInBox}
+              setScndInBox={setScndInBox}
+              subTitleStyle={subTitleStyle}
+            />
 
-        {/* font info section */}
-        <div className="mb-96">
-          <h1 className={`${subTitleStyle} mb-40`}>FONT INFO</h1>
-          {/* FONT CARDS */}
-          <div className="relative w-screen flex">
-            <div className="flex flex-wrap gap-4 z-10 absolute left-1/2 -translate-x-1/2 -top-32">
-              {/* first FontCard */}
-              {selectedFirstInfo.family !== "none" ? (
-                <FontCard
-                  idx={0}
-                  data={convertFontDBDatatoFontInfo(selectedFirstInfo)}
-                />
-              ) : null}
-              {selectedScndInfo.family !== "none" ? (
-                <FontCard
-                  idx={1}
-                  data={convertFontDBDatatoFontInfo(selectedScndInfo)}
-                />
-              ) : null}
-            </div>
-            <HatIco className="left-0 right-0 absolute" />
-          </div>
-        </div>
-
-        {/* user guide section */}
-        <div className="mb-40">
-          {/* view guide */}
-          {showGuide ? (
-            <div>
-              <h1 className={subTitleStyle}>HOW TO USE</h1>
-              <div className="flex flex-wrap gap-2 mb-10">
-                {/* 해당되는 태그만 보이기 */}
-                {tagList.map((tag) => {
-                  return (
-                    <div key={tag.id + tag.name + "selected"}>
-                      {tag.selected === true ? (
-                        <h1
-                          className={`px-3 py-1 border border-lightGrey rounded-md flex shrink-0 justify-center
-                  bg-fog
-                `}
-                        >
-                          {tag.name}
-                        </h1>
-                      ) : null}
-                    </div>
-                  );
-                })}
+            {/* font info section */}
+            <div className="mb-96">
+              <h1 className={`${subTitleStyle} mb-40`}>FONT INFO</h1>
+              {/* FONT CARDS */}
+              <div className="relative w-screen flex">
+                <div className="flex flex-wrap gap-4 z-10 absolute left-1/2 -translate-x-1/2 -top-32">
+                  {/* first FontCard */}
+                  {selectedFirstInfo.family !== "none" ? (
+                    <FontCard
+                      idx={0}
+                      data={convertFontDBDatatoFontInfo(selectedFirstInfo)}
+                    />
+                  ) : null}
+                  {selectedScndInfo.family !== "none" ? (
+                    <FontCard
+                      idx={1}
+                      data={convertFontDBDatatoFontInfo(selectedScndInfo)}
+                    />
+                  ) : null}
+                </div>
+                <HatIco className="left-0 right-0 absolute" />
               </div>
             </div>
-          ) : (
-            <div
-              className="mb-40 px-12 py-4 bg-darkGreen hover:bg-red rounded-full justify-center items-center inline-flex"
-              onClick={() => {
-                setShowGuide(true);
-              }}
-            >
-              <p className="text-center text-white text-7xl font-['Bayon']">
-                view guide
-              </p>
+
+            {/* user guide section */}
+            <div className="mt-40 mb-40">
+              {/* view guide */}
+              {koreanFont.name !== "none" && latinFont.name !== "none" ? (
+                <div>
+                  {!showGuide ? (
+                    <div
+                      className="mb-40 px-12 py-4 bg-darkGreen hover:bg-red rounded-full justify-center items-center inline-flex"
+                      onClick={() => {
+                        setShowGuide(true);
+                      }}
+                    >
+                      <p className="text-center text-white text-7xl font-['Bayon']">
+                        view guide
+                      </p>
+                    </div>
+                  ) : (
+                    <div>
+                      <h1 className={subTitleStyle}>HOW TO USE</h1>
+                      <div className="flex flex-wrap gap-2 mb-10">
+                        {/* 해당되는 태그만 보이기 */}
+                        {tagList.map((tag) => {
+                          return (
+                            <div key={tag.id + tag.name + "selected"}>
+                              {tag.selected === true ? (
+                                <h1
+                                  className={`px-3 py-1 border border-lightGrey rounded-md flex shrink-0 justify-center
+                  bg-fog
+                `}
+                                >
+                                  {tag.name}
+                                </h1>
+                              ) : null}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ) : null}
             </div>
-          )}
-        </div>
+          </>
+        ) : null}
       </div>
       <SizedBox height={20} />
       <Footer />
