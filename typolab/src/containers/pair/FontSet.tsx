@@ -28,6 +28,7 @@ const FontSet = (props: Props) => {
         </div>
       ) : (
         <div className="flex flex-col items-start">
+          {props.fontSetNum === 1 ? "국문 폰트" : "영문 폰트"}
           <h1 className={`text-4xl fontFamily${props.fontSetNum}FontFam`}>
             {props.Font.name} {props.Font.variants}
           </h1>
