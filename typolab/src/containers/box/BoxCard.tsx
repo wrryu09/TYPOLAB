@@ -71,7 +71,7 @@ const BoxCard = (props: Props) => {
 
       {/* remove btn */}
       <div
-        className="hover:bg-red absolute w-[15%] h-[8%] top-0 self-end m-3 bg-lightGrey rounded-sm"
+        className="hover:bg-red absolute font-medium w-[15%] h-[8%] top-0 self-end m-3 bg-lightGrey rounded-sm"
         onClick={() => {
           props.removeItemFromBox(props.fontSet);
         }}

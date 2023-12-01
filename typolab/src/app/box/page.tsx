@@ -79,7 +79,7 @@ const Box = (props: Props) => {
             : null}
           <DotLine className="w-full mt-6 mb-6" />
           <button
-            className="flex h-auto px-8 py-4 bg-darkGreen text-white font-semibold rounded-full justify-center items-center"
+            className="hover:bg-yellow hover:text-darkGreen hover:font-bold flex h-auto px-8 py-4 bg-darkGreen text-white font-semibold rounded-full justify-center items-center"
             onClick={() => {
               router.push("/box/designSys");
             }}
