@@ -25,9 +25,9 @@ export interface FontPageType {
   family: string;
   displayName?: null;
   coverage: {};
-  fonts: {};
-  axes: {}[];
-  stats: {
+  fonts?: {};
+  axes?: {}[];
+  stats?: {
     requests: {};
     country_breakdown: {};
     integrations_count: number;
@@ -39,17 +39,17 @@ export interface FontPageType {
     bio: string;
     imageUrl: string;
   }[];
-  fontUses: null;
+  fontUses?: null;
   category: string;
   stroke: string;
   classifications: [string][];
-  lastModified: string;
-  size: number;
+  lastModified?: string;
+  size?: number;
   updateNotes?: [];
-  isNoto: boolean;
+  isNoto?: boolean;
   colorCapabilities?: [];
-  primaryScript: string;
-  primaryLanguage: string;
+  primaryScript?: string;
+  primaryLanguage?: string;
   article?: null;
   languages: [string][];
   minisiteUrl?: string;

@@ -1,3 +1,4 @@
+import { FontPageType } from "@/types/types";
 import axios from "axios";
 
 export function getFontList(sort?: string, family?: string) {
@@ -20,12 +21,23 @@ export function getFontList(sort?: string, family?: string) {
 
 export function getFontPage(family: string) {
   return axios
-    .get(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}search/fontPageInfo/${family}`,
-      {}
-    )
+    .get(`${process.env.NEXT_PUBLIC_SERVER_URL}search/fontPageInfo/${family}`)
     .then((res) => {
-      return res.data.body.body;
+      const result = res.data.data;
+      const fontPageData: FontPageType = {
+        family: result.family,
+        coverage: result.coverage,
+        fonts: {},
+        description: result.description,
+        license: result.license,
+        designers: result.designers,
+        category: result.category,
+        stroke: result.stroke,
+        classifications: result.classifications,
+        size: result.size,
+        languages: result.languages,
+      };
+      return fontPageData;
     })
     .catch((err) => {
       console.log(err);
