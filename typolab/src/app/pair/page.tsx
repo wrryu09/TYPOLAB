@@ -163,12 +163,28 @@ const Pair = (props: Props) => {
       <SizedBox height={10} />
 
       <div className="w-10/12 flex flex-col text-center items-center justify-center">
-        {/* tag section */}
-        <TagSection
-          handleTagSelection={handleTagSelection}
-          subTitleStyle={subTitleStyle}
-          tagList={tagList}
-        />
+        {koreanFont.name !== "none" ? (
+          <div
+            className="hover:bg-red hover:border-darkGreen self-start text-darkGreen border-2 bg-lightGrey border-greenGrey font-semibold text-xl px-4 py-2 mb-10 rounded-full"
+            onClick={() => {
+              setKoreanFont({ name: "none", variants: "none" });
+              setLatinFont({ name: "none", variants: "none" });
+              setSelectedFirstInfo(fontInfoFromDBDummyData);
+              setSelectedScndInfo(fontInfoFromDBDummyData);
+            }}
+          >
+            다시 선택하기
+          </div>
+        ) : (
+          <>
+            {/* tag section */}
+            <TagSection
+              handleTagSelection={handleTagSelection}
+              subTitleStyle={subTitleStyle}
+              tagList={tagList}
+            />
+          </>
+        )}
 
         {/* font section */}
         <div className="flex self-start gap-32 mb-40">
@@ -308,40 +324,44 @@ const Pair = (props: Props) => {
             {/* user guide section */}
             <div className="mt-40 mb-40">
               {/* view guide */}
-              {showGuide ? (
+              {koreanFont.name !== "none" && latinFont.name !== "none" ? (
                 <div>
-                  <h1 className={subTitleStyle}>HOW TO USE</h1>
-                  <div className="flex flex-wrap gap-2 mb-10">
-                    {/* 해당되는 태그만 보이기 */}
-                    {tagList.map((tag) => {
-                      return (
-                        <div key={tag.id + tag.name + "selected"}>
-                          {tag.selected === true ? (
-                            <h1
-                              className={`px-3 py-1 border border-lightGrey rounded-md flex shrink-0 justify-center
+                  {!showGuide ? (
+                    <div
+                      className="mb-40 px-12 py-4 bg-darkGreen hover:bg-red rounded-full justify-center items-center inline-flex"
+                      onClick={() => {
+                        setShowGuide(true);
+                      }}
+                    >
+                      <p className="text-center text-white text-7xl font-['Bayon']">
+                        view guide
+                      </p>
+                    </div>
+                  ) : (
+                    <div>
+                      <h1 className={subTitleStyle}>HOW TO USE</h1>
+                      <div className="flex flex-wrap gap-2 mb-10">
+                        {/* 해당되는 태그만 보이기 */}
+                        {tagList.map((tag) => {
+                          return (
+                            <div key={tag.id + tag.name + "selected"}>
+                              {tag.selected === true ? (
+                                <h1
+                                  className={`px-3 py-1 border border-lightGrey rounded-md flex shrink-0 justify-center
                   bg-fog
                 `}
-                            >
-                              {tag.name}
-                            </h1>
-                          ) : null}
-                        </div>
-                      );
-                    })}
-                  </div>
+                                >
+                                  {tag.name}
+                                </h1>
+                              ) : null}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
                 </div>
-              ) : (
-                <div
-                  className="mb-40 px-12 py-4 bg-darkGreen hover:bg-red rounded-full justify-center items-center inline-flex"
-                  onClick={() => {
-                    setShowGuide(true);
-                  }}
-                >
-                  <p className="text-center text-white text-7xl font-['Bayon']">
-                    view guide
-                  </p>
-                </div>
-              )}
+              ) : null}
             </div>
           </>
         ) : null}
