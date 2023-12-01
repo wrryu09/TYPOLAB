@@ -54,7 +54,7 @@ const Pair = (props: Props) => {
     tagArr.classTag.forEach((tag) => {
       if (tag.id === tagId) {
         tag.selected = !tag.selected;
-      }else{
+      } else if (tagId < 4) {
         tag.selected = false;
       }
     });
@@ -132,16 +132,16 @@ const Pair = (props: Props) => {
 
   // koreanFontList가 없을 때만 서버에 국문폰트명리스트요청
   const saveKoreanFontList = () => {
-    if (koreanFontList.length === 0) {
-      console.log("get korean font list");
-      getKoreanFontList()
-        .then((res: FontNameNVar[]) => {
-          setKoreanFontList(res);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
+    // if (koreanFontList.length === 0) {
+    console.log("get korean font list");
+    getKoreanFontList(tagList)
+      .then((res: FontNameNVar[]) => {
+        setKoreanFontList(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    // }
   };
 
   const putKoreanFontData = (fontName: string) => {
@@ -176,6 +176,7 @@ const Pair = (props: Props) => {
       <SizedBox height={10} />
 
       <div className="w-10/12 flex flex-col text-center items-center justify-center">
+        {/* 다시 선택하기 버튼 */}
         {koreanFont.name !== "none" ? (
           <div
             className="hover:bg-red hover:border-darkGreen self-start text-darkGreen border-2 bg-lightGrey border-greenGrey font-semibold text-xl px-4 py-2 mb-10 rounded-full"
