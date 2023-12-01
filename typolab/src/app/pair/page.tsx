@@ -31,21 +31,34 @@ type Props = {};
 const Pair = (props: Props) => {
   const subTitleStyle = "font-Bayon text-6xl pb-8";
 
-  const [tagList, setTagList] = useState<Tag[]>([
-    { id: 1, name: "#이화여자대학교", selected: true },
-    { id: 2, name: "#도전학기제", selected: true },
-    { id: 3, name: "#16기", selected: false },
-    { id: 4, name: "#타이포랩", selected: true },
-    { id: 5, name: "#발표자료에좋은", selected: true },
-    { id: 6, name: "#코딩하기좋은", selected: true },
-  ]);
+  const [tagList, setTagList] = useState<{ classTag: Tag[]; useTag: Tag[] }>({
+    classTag: [
+      { id: 1, name: "Display", selected: false },
+      { id: 2, name: "Handwriting", selected: false },
+      { id: 3, name: "Monospace", selected: false },
+    ],
+    useTag: [
+      { id: 4, name: "Arrows", selected: false },
+      { id: 5, name: "Spacing Modifier", selected: false },
+      { id: 6, name: "Math Operators", selected: false },
+      { id: 7, name: "Misc Symbols", selected: false },
+      { id: 8, name: "Kangxi Radicals", selected: false },
+    ],
+  });
 
   const [displayFirstSize, setDisplayFirstSize] = useState(32);
   const [displayScndSize, setDisplayScndSize] = useState(32);
 
   function handleTagSelection(tagId: number) {
-    const tagArr = [...tagList];
-    tagList.forEach((tag) => {
+    const tagArr = { ...tagList };
+    tagArr.classTag.forEach((tag) => {
+      if (tag.id === tagId) {
+        tag.selected = !tag.selected;
+      } else if (tagId < 4) {
+        tag.selected = false;
+      }
+    });
+    tagArr.useTag.forEach((tag) => {
       if (tag.id === tagId) {
         tag.selected = !tag.selected;
       }
@@ -119,16 +132,16 @@ const Pair = (props: Props) => {
 
   // koreanFontList가 없을 때만 서버에 국문폰트명리스트요청
   const saveKoreanFontList = () => {
-    if (koreanFontList.length === 0) {
-      console.log("get korean font list");
-      getKoreanFontList()
-        .then((res: FontNameNVar[]) => {
-          setKoreanFontList(res);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
+    // if (koreanFontList.length === 0) {
+    console.log("get korean font list");
+    getKoreanFontList(tagList)
+      .then((res: FontNameNVar[]) => {
+        setKoreanFontList(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    // }
   };
 
   const putKoreanFontData = (fontName: string) => {
@@ -163,6 +176,7 @@ const Pair = (props: Props) => {
       <SizedBox height={10} />
 
       <div className="w-10/12 flex flex-col text-center items-center justify-center">
+        {/* 다시 선택하기 버튼 */}
         {koreanFont.name !== "none" ? (
           <div
             className="hover:bg-red hover:border-darkGreen self-start text-darkGreen border-2 bg-lightGrey border-greenGrey font-semibold text-xl px-4 py-2 mb-10 rounded-full"
@@ -342,7 +356,22 @@ const Pair = (props: Props) => {
                       <h1 className={subTitleStyle}>HOW TO USE</h1>
                       <div className="flex flex-wrap gap-2 mb-10">
                         {/* 해당되는 태그만 보이기 */}
-                        {tagList.map((tag) => {
+                        {tagList.classTag.map((tag) => {
+                          return (
+                            <div key={tag.id + tag.name + "selected"}>
+                              {tag.selected === true ? (
+                                <h1
+                                  className={`px-3 py-1 border border-lightGrey rounded-md flex shrink-0 justify-center
+                  bg-fog
+                `}
+                                >
+                                  {tag.name}
+                                </h1>
+                              ) : null}
+                            </div>
+                          );
+                        })}
+                        {tagList.useTag.map((tag) => {
                           return (
                             <div key={tag.id + tag.name + "selected"}>
                               {tag.selected === true ? (
