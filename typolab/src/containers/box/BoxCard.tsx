@@ -93,7 +93,9 @@ const BoxCard = (props: Props) => {
         <p>
           {props.fontSet.weight}, {props.fontSet.size}pt
         </p>
-        <h1 className={`mobile:text-3xl text-4xl fontFamily${props.idx}`}>
+        <h1
+          className={`mobile:text-3xl text-left text-4xl fontFamily${props.idx}`}
+        >
           {props.fontSet.family}
         </h1>
 
