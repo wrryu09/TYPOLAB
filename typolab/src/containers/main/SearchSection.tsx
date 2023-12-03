@@ -46,20 +46,18 @@ const SearchSection = (props: Props) => {
         ref={props.searchRef}
         className="bg-darkGreen w-full flex flex-col items-center"
       >
-        <SizedBox height={10} />
-        <FullLine color={"yellow"} />
-        <SizedBox height={10} />
-        <SearchTitleIco className="w-9/12 max-w-3xl" />
-        <SizedBox height={10} />
+        <div className="mobile:mt-[6rem] w-full flex justify-center mt-[10rem]">
+          <FullLine color={"yellow"} />
+        </div>
+        <SearchTitleIco className="mobile:pt-[3rem] mobile:pb-[4rem] pt-[10rem] pb-[10rem] w-9/12 max-w-3xl" />
         <SearchInputSection
           sortCrit={sortCrit}
           setSortCrit={setSortCrit}
           sortCriteria={sortCriteria}
         />
-        <SizedBox height={10} />
 
         {fontList.length > 0 ? (
-          <div className="w-full ml-8 mr-8 flex flex-wrap justify-center gap-y-6 gap-3 items-center">
+          <div className="mobile:mt-[4rem] w-full mt-[10rem] ml-8 mr-8 flex flex-wrap justify-center gap-y-6 gap-3 items-center">
             {fontList.map((data, idx) => {
               return <FontCard key={"fontCard" + idx} idx={idx} data={data} />;
             })}
@@ -68,9 +66,11 @@ const SearchSection = (props: Props) => {
           <NoResult className="w-8/12" />
         )}
 
-        <SizedBox height={20} />
-        <LogoIco width={24} height={24} className="fill-white mobile:w-4" />
-        <SizedBox height={20} />
+        <LogoIco
+          width={24}
+          height={24}
+          className="mobile:mt-[10rem] mobile:mb-[10rem] fill-white mobile:w-4 mt-[20rem] mb-[20rem]"
+        />
         <HatIco width={"25%"} className="fill-white" />
       </div>
       <HatIco width={"25%"} className="fill-darkGreen rotate-180" />

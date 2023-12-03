@@ -9,7 +9,7 @@ type Props = {
 const MainBtns = (props: Props) => {
   const router = useRouter();
   return (
-    <div className="flex text-left justify-center w-10/12 mobile:flex-col text-darkGreen font-Bayon">
+    <div className="mobile:gap-4 flex text-left justify-center w-10/12 mobile:flex-col text-darkGreen font-Bayon">
       {/* pair */}
       <div
         className="flex flex-col hover:text-red"

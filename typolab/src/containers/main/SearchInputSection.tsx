@@ -16,16 +16,16 @@ const SearchInputSection = (props: Props) => {
     on: "text-yellow",
   };
   return (
-    <div className="w-9/12 flex flex-col justify-center items-center">
+    <div className="mobile:w-10/12 w-9/12 flex flex-col justify-center items-center">
       <SearchInput />
       <SizedBox height={1} />
 
       {/* pikachu red */}
-      <HatIco className="fill-red rotate-90 w-2/12 absolute left-0" />
-      <HatIco className="fill-red rotate-270 w-2/12 absolute right-0" />
+      <HatIco className="mobile:invisible fill-red rotate-90 w-2/12 absolute left-0" />
+      <HatIco className="mobile:invisible fill-red rotate-270 w-2/12 absolute right-0" />
 
       {/* SORT BY */}
-      <div className="w-10/12 mobile:w-11/12 flex items-baseline justify-between font-Bayon">
+      <div className="w-10/12 mobile:w-full flex items-baseline justify-between font-Bayon">
         <p className="text-white text-5xl mobile:text-xl shrink-0">SORT BY</p>
         {/* sorting option buttons */}
         <div className="w-2/3 mobile:h-5/6 text-greenGrey flex justify-between text-xl mobile:text-xs">
