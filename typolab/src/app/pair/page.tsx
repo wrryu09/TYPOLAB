@@ -46,10 +46,12 @@ const Pair = (props: Props) => {
   });
 
   const [displayFirstSize, setDisplayFirstSize] = useState(
-    window.innerWidth < 430 ? 12 : 32
+    //  window.innerWidth < 430 ? 12 : 32
+    32
   );
   const [displayScndSize, setDisplayScndSize] = useState(
-    window.innerWidth < 430 ? 12 : 32
+    // window.innerWidth < 430 ? 12 : 32
+    32
   );
 
   function handleTagSelection(tagId: number) {
