@@ -5,7 +5,6 @@ import {
   NoResult,
   SearchTitleIco,
 } from "../../../public/svgs";
-import SizedBox from "@/components/SizedBox";
 import FullLine from "@/components/FullLine";
 import SearchInputSection from "./SearchInputSection";
 import FontCard from "@/components/FontCard";
@@ -26,6 +25,15 @@ const SearchSection = (props: Props) => {
     Newest: "date",
     Name: "alpha",
   };
+
+  // input text value
+  const [inputVal, setInputVal] = useState("");
+
+  const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.value);
+    setInputVal(e.target.value);
+  };
+
   useEffect(() => {
     getFontList(sortCrit)
       .then((res) => {
@@ -39,12 +47,34 @@ const SearchSection = (props: Props) => {
         console.log(err);
       });
   }, [sortCrit]);
+
+  /** 유저 인풋으로 폰트 검색 */
+  const searchInputText = () => {
+    let textVal: string | undefined = "";
+    if (inputVal === "") {
+      textVal = undefined;
+    } else {
+      textVal = inputVal;
+    }
+    getFontList(sortCrit, textVal)
+      .then((res) => {
+        let fontListRes = res.data.items.filter((data: Object, idx: number) => {
+          return idx < 15;
+        });
+        console.log(fontListRes);
+        setFontList(fontListRes);
+      })
+      .catch((err) => {
+        console.log(err);
+        setFontList([]);
+      });
+  };
   return (
     <div className="flex flex-col items-center">
       <HatIco width={"25%"} className="fill-darkGreen" />
       <div
         ref={props.searchRef}
-        className="bg-darkGreen w-full flex flex-col items-center"
+        className="w-screen bg-darkGreen flex flex-col items-center"
       >
         <div className="mobile:mt-[6rem] w-full flex justify-center mt-[10rem]">
           <FullLine color={"yellow"} />
@@ -54,6 +84,9 @@ const SearchSection = (props: Props) => {
           sortCrit={sortCrit}
           setSortCrit={setSortCrit}
           sortCriteria={sortCriteria}
+          onInputChange={onInputChange}
+          searchInputText={searchInputText}
+          inputVal={inputVal}
         />
 
         {fontList.length > 0 ? (
@@ -63,7 +96,7 @@ const SearchSection = (props: Props) => {
             })}
           </div>
         ) : (
-          <NoResult className="w-8/12" />
+          <NoResult className="mobile:pt-[4rem] w-8/12 pt-[10rem]" />
         )}
 
         <LogoIco
