@@ -53,7 +53,6 @@ const SearchRes = ({ params }: { params: { fontName: string } }) => {
         console.log(err);
       });
   }, []);
-  //   console.log(fontPageData);
   const varientArr: string[] = [];
   if (fontData?.items) {
     fontData.items[0].variants.map((ele) => {
@@ -90,141 +89,150 @@ const SearchRes = ({ params }: { params: { fontName: string } }) => {
       </div>
       <SizedBox height={9} />
 
-      {varientArr.length > 0 ? (
-        <div className="w-11/12">
-          <div className="flex">
-            <p className="font-Bayon text-lg text-greenGrey">SIZE</p>
-            <input
-              type="range"
-              min={0}
-              max={12}
-              className="w-1/2"
-              onChange={(e) => {
-                const val: number = Number(e.currentTarget.value);
-                const sizeVal: Sizes = val as Sizes;
-                setFontSize(fontSizeObj[sizeVal]);
-              }}
-            />
-          </div>
-          <div className="w-full flex justify-between">
-            {/* size & weight seek */}
-            <h1
-              className={`fontWeight rounded-lg border border-lightGrey w-4/5 h-auto flex items-end`}
-            >
-              <input
-                placeholder={fontFamily}
-                className={`p-3 ${fontSize} fontFamily w-full h-full bg-fog`}
-              ></input>
-            </h1>
-            {/* font varient btn */}
-            <div className="flex flex-col items-end gap-1 text-greenGrey">
-              {varientArr.map((ele) => {
+      {fontPageData?.family !== undefined ? (
+        // fontPageData 있는 경우에만 표시
+        <>
+          {varientArr.length > 0 ? (
+            <div className="w-11/12">
+              <div className="flex">
+                <p className="font-Bayon text-lg text-greenGrey">SIZE</p>
+                <input
+                  type="range"
+                  min={0}
+                  max={12}
+                  className="w-1/2"
+                  onChange={(e) => {
+                    const val: number = Number(e.currentTarget.value);
+                    const sizeVal: Sizes = val as Sizes;
+                    setFontSize(fontSizeObj[sizeVal]);
+                  }}
+                />
+              </div>
+              <div className="w-full flex justify-between">
+                {/* size & weight seek */}
+                <h1
+                  className={`fontWeight rounded-lg border border-lightGrey w-4/5 h-auto flex items-end`}
+                >
+                  <input
+                    placeholder={fontFamily}
+                    className={`p-3 ${fontSize} fontFamily w-full h-full bg-fog`}
+                  ></input>
+                </h1>
+                {/* font varient btn */}
+                <div className="flex flex-col items-end gap-1 text-greenGrey">
+                  {varientArr.map((ele) => {
+                    return (
+                      <div
+                        key={fontFamily + ele + "varients"}
+                        className={`w-fit font-Bayon p-1 pr-2 pl-2 border rounded-lg ${
+                          varient == ele
+                            ? "border-black bg-lightGrey text-black"
+                            : "border-lightGrey"
+                        }`}
+                        onClick={() => {
+                          setVarient(ele);
+                        }}
+                      >
+                        <p>{ele}</p>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+              {/* font varient print */}
+              {varientArr.map((ele, idx) => {
                 return (
-                  <div
-                    key={fontFamily + ele + "varients"}
-                    className={`w-fit font-Bayon p-1 pr-2 pl-2 border rounded-lg ${
-                      varient == ele
-                        ? "border-black bg-lightGrey text-black"
-                        : "border-lightGrey"
-                    }`}
-                    onClick={() => {
-                      setVarient(ele);
-                    }}
-                  >
-                    <p>{ele}</p>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-          {/* font varient print */}
-          {varientArr.map((ele, idx) => {
-            return (
-              <div key={fontFamily + ele}>
-                <style>
-                  {`.eleWeight${idx}{
+                  <div key={fontFamily + ele}>
+                    <style>
+                      {`.eleWeight${idx}{
     font-weight: ${ele};
   }
   `}
-                </style>
-                <p className={`eleWeight${idx} fontFamily text-2xl`}>
-                  The Quick Brown Fox Jumps Over The Lazy Dog
-                </p>
-              </div>
-            );
-          })}
-          <button
-            className="flex items-center gap-x-2 font-Bayon text-xl border px-2.5 py-2 rounded-md"
-            onClick={() => {
-              const fontSet: FontSet = {
-                family: fontFamily,
-                weight: varient,
-
-                // ❌ needs modification ❌
-                size: 55,
-              };
-              putFontSetToBox(fontSet, setFontInBox);
-            }}
-          >
-            <p>SAVE THIS FONT SET</p>
-            {fontInBox ? (
-              <CheckIco className={"fill-red w-8"} />
-            ) : (
-              <PlusIco className="w-8" />
-            )}
-          </button>
-        </div>
-      ) : null}
-
-      <div className="flex flex-col mt-40 w-11/12">
-        {/* license */}
-        <div className="self-end mb-20">
-          <h1 className={subTitleStyle}>LICENSE</h1>
-          {fontPageData ? <>{fontPageData.license}</> : null}
-        </div>
-
-        {/* designers */}
-        <div className="self-start mb-20">
-          <h1 className={subTitleStyle}>DESIGNERS</h1>
-          {fontPageData ? (
-            <>
-              {fontPageData.designers.map((data) => {
-                return (
-                  <div key={data.name}>
-                    {data.imageUrl === null ? null : (
-                      <img
-                        alt="designer image"
-                        src={data.imageUrl}
-                        className="w-1/12 pb-4"
-                      />
-                    )}
-                    <p
-                      dangerouslySetInnerHTML={{ __html: data.name }}
-                      className="w-5/12 pb-2"
-                    ></p>
-                    {data.bio === null ? null : (
-                      <p
-                        dangerouslySetInnerHTML={{ __html: data.bio }}
-                        className="w-5/12 pb-12"
-                      ></p>
-                    )}
+                    </style>
+                    <p className={`eleWeight${idx} fontFamily text-2xl`}>
+                      The Quick Brown Fox Jumps Over The Lazy Dog
+                    </p>
                   </div>
                 );
               })}
-            </>
-          ) : null}
-        </div>
+              <button
+                className="flex items-center gap-x-2 font-Bayon text-xl border px-2.5 py-2 rounded-md"
+                onClick={() => {
+                  const fontSet: FontSet = {
+                    family: fontFamily,
+                    weight: varient,
 
-        {/* about */}
-        <div className="self-center text-center w-10/12">
-          <h1 className={subTitleStyle}>ABOUT</h1>
-          {fontPageData ? (
-            <p
-              dangerouslySetInnerHTML={{ __html: fontPageData.description }}
-            ></p>
+                    // ❌ needs modification ❌
+                    size: 55,
+                  };
+                  putFontSetToBox(fontSet, setFontInBox);
+                }}
+              >
+                <p>SAVE THIS FONT SET</p>
+                {fontInBox ? (
+                  <CheckIco className={"fill-red w-8"} />
+                ) : (
+                  <PlusIco className="w-8" />
+                )}
+              </button>
+            </div>
           ) : null}
+          <div className="flex flex-col mt-40 w-11/12">
+            {/* license */}
+            <div className="self-end mb-20">
+              <h1 className={subTitleStyle}>LICENSE</h1>
+              {fontPageData ? <>{fontPageData.license}</> : null}
+            </div>
+
+            {/* designers */}
+            <div className="self-start mb-20">
+              <h1 className={subTitleStyle}>DESIGNERS</h1>
+              {fontPageData?.designers ? (
+                <>
+                  {fontPageData.designers.map((data) => {
+                    return (
+                      <div key={data.name}>
+                        {data.imageUrl === null ? null : (
+                          <img
+                            alt="designer image"
+                            src={data.imageUrl}
+                            className="w-1/12 pb-4"
+                          />
+                        )}
+                        <p
+                          dangerouslySetInnerHTML={{ __html: data.name }}
+                          className="w-5/12 pb-2"
+                        ></p>
+                        {data.bio === null ? null : (
+                          <p
+                            dangerouslySetInnerHTML={{ __html: data.bio }}
+                            className="w-5/12 pb-12"
+                          ></p>
+                        )}
+                      </div>
+                    );
+                  })}
+                </>
+              ) : null}
+            </div>
+
+            {/* about */}
+            <div className="self-center text-center w-10/12">
+              <h1 className={subTitleStyle}>ABOUT</h1>
+              {fontPageData ? (
+                <p
+                  dangerouslySetInnerHTML={{ __html: fontPageData.description }}
+                ></p>
+              ) : null}
+            </div>
+          </div>
+        </>
+      ) : (
+        <div className="h-9 bg-red">
+          <h1 className={subTitleStyle}>OOPS! NO DATA</h1>
         </div>
-      </div>
+      )}
+
       <SizedBox height={30} />
       <Footer />
       <SizedBox height={10} />
