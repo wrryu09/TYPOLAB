@@ -8,6 +8,9 @@ type Props = {
   sortCrit: string;
   setSortCrit: Dispatch<SetStateAction<string>>;
   sortCriteria: SortCriteria;
+  onInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  searchInputText: () => void;
+  inputVal: string;
 };
 
 const SearchInputSection = (props: Props) => {
@@ -17,7 +20,11 @@ const SearchInputSection = (props: Props) => {
   };
   return (
     <div className="mobile:w-10/12 w-9/12 flex flex-col justify-center items-center">
-      <SearchInput />
+      <SearchInput
+        inputVal={props.inputVal}
+        onInputChange={props.onInputChange}
+        searchInputText={props.searchInputText}
+      />
       <SizedBox height={1} />
 
       {/* pikachu red */}

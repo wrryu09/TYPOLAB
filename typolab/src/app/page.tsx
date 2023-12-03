@@ -2,7 +2,6 @@
 
 import React, { useRef } from "react";
 import { LogoIco, MainTxt } from "../../public/svgs";
-import SizedBox from "@/components/SizedBox";
 import Footer from "@/components/Footer";
 import LineTxt from "@/containers/main/LineTxt";
 import MainBtns from "@/containers/main/MainBtns";
