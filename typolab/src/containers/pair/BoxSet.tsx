@@ -13,22 +13,24 @@ type Props = {
 
 const BoxSet = (props: Props) => {
   return (
-    <div className="w-5/12">
+    <div className="mobile:w-9/12 w-5/12">
       {props.font.name !== "none" ? (
         <div className="flex justify-between">
-          <div className="flex flex-col items-start">
-            <h1 className={`text-4xl fontFamily${props.boxNum}FontFam`}>
+          <div className="flex flex-col items-start text-start">
+            <h1
+              className={`mobile:text-2xl text-4xl fontFamily${props.boxNum}FontFam`}
+            >
               {props.font.name}
             </h1>
-            <p>
+            <p className="mobile:text-sm">
               {props.font.variants}, {props.displaySize}pt
             </p>
           </div>
           {props.isInBox ? (
-            <CheckIco className={"fill-red w-8"} />
+            <CheckIco className={"mobile:w-6 shrink-0 fill-red w-8"} />
           ) : (
             <PlusIco
-              className="w-8"
+              className="mobile:w-6 shrink-0 w-8"
               onClick={() => {
                 putFontSetToBox(
                   {
