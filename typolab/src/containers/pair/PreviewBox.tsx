@@ -41,7 +41,7 @@ const PreviewBox = (props: Props) => {
   };
 
   return (
-    <div className="w-full flex flex-col items-start gap-y-2 border border-greenGrey px-8 py-4 rounded-lg mb-10">
+    <div className="mobile:px-6 w-full flex flex-col items-start gap-y-2 border border-greenGrey px-8 py-4 rounded-lg mb-10">
       <style>{`
               .fontSize${props.boxNum}{
                 font-family: ${

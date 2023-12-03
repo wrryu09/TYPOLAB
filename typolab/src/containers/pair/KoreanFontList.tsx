@@ -28,10 +28,12 @@ const KoreanFontList = (props: Props) => {
       {/* modal */}
       <div className="absolute w-10/12 left-1/2 top-6 -translate-x-1/2 translate-y-0">
         {/* CHOOSE YOUR FONT */}
-        <h2 className="font-Bayon text-6xl p-8 text-white">Choose your font</h2>
+        <h2 className="mobile:text-4xl mobile:p-4 font-Bayon text-6xl p-8 text-white">
+          Choose your font
+        </h2>
 
         <div
-          className={`w-[90%] h-fit p-8 rounded-lg border border-greenGrey bg-fog flex flex-col items-center`}
+          className={`mobile:w-full mobile:p-4 w-[90%] h-fit p-8 rounded-lg border border-greenGrey bg-fog flex flex-col items-center`}
         >
           <div className="flex flex-col mb-12">
             {/* font family */}
@@ -44,7 +46,7 @@ const KoreanFontList = (props: Props) => {
                   return (
                     <div
                       key={fontName.name + fontName.variants + idx}
-                      className="py-2 px-4"
+                      className="mobile:py-1 mobile:px-2 mobile:text-xs py-2 px-4"
                       onClick={() => {
                         setSelectedFont(fontName);
                       }}
@@ -113,7 +115,9 @@ font-family: ${selectedFont.name};
 font-weight: ${selectedVar};
 }`}
                   </style>
-                  <div className="text-6xl disPlayKrFont mb-20">TypoLab</div>
+                  <div className="mobile:text-5xl mobile:mb-10 text-6xl disPlayKrFont mb-20">
+                    TypoLab
+                  </div>
                 </>
               ) : null}
             </div>
@@ -122,7 +126,7 @@ font-weight: ${selectedVar};
           {/* OK Btn */}
           {selectedFont.name !== "none" ? (
             <div
-              className={`hover:bg-red w-10/12 px-12 py-2 bg-darkGreen rounded-full justify-center items-center inline-flex`}
+              className={`mobile:w-full hover:bg-red w-10/12 px-12 py-2 bg-darkGreen rounded-full justify-center items-center inline-flex`}
               onClick={() => {
                 // set font if only selected
                 if (selectedFont.name !== "none") {
@@ -141,7 +145,7 @@ font-weight: ${selectedVar};
             </div>
           ) : (
             <div
-              className={`hover:bg-red px-12 py-2 bg-darkGreen rounded-full justify-center items-center inline-flex`}
+              className={`mobile:w-full hover:bg-red px-12 py-2 bg-darkGreen rounded-full justify-center items-center inline-flex`}
               onClick={() => {
                 props.setShowFontList(false);
               }}

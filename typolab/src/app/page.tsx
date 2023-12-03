@@ -25,7 +25,9 @@ const MainPage = (): JSX.Element => {
         className="mobile:ml-4 mobile:w-6 ml-8 pt-4 fill-darkGreen"
       />
       <div className="flex flex-col items-center">
-        <p className="pb-[32rem]">BEST FONT PAIRING FOR YOUR SERVICE</p>
+        <p className="mobile:text-[0.6rem] mobile:pb-[24rem] pb-[32rem]">
+          BEST FONT PAIRING FOR YOUR SERVICE
+        </p>
 
         {/* main btn */}
         <MainBtns executeScroll={executeScroll} />
@@ -35,9 +37,11 @@ const MainPage = (): JSX.Element => {
         {/* search section */}
         <SearchSection searchRef={searchRef} />
 
-        <SizedBox height={10} />
-        <LogoIco width={24} height={24} className="fill-darkGreen mobile:w-4" />
-        <SizedBox height={50} />
+        <LogoIco
+          width={24}
+          height={24}
+          className="mobile:mt-[4rem] mobile:mb-[20rem] fill-darkGreen mobile:w-4 mt-[10rem] mb-[50rem]"
+        />
         <Footer />
       </div>
     </div>

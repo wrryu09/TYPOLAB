@@ -17,11 +17,13 @@ const LatinRecRes = (props: Props) => {
 
   return (
     <div className="absolute flex flex-col z-10 w-full h-full top-0 left-0 items-center justify-center bg-black bg-opacity-80">
-      <h2 className="font-Bayon text-6xl pb-8 text-red">Result</h2>
+      <h2 className="mobile:text-4xl mobile:pb-4 font-Bayon text-6xl pb-8 text-red">
+        Result
+      </h2>
       <div className="w-[90%] p-8 rounded-lg border border-greenGrey bg-fog flex justify-between text-darkGreen">
-        <div className="flex w-full justify-between">
+        <div className="mobile:flex-col flex w-full justify-between">
           <div className="flex-col justify-start items-start gap-4 inline-flex">
-            <div className="flex gap-2 text-greenGrey font-Bayon text-xl mb-4">
+            <div className="mobile:text-lg flex gap-2 text-greenGrey font-Bayon text-xl mb-4">
               <div>No.</div>
               <div>Font</div>
               <div>Variant</div>
@@ -48,7 +50,7 @@ font-family: ${ele.fontName};
                       ele.fontScore +
                       "inferredLatin"
                     }
-                    className={`${
+                    className={`mobile:text-sm ${
                       selectedFont.name === ele.fontName &&
                       selectedFont.variants === ele.fontVar
                         ? "text-red"
@@ -70,8 +72,8 @@ font-family: ${ele.fontName};
               );
             })}
           </div>
-          <div className="flex-col items-end justify-between inline-flex">
-            <div className="flex-col justify-end items-end flex text-right">
+          <div className="mobile:items-center flex-col items-end justify-between inline-flex">
+            <div className="mobile:text-center flex-col justify-end items-end flex text-right">
               <link
                 rel="stylesheet"
                 href={`https://fonts.googleapis.com/css2?family=${props.koreanFont.name}`}
@@ -82,7 +84,9 @@ font-family: ${props.koreanFont.name};
 font-weight: ${props.koreanFont.variants};
 }`}
               </style>
-              <div className="text-6xl koreanFontCss pb-4">타이포랩!</div>
+              <div className="mobile:text-5xl mobile:mt-10 mobile:mb-4 text-6xl koreanFontCss pb-4">
+                타이포랩!
+              </div>
               {selectedFont.name !== "none" ? (
                 <>
                   <link
@@ -95,7 +99,9 @@ font-family: ${selectedFont.name};
 font-weight: ${selectedFont.variants};
 }`}
                   </style>
-                  <div className="text-6xl latinFontCss">TypoLab!</div>
+                  <div className="mobile:text-5xl mobile:mb-6 text-6xl latinFontCss">
+                    TypoLab!
+                  </div>
                 </>
               ) : null}
             </div>
@@ -103,7 +109,7 @@ font-weight: ${selectedFont.variants};
             {/* OK Btn */}
             {selectedFont.name !== "none" ? (
               <div
-                className="hover:bg-red px-12 py-2 bg-darkGreen rounded-full justify-center items-center inline-flex"
+                className="mobile:w-full hover:bg-red px-12 py-2 bg-darkGreen rounded-full justify-center items-center inline-flex"
                 onClick={() => {
                   if (selectedFont.name !== "none") {
                     props.setLatinFont(selectedFont);

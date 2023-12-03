@@ -66,12 +66,12 @@ const BoxCard = (props: Props) => {
       });
   };
   return (
-    <div className="w-10/12 h-[20rem] flex flex-col justify-center relative bg-white rounded-lg shadow">
+    <div className="mobile:h-[12rem] mobile:w-full w-10/12 h-[20rem] flex flex-col justify-center relative bg-white rounded-lg shadow">
       <HatRightIco className="absolute w-[7%] right-0" />
 
       {/* remove btn */}
       <div
-        className="hover:bg-red absolute font-medium w-[15%] h-[8%] top-0 self-end m-3 bg-lightGrey rounded-sm"
+        className="mobile:text-xs hover:bg-red absolute font-medium w-[15%] h-[8%] top-0 self-end m-3 bg-lightGrey rounded-sm"
         onClick={() => {
           props.removeItemFromBox(props.fontSet);
         }}
@@ -89,11 +89,13 @@ const BoxCard = (props: Props) => {
   }`}
       </style>
       {/* text section */}
-      <div className="flex flex-col items-start pl-[5%]">
+      <div className="mobile:text-sm flex flex-col items-start pl-[5%]">
         <p>
           {props.fontSet.weight}, {props.fontSet.size}pt
         </p>
-        <h1 className={`text-4xl fontFamily${props.idx}`}>
+        <h1
+          className={`mobile:text-3xl text-left text-4xl fontFamily${props.idx}`}
+        >
           {props.fontSet.family}
         </h1>
 
@@ -109,7 +111,7 @@ const BoxCard = (props: Props) => {
 
           {/* save btn */}
           <button
-            className={`${
+            className={`mobile:py-1 mobile:px-3 ${
               isAliasSaved
                 ? "bg-yellow text-darkGreen"
                 : "bg-darkGreen text-white"

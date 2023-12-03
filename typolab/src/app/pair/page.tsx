@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import SizedBox from "@/components/SizedBox";
 import BackArrow from "@/components/BackArrow";
 import Footer from "@/components/Footer";
 import { HatIco } from "../../../public/svgs";
@@ -29,7 +28,7 @@ import BoxSection from "@/containers/pair/BoxSection";
 type Props = {};
 
 const Pair = (props: Props) => {
-  const subTitleStyle = "font-Bayon text-6xl pb-8";
+  const subTitleStyle = "mobile:text-4xl mobile:pb-2 font-Bayon text-6xl pb-8";
 
   const [tagList, setTagList] = useState<{ classTag: Tag[]; useTag: Tag[] }>({
     classTag: [
@@ -46,8 +45,12 @@ const Pair = (props: Props) => {
     ],
   });
 
-  const [displayFirstSize, setDisplayFirstSize] = useState(32);
-  const [displayScndSize, setDisplayScndSize] = useState(32);
+  const [displayFirstSize, setDisplayFirstSize] = useState(
+    window.innerWidth < 430 ? 12 : 32
+  );
+  const [displayScndSize, setDisplayScndSize] = useState(
+    window.innerWidth < 430 ? 12 : 32
+  );
 
   function handleTagSelection(tagId: number) {
     const tagArr = { ...tagList };
@@ -173,9 +176,8 @@ const Pair = (props: Props) => {
       />
       <BackArrow />
       <HatIco width={"25%"} className="rotate-180 self-center top-0 absolute" />
-      <SizedBox height={10} />
 
-      <div className="w-10/12 flex flex-col text-center items-center justify-center">
+      <div className="mobile:mt-[4rem] mobile:mb-[15rem] mb-[20rem] w-10/12 flex flex-col text-center items-center justify-center mt-[10rem]">
         {/* 다시 선택하기 버튼 */}
         {koreanFont.name !== "none" ? (
           <div
@@ -201,7 +203,7 @@ const Pair = (props: Props) => {
         )}
 
         {/* font section */}
-        <div className="flex self-start gap-32 mb-40">
+        <div className="mobile:mb-20 mobile:gap-10 flex self-start gap-32 mb-40">
           {/* 국문 선택 폰트 모달 */}
           {showKoreanFontList ? (
             <KoreanFontList
@@ -277,7 +279,7 @@ const Pair = (props: Props) => {
         </div>
 
         {/* font display box */}
-        <div className="flex flex-col w-full mb-40">
+        <div className="mobile:mb-10 flex flex-col w-full mb-40">
           {koreanFont.name !== "none" ? (
             <PreviewBox
               fontSize={displayFirstSize}
@@ -312,11 +314,11 @@ const Pair = (props: Props) => {
             />
 
             {/* font info section */}
-            <div className="mb-96">
+            <div className="mobile:mb-0 mb-96">
               <h1 className={`${subTitleStyle} mb-40`}>FONT INFO</h1>
               {/* FONT CARDS */}
               <div className="relative w-screen flex">
-                <div className="flex flex-wrap gap-4 z-10 absolute left-1/2 -translate-x-1/2 -top-32">
+                <div className="mobile:relative flex flex-wrap gap-4 z-10 absolute left-1/2 -translate-x-1/2 -top-32">
                   {/* first FontCard */}
                   {selectedFirstInfo.family !== "none" ? (
                     <FontCard
@@ -336,18 +338,18 @@ const Pair = (props: Props) => {
             </div>
 
             {/* user guide section */}
-            <div className="mt-40 mb-40">
+            <div className="mobile:mt-10 mobile:mb-0 mt-40 mb-40">
               {/* view guide */}
               {koreanFont.name !== "none" && latinFont.name !== "none" ? (
                 <div>
                   {!showGuide ? (
                     <div
-                      className="mb-40 px-12 py-4 bg-darkGreen hover:bg-red rounded-full justify-center items-center inline-flex"
+                      className="mobile:mb-0 mb-40 px-12 py-4 bg-darkGreen hover:bg-red rounded-full justify-center items-center inline-flex"
                       onClick={() => {
                         setShowGuide(true);
                       }}
                     >
-                      <p className="text-center text-white text-7xl font-['Bayon']">
+                      <p className="mobile:text-4xl text-center text-white text-7xl font-['Bayon']">
                         view guide
                       </p>
                     </div>
@@ -361,7 +363,7 @@ const Pair = (props: Props) => {
                             <div key={tag.id + tag.name + "selected"}>
                               {tag.selected === true ? (
                                 <h1
-                                  className={`px-3 py-1 border border-lightGrey rounded-md flex shrink-0 justify-center
+                                  className={`mobile:text-sm px-3 py-1 border border-lightGrey rounded-md flex shrink-0 justify-center
                   bg-fog
                 `}
                                 >
@@ -376,7 +378,7 @@ const Pair = (props: Props) => {
                             <div key={tag.id + tag.name + "selected"}>
                               {tag.selected === true ? (
                                 <h1
-                                  className={`px-3 py-1 border border-lightGrey rounded-md flex shrink-0 justify-center
+                                  className={`mobile:text-sm px-3 py-1 border border-lightGrey rounded-md flex shrink-0 justify-center
                   bg-fog
                 `}
                                 >
@@ -395,7 +397,6 @@ const Pair = (props: Props) => {
           </>
         ) : null}
       </div>
-      <SizedBox height={20} />
       <Footer />
     </div>
   );

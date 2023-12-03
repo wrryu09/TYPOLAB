@@ -13,21 +13,14 @@ const TagSection = (props: Props) => {
       <h1 className={props.subTitleStyle}>TAG</h1>
       <div className="mb-20 flex flex-col items-start">
         {/* classification */}
-        <p className="font-semibold py-4">분류</p>
+        <p className="mobile:py-2 font-semibold py-4">분류</p>
         <div className="flex flex-wrap gap-2 mb-4">
           {props.tagList.classTag.map((tag) => {
             return (
-              <h1
-                key={tag.id + tag.name}
-                className={`px-3 py-1 border border-lightGrey rounded-md flex shrink-0 justify-center hover:bg-red ${
-                  tag.selected ? "bg-red font-semibold" : "bg-fog"
-                }`}
-                onClick={() => {
-                  props.handleTagSelection(tag.id);
-                }}
-              >
-                {tag.name}
-              </h1>
+              <TagBtn
+                tagInfo={tag}
+                handleTagSelection={props.handleTagSelection}
+              />
             );
           })}
         </div>
@@ -41,22 +34,37 @@ const TagSection = (props: Props) => {
         <div className="flex flex-wrap gap-2 mb-4">
           {props.tagList.useTag.map((tag) => {
             return (
-              <h1
-                key={tag.id + tag.name}
-                className={`px-3 py-1 border border-lightGrey rounded-md flex shrink-0 justify-center hover:bg-red ${
-                  tag.selected ? "bg-red font-semibold" : "bg-fog"
-                }`}
-                onClick={() => {
-                  props.handleTagSelection(tag.id);
-                }}
-              >
-                {tag.name}
-              </h1>
+              <>
+                <TagBtn
+                  tagInfo={tag}
+                  handleTagSelection={props.handleTagSelection}
+                />
+              </>
             );
           })}
         </div>
       </div>
     </>
+  );
+};
+
+interface TagBtnProps {
+  tagInfo: Tag;
+  handleTagSelection: (tagId: number) => void;
+}
+const TagBtn = (props: TagBtnProps) => {
+  return (
+    <h1
+      key={props.tagInfo.id + props.tagInfo.name}
+      className={`mobile:text-sm px-3 py-1 border border-lightGrey rounded-md flex shrink-0 justify-center hover:bg-red ${
+        props.tagInfo.selected ? "bg-red font-semibold" : "bg-fog"
+      }`}
+      onClick={() => {
+        props.handleTagSelection(props.tagInfo.id);
+      }}
+    >
+      {props.tagInfo.name}
+    </h1>
   );
 };
 

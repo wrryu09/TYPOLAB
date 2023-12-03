@@ -5,7 +5,7 @@ type LineColor = {
 };
 const lineColors = {
   white: "h-px w-11/12 bg-white",
-  yellow: "h-px w-11/12 bg-yellow",
+  yellow: "mobile:h-[0.5px] h-px w-11/12 bg-yellow",
   black: "h-px w-11/12 self-center bg-black",
   greenGrey: "h-px w-11/12 bg-greenGrey",
   darkGreen: "h-px w-11/12 bg-darkGreen",
