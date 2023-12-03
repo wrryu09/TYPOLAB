@@ -30,7 +30,6 @@ const SearchSection = (props: Props) => {
   const [inputVal, setInputVal] = useState("");
 
   const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
     setInputVal(e.target.value);
   };
 
@@ -61,11 +60,9 @@ const SearchSection = (props: Props) => {
         let fontListRes = res.data.items.filter((data: Object, idx: number) => {
           return idx < 15;
         });
-        console.log(fontListRes);
         setFontList(fontListRes);
       })
       .catch((err) => {
-        console.log(err);
         setFontList([]);
       });
   };
