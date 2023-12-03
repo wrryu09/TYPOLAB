@@ -38,10 +38,9 @@ const Pair = (props: Props) => {
     ],
     useTag: [
       { id: 4, name: "Arrows", selected: false },
-      { id: 5, name: "Spacing Modifier", selected: false },
-      { id: 6, name: "Math Operators", selected: false },
-      { id: 7, name: "Misc Symbols", selected: false },
-      { id: 8, name: "Kangxi Radicals", selected: false },
+      { id: 5, name: "Math Operators", selected: false },
+      { id: 6, name: "Misc Symbols", selected: false },
+      { id: 7, name: "Kangxi Radicals", selected: false },
     ],
   });
 
