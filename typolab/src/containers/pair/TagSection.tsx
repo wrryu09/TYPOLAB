@@ -18,6 +18,7 @@ const TagSection = (props: Props) => {
           {props.tagList.classTag.map((tag) => {
             return (
               <TagBtn
+                key={"class" + tag.id + tag.name + tag.selected}
                 tagInfo={tag}
                 handleTagSelection={props.handleTagSelection}
               />
@@ -34,12 +35,11 @@ const TagSection = (props: Props) => {
         <div className="flex flex-wrap gap-2 mb-4">
           {props.tagList.useTag.map((tag) => {
             return (
-              <>
-                <TagBtn
-                  tagInfo={tag}
-                  handleTagSelection={props.handleTagSelection}
-                />
-              </>
+              <TagBtn
+                key={"usuageTag" + tag.id + tag.name + tag.selected}
+                tagInfo={tag}
+                handleTagSelection={props.handleTagSelection}
+              />
             );
           })}
         </div>
@@ -55,7 +55,6 @@ interface TagBtnProps {
 const TagBtn = (props: TagBtnProps) => {
   return (
     <h1
-      key={props.tagInfo.id + props.tagInfo.name}
       className={`mobile:text-sm px-3 py-1 border border-lightGrey rounded-md flex shrink-0 justify-center hover:bg-red ${
         props.tagInfo.selected ? "bg-red font-semibold" : "bg-fog"
       }`}
