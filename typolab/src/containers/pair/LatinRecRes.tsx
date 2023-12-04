@@ -31,7 +31,7 @@ const LatinRecRes = (props: Props) => {
             </div>
             {props.inferredLatinFont.map((ele, idx) => {
               return (
-                <>
+                <div key={ele.fontName + ele.fontScore + ele.fontVar}>
                   {ele.fontName !== "none" ? (
                     <link
                       rel="stylesheet"
@@ -68,7 +68,7 @@ font-family: ${ele.fontName};
                     <div>{ele.fontVar}</div>
                     <div>{ele.fontScore.toFixed(3)}%</div>
                   </div>
-                </>
+                </div>
               );
             })}
           </div>
