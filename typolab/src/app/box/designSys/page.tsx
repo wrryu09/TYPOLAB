@@ -3,7 +3,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { HatIco, LogoHatIco } from "../../../../public/svgs";
 import BackArrow from "@/components/BackArrow";
-import SizedBox from "@/components/SizedBox";
 import { FontSet } from "@/types/types";
 import { toPng, toJpeg, toSvg } from "html-to-image";
 
@@ -154,8 +153,37 @@ font-weight: ${font.weight};
 
         {/* copy css */}
         <div className="mb-[10rem]">
-          <h1 className={subTitleStyle}>COPY CSS</h1>
-          <div>codepen</div>
+          <h1 className={`${subTitleStyle}`}>COPY CSS</h1>
+          <h1
+            className={`font-Bayon text-lg pb-2`}
+          >{`To embed a font, copy the code into the <head> of your html`}</h1>
+          {/* codeBox */}
+          <div className="mobile:w-full mobile:p-4 mobile:text-xs w-10/12 bg-white p-8 mb-4 flex text-sm">
+            <div>
+              <p>{`<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>`}</p>
+              <p>
+                {`<link href="https://fonts.googleapis.com/css2?${boxContent.map(
+                  (font) => {
+                    return `family=${font.family.replace(" ", "+")}:wght@${
+                      font.weight === "regular" ? 400 : font.weight
+                    }&`;
+                  }
+                )}
+          "rel="stylesheet"></link>`.replaceAll(",", "")}
+              </p>
+            </div>
+          </div>
+          {/* css rules */}
+          <h1
+            className={`font-Bayon text-lg pb-2`}
+          >{`CSS rules to specify families`}</h1>
+          <div className="mobile:w-full mobile:p-4 mobile:text-xs w-10/12 bg-white p-8 mb-4 text-sm">
+            <p>
+              {boxContent.map((font) => {
+                return `font-family: ${font.family};\n font-size: ${font.size}\n`;
+              })}
+            </p>
+          </div>
         </div>
 
         <LogoHatIco className="w-full" />
