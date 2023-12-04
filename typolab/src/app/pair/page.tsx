@@ -25,6 +25,7 @@ import FontSet from "@/containers/pair/FontSet";
 import TagSection from "@/containers/pair/TagSection";
 import BoxSection from "@/containers/pair/BoxSection";
 import { getGptGuide } from "@/services/apis/getGptGuide";
+import { BounceLoader } from "react-spinners";
 
 type Props = {};
 
@@ -348,10 +349,10 @@ const Pair = (props: Props) => {
               {koreanFont.name !== "none" && latinFont.name !== "none" ? (
                 <div>
                   {!showGuide ? (
-                    <>
+                    <div className="mobile:mb-0 mt-20">
                       {!isGuideBtnPushed ? (
                         <div
-                          className="mobile:mb-0 mb-40 px-12 py-4 bg-darkGreen hover:bg-red rounded-full justify-center items-center inline-flex"
+                          className="px-12 py-4 bg-darkGreen hover:bg-red rounded-full justify-center items-center inline-flex"
                           onClick={() => {
                             setIsGuideBtnPushed(true);
                             getGptGuide(selectedFirstInfo, selectedScndInfo)
@@ -370,8 +371,16 @@ const Pair = (props: Props) => {
                             view guide
                           </p>
                         </div>
-                      ) : null}
-                    </>
+                      ) : (
+                        <div className="flex flex-col items-center">
+                          <h1 className={`${subTitleStyle} mb-10`}>
+                            HOW TO USE
+                          </h1>
+                          <BounceLoader />
+                          <p className="mt-4">loading...</p>
+                        </div>
+                      )}
+                    </div>
                   ) : (
                     <div>
                       <h1 className={subTitleStyle}>HOW TO USE</h1>
