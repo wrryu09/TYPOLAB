@@ -24,6 +24,7 @@ import PreviewBox from "@/containers/pair/PreviewBox";
 import FontSet from "@/containers/pair/FontSet";
 import TagSection from "@/containers/pair/TagSection";
 import BoxSection from "@/containers/pair/BoxSection";
+import { getGptGuide } from "@/services/apis/getGptGuide";
 
 type Props = {};
 
@@ -52,6 +53,9 @@ const Pair = (props: Props) => {
     // window.innerWidth < 430 ? 12 : 32
     32
   );
+
+  const [useGuide, setUseGuide] = useState("guide generating...");
+  const [isGuideBtnPushed, setIsGuideBtnPushed] = useState(false);
 
   function handleTagSelection(tagId: number) {
     const tagArr = { ...tagList };
@@ -344,16 +348,30 @@ const Pair = (props: Props) => {
               {koreanFont.name !== "none" && latinFont.name !== "none" ? (
                 <div>
                   {!showGuide ? (
-                    <div
-                      className="mobile:mb-0 mb-40 px-12 py-4 bg-darkGreen hover:bg-red rounded-full justify-center items-center inline-flex"
-                      onClick={() => {
-                        setShowGuide(true);
-                      }}
-                    >
-                      <p className="mobile:text-4xl text-center text-white text-7xl font-['Bayon']">
-                        view guide
-                      </p>
-                    </div>
+                    <>
+                      {!isGuideBtnPushed ? (
+                        <div
+                          className="mobile:mb-0 mb-40 px-12 py-4 bg-darkGreen hover:bg-red rounded-full justify-center items-center inline-flex"
+                          onClick={() => {
+                            setIsGuideBtnPushed(true);
+                            getGptGuide(selectedFirstInfo, selectedScndInfo)
+                              .then((res) => {
+                                setUseGuide(res.data);
+                              })
+                              .catch((err) => {
+                                console.log(err);
+                              })
+                              .finally(() => {
+                                setShowGuide(true);
+                              });
+                          }}
+                        >
+                          <p className="mobile:text-4xl text-center text-white text-7xl font-['Bayon']">
+                            view guide
+                          </p>
+                        </div>
+                      ) : null}
+                    </>
                   ) : (
                     <div>
                       <h1 className={subTitleStyle}>HOW TO USE</h1>
@@ -390,6 +408,7 @@ const Pair = (props: Props) => {
                           );
                         })}
                       </div>
+                      <p>{useGuide}</p>
                     </div>
                   )}
                 </div>
