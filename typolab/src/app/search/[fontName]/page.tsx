@@ -1,39 +1,23 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { CheckIco, HatIco, PlusIco } from "../../../../public/svgs";
+import { HatIco } from "../../../../public/svgs";
 import { getFontList, getFontPage } from "@/services/apis/googleFont.apis";
-import { FontInfoType, FontPageType, FontSet } from "@/types/types";
+import { FontInfoType, FontPageType } from "@/types/types";
 import SizedBox from "@/components/SizedBox";
 import BackArrow from "@/components/BackArrow";
 import Footer from "@/components/Footer";
-import putFontSetToBox from "@/services/putFontSetToBox";
 import styles from "./page.module.css";
+import PreviewBox from "@/containers/pair/PreviewBox";
+import BoxSet from "@/containers/pair/BoxSet";
 
 const SearchRes = ({ params }: { params: { fontName: string } }) => {
   const fontFamily = params.fontName.replaceAll("%20", " ");
   const [fontData, setFontData] = useState<FontInfoType>();
   const [fontPageData, setFontPageData] = useState<FontPageType>();
   const [varient, setVarient] = useState<string>("regular");
-  type Sizes = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
-  const fontSizeObj: { [num in Sizes]: string } = {
-    0: "text-xs",
-    1: "text-sm",
-    2: "text-base",
-    3: "text-lg",
-    4: "text-xl",
-    5: "text-2xl",
-    6: "text-3xl",
-    7: "text-4xl",
-    8: "text-5xl",
-    9: "text-6xl",
-    10: "text-7xl",
-    11: "text-8xl",
-    12: "text-9xl",
-  };
-  const [fontSize, setFontSize] = useState<string>(fontSizeObj[5]);
-  const subTitleStyle = "font-Bayon text-6xl pb-8";
-
+  const [fontSize, setFontSize] = useState<number>(32);
+  const subTitleStyle = "mobile:text-4xl mobile:pb-4 font-Bayon text-6xl pb-8";
   const [fontInBox, setFontInBox] = useState(false);
 
   // get info of the font
@@ -94,30 +78,7 @@ const SearchRes = ({ params }: { params: { fontName: string } }) => {
         <>
           {varientArr.length > 0 ? (
             <div className="w-11/12">
-              <div className="flex">
-                <p className="font-Bayon text-lg text-greenGrey">SIZE</p>
-                <input
-                  type="range"
-                  min={0}
-                  max={12}
-                  className="w-1/2"
-                  onChange={(e) => {
-                    const val: number = Number(e.currentTarget.value);
-                    const sizeVal: Sizes = val as Sizes;
-                    setFontSize(fontSizeObj[sizeVal]);
-                  }}
-                />
-              </div>
-              <div className="w-full flex justify-between">
-                {/* size & weight seek */}
-                <h1
-                  className={`fontWeight rounded-lg border border-lightGrey w-4/5 h-auto flex items-end`}
-                >
-                  <input
-                    placeholder={fontFamily}
-                    className={`p-3 ${fontSize} fontFamily w-full h-full bg-fog`}
-                  ></input>
-                </h1>
+              <div className="mobile:flex-col mobile:items-start w-full flex justify-between">
                 {/* font varient btn */}
                 <div className="flex flex-col items-end gap-1 text-greenGrey">
                   {varientArr.map((ele) => {
@@ -138,6 +99,15 @@ const SearchRes = ({ params }: { params: { fontName: string } }) => {
                     );
                   })}
                 </div>
+                {/* size & weight seek */}
+                <div className="mobile:w-full mobile:mt-[1rem] w-8/12">
+                  <PreviewBox
+                    boxNum={2}
+                    fontFamily={{ name: fontFamily, variants: varient }}
+                    fontSize={fontSize}
+                    setFontSize={setFontSize}
+                  />
+                </div>
               </div>
               {/* font varient print */}
               {varientArr.map((ele, idx) => {
@@ -149,39 +119,48 @@ const SearchRes = ({ params }: { params: { fontName: string } }) => {
   }
   `}
                     </style>
-                    <p className={`eleWeight${idx} fontFamily text-2xl`}>
+                    <p
+                      className={`eleWeight${idx} fontFamily text-2xl text-right`}
+                    >
                       The Quick Brown Fox Jumps Over The Lazy Dog
                     </p>
                   </div>
                 );
               })}
-              <button
-                className="flex items-center gap-x-2 font-Bayon text-xl border px-2.5 py-2 rounded-md"
-                onClick={() => {
-                  const fontSet: FontSet = {
-                    family: fontFamily,
-                    weight: varient,
-
-                    // ❌ needs modification ❌
-                    size: 55,
-                  };
-                  putFontSetToBox(fontSet, setFontInBox);
-                }}
-              >
-                <p>SAVE THIS FONT SET</p>
-                {fontInBox ? (
-                  <CheckIco className={"fill-red w-8"} />
-                ) : (
-                  <PlusIco className="w-8" />
-                )}
-              </button>
+              <p className={`mobile:mt-[4rem] ${subTitleStyle} mt-[10rem]`}>
+                SAVE THIS FONT SET
+              </p>
+              <div className="flex pt-[1rem]">
+                <BoxSet
+                  boxNum={2}
+                  displaySize={fontSize}
+                  font={{ name: fontFamily, variants: varient }}
+                  isInBox={fontInBox}
+                  setItInBox={setFontInBox}
+                />
+              </div>
             </div>
           ) : null}
           <div className="flex flex-col mt-40 w-11/12">
             {/* license */}
             <div className="self-end mb-20">
               <h1 className={subTitleStyle}>LICENSE</h1>
-              {fontPageData ? <>{fontPageData.license}</> : null}
+              <h1 className={`${subTitleStyle} text-red`}>
+                {fontPageData.license}
+              </h1>
+              {fontPageData.license === "ofl" ? (
+                <div>
+                  <p>These fonts are licensed under the Open Font License.</p>
+                  <p>
+                    You can use them in your products & projects – print or
+                    digital, commercial or otherwise.
+                  </p>
+                  <p>
+                    This isn't legal advice, please consider consulting a lawyer
+                    and see the full license for all details.
+                  </p>
+                </div>
+              ) : null}
             </div>
 
             {/* designers */}
@@ -233,9 +212,9 @@ const SearchRes = ({ params }: { params: { fontName: string } }) => {
         </div>
       )}
 
-      <SizedBox height={30} />
-      <Footer />
-      <SizedBox height={10} />
+      <div className="mobile:mt-[20rem] mobile:mb-[4rem] w-full mt-[30rem] mb-[10rem]">
+        <Footer />
+      </div>
     </div>
   );
 };
