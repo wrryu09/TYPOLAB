@@ -378,6 +378,7 @@ const Pair = (props: Props) => {
                           </h1>
                           <BounceLoader />
                           <p className="mt-4">loading...</p>
+                          <p className="mt-4">가이드 생성 중입니다! 30초만 기다려 주세요</p>
                         </div>
                       )}
                     </div>
