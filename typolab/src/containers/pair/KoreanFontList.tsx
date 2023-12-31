@@ -36,20 +36,40 @@ const KoreanFontList = (props: Props) => {
           className={`mobile:w-full mobile:p-4 w-[90%] h-fit p-8 rounded-lg border border-greenGrey bg-fog flex flex-col items-center`}
         >
           <div className="flex flex-col mb-12">
+            {/* font preview */}
+            {/* <div className="flex-col flex">
+              <div className="flex-col text-center">
+                {selectedFont.name !== "none" ? (
+                  <>
+                    <link
+                      rel="stylesheet"
+                      href={`https://fonts.googleapis.com/css2?family=${selectedFont.name}`}
+                    />
+                    <style>
+                      {`.disPlayKrFont{
+font-family: ${selectedFont.name};
+font-weight: ${selectedVar};
+}`}
+                    </style>
+                    <div className="mobile:text-5xl mobile:mb-10 text-6xl disPlayKrFont mb-12">
+                      TypoLab
+                    </div>
+                  </>
+                ) : null}
+              </div>
+            </div> */}
+
             {/* font family */}
             <div>
-              <div className="text-greenGrey font-Bayon text-xl mb-4">
+              <div className="text-greenGrey font-Bayon text-xl mb-2">
                 Font Family
               </div>
-              <div className="flex flex-wrap justify-start items-start gap-2 mb-12">
+              <div className="flex flex-wrap justify-start items-start gap-2 mb-6">
                 {props.fontList.map((fontName, idx) => {
                   return (
                     <div
                       key={fontName.name + fontName.variants + idx}
-                      className="mobile:py-1 mobile:px-2 mobile:text-xs py-2 px-4"
-                      onClick={() => {
-                        setSelectedFont(fontName);
-                      }}
+                      className="flex w-full justify-between items-center border border-lightGrey rounded-md mobile:text-xs py-2.5 px-4"
                     >
                       {fontName.name !== "none" ? (
                         <link
@@ -60,66 +80,74 @@ const KoreanFontList = (props: Props) => {
                       <style>
                         {`.fontFamilykoreanFontListCss${idx}{
 font-family: ${fontName.name};
+font-weight: ${selectedVar};
 }`}
                       </style>
-                      <p
-                        className={`fontFamilykoreanFontListCss${idx} ${
+                      <div className="flex flex-col items-start">
+                        {/* 폰트명 */}
+                        <p
+                          className={`fontFamilykoreanFontListCss${idx} ${
+                            selectedFont.name === fontName.name
+                              ? "text-red"
+                              : "text-darkGreen"
+                          } text-sm `}
+                        >
+                          {fontName.name}
+                        </p>
+
+                        {/* 다람쥐 */}
+                        <p
+                          className={`fontFamilykoreanFontListCss${idx} ${
+                            selectedFont.name === fontName.name
+                              ? "text-red"
+                              : "text-darkGreen"
+                          }`}
+                        >
+                          타이포랩! 다람쥐 헌 쳇바퀴에 타고파
+                        </p>
+                        {selectedFont.name === fontName.name ? (
+                          <div className="flex flex-wrap justify-start items-start gap-2">
+                            {/* variants */}
+                            {selectedFont.variants.map((variant) => {
+                              return (
+                                <div
+                                  key={selectedFont + variant + "selectVar"}
+                                  className={`${
+                                    selectedVar === variant
+                                      ? "bg-red"
+                                      : "bg-darkGreen"
+                                  } px-2.5 py-0.5 mt-2 text-white rounded-full`}
+                                  onClick={() => {
+                                    setSelectedVar(variant);
+                                  }}
+                                >
+                                  {variant}
+                                </div>
+                              );
+                            })}
+                          </div>
+                        ) : null}
+                      </div>
+                      {/* 선택 버튼 */}
+                      <div
+                        className={`text-fog bg-black px-2.5 py-1.5 rounded-full text-sm font-semibold ${
                           selectedFont.name === fontName.name
-                            ? "text-red"
-                            : "text-darkGreen"
+                            ? "bg-greenGrey"
+                            : "bg-darkGreen"
                         }`}
+                        onClick={() => {
+                          setSelectedFont(fontName);
+                          if (fontName.variants.length > 0) {
+                            setSelectedVar(fontName.variants[0]);
+                          }
+                        }}
                       >
-                        {fontName.name}
-                      </p>
+                        선택하기
+                      </div>
                     </div>
                   );
                 })}
               </div>
-            </div>
-
-            {/* variants */}
-            <div className="text-greenGrey font-Bayon text-xl mb-4">
-              Variants
-            </div>
-            <div className="flex justify-start items-start gap-4">
-              {selectedFont.variants.map((variant) => {
-                return (
-                  <div
-                    key={selectedFont + variant + "selectVar"}
-                    className={`${
-                      selectedVar === variant ? "text-red" : "text-darkGreen"
-                    }`}
-                    onClick={() => {
-                      setSelectedVar(variant);
-                    }}
-                  >
-                    {variant}
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* font preview */}
-          <div className="flex-col items-end justify-between inline-flex">
-            <div className="flex-col justify-end items-end flex text-right">
-              {selectedFont.name !== "none" ? (
-                <>
-                  <link
-                    rel="stylesheet"
-                    href={`https://fonts.googleapis.com/css2?family=${selectedFont.name}`}
-                  />
-                  <style>
-                    {`.disPlayKrFont{
-font-family: ${selectedFont.name};
-font-weight: ${selectedVar};
-}`}
-                  </style>
-                  <div className="mobile:text-5xl mobile:mb-10 text-6xl disPlayKrFont mb-20">
-                    TypoLab
-                  </div>
-                </>
-              ) : null}
             </div>
           </div>
 

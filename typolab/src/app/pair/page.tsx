@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 import BackArrow from "@/components/BackArrow";
 import Footer from "@/components/Footer";
 import { HatIco } from "../../../public/svgs";
-import FontCard from "@/components/FontCard";
 import { getKoreanFontList } from "@/services/apis/getKoreanFontList";
 import { getKoreanFontInfoDB } from "@/services/apis/getKoreanFontInfoDB";
 import {
@@ -14,7 +13,6 @@ import {
   InferredFont,
   Tag,
 } from "@/types/types";
-import { convertFontDBDatatoFontInfo } from "@/services/convertFontDBDatatoFontInfo";
 import { fontInfoFromDBDummyData } from "@/containers/pair/fontInfoFromDBDummyData";
 import { inferSimillarLatin } from "@/services/apis/inferSimillarLatin";
 import KoreanFontList from "@/containers/pair/KoreanFontList";
@@ -23,9 +21,7 @@ import { getLatinsFontInfoDB } from "@/services/apis/getLatinFontInfoDB";
 import PreviewBox from "@/containers/pair/PreviewBox";
 import FontSet from "@/containers/pair/FontSet";
 import TagSection from "@/containers/pair/TagSection";
-import BoxSection from "@/containers/pair/BoxSection";
-import { getGptGuide } from "@/services/apis/getGptGuide";
-import { BounceLoader } from "react-spinners";
+import PairedInfo from "@/containers/pair/PairedInfo";
 
 type Props = {};
 
@@ -55,9 +51,6 @@ const Pair = (props: Props) => {
     32
   );
 
-  const [useGuide, setUseGuide] = useState("guide generating...");
-  const [isGuideBtnPushed, setIsGuideBtnPushed] = useState(false);
-
   function handleTagSelection(tagId: number) {
     const tagArr = { ...tagList };
     tagArr.classTag.forEach((tag) => {
@@ -86,9 +79,6 @@ const Pair = (props: Props) => {
   const [showKoreanFontList, setShowKoreanFontList] = useState(false);
   // select latin font above recommendation
   const [showLatinRecModal, setShowLatinRecModal] = useState(false);
-
-  // view guide section
-  const [showGuide, setShowGuide] = useState(false);
 
   // all korean fonts list from db
   const [koreanFontList, setKoreanFontList] = useState<FontNameNVar[]>([]);
@@ -134,10 +124,6 @@ const Pair = (props: Props) => {
   const [selectedScndInfo, setSelectedScndInfo] = useState<FontInfoFromDB>(
     fontInfoFromDBDummyData
   );
-
-  // Is fontSet in box
-  const [firstInBox, setFirstInBox] = useState(false);
-  const [scndInBox, setScndInBox] = useState(false);
 
   // koreanFontList가 없을 때만 서버에 국문폰트명리스트요청
   const saveKoreanFontList = () => {
@@ -305,126 +291,16 @@ const Pair = (props: Props) => {
         </div>
 
         {koreanFont.name !== "none" || latinFont.name !== "none" ? (
-          <>
-            {/* box section */}
-            <BoxSection
-              displayFirstSize={displayFirstSize}
-              displayScndSize={displayScndSize}
-              firstInBox={firstInBox}
-              koreanFont={koreanFont}
-              latinFont={latinFont}
-              scndInBox={scndInBox}
-              setFirstInBox={setFirstInBox}
-              setScndInBox={setScndInBox}
-              subTitleStyle={subTitleStyle}
-            />
-
-            {/* font info section */}
-            <div className="mobile:mb-0 mb-96">
-              <h1 className={`${subTitleStyle} mb-40`}>FONT INFO</h1>
-              {/* FONT CARDS */}
-              <div className="relative w-screen flex">
-                <div className="mobile:relative flex flex-wrap gap-4 z-10 absolute left-1/2 -translate-x-1/2 -top-32">
-                  {/* first FontCard */}
-                  {selectedFirstInfo.family !== "none" ? (
-                    <FontCard
-                      idx={0}
-                      data={convertFontDBDatatoFontInfo(selectedFirstInfo)}
-                    />
-                  ) : null}
-                  {selectedScndInfo.family !== "none" ? (
-                    <FontCard
-                      idx={1}
-                      data={convertFontDBDatatoFontInfo(selectedScndInfo)}
-                    />
-                  ) : null}
-                </div>
-                <HatIco className="left-0 right-0 absolute" />
-              </div>
-            </div>
-
-            {/* user guide section */}
-            <div className="mobile:mt-10 mobile:mb-0 mt-40 mb-40">
-              {/* view guide */}
-              {koreanFont.name !== "none" && latinFont.name !== "none" ? (
-                <div>
-                  {!showGuide ? (
-                    <div className="mobile:mb-0 mt-20">
-                      {!isGuideBtnPushed ? (
-                        <div
-                          className="px-12 py-4 bg-darkGreen hover:bg-red rounded-full justify-center items-center inline-flex"
-                          onClick={() => {
-                            setIsGuideBtnPushed(true);
-                            getGptGuide(selectedFirstInfo, selectedScndInfo)
-                              .then((res) => {
-                                setUseGuide(res.data);
-                              })
-                              .catch((err) => {
-                                console.log(err);
-                              })
-                              .finally(() => {
-                                setShowGuide(true);
-                              });
-                          }}
-                        >
-                          <p className="mobile:text-4xl text-center text-white text-7xl font-['Bayon']">
-                            view guide
-                          </p>
-                        </div>
-                      ) : (
-                        <div className="flex flex-col items-center">
-                          <h1 className={`${subTitleStyle} mb-10`}>
-                            HOW TO USE
-                          </h1>
-                          <BounceLoader />
-                          <p className="mt-4">loading...</p>
-                          <p className="mt-4">가이드 생성 중입니다! 30초만 기다려 주세요</p>
-                        </div>
-                      )}
-                    </div>
-                  ) : (
-                    <div>
-                      <h1 className={subTitleStyle}>HOW TO USE</h1>
-                      <div className="flex flex-wrap gap-2 mb-10">
-                        {/* 해당되는 태그만 보이기 */}
-                        {tagList.classTag.map((tag) => {
-                          return (
-                            <div key={tag.id + tag.name + "selected"}>
-                              {tag.selected === true ? (
-                                <h1
-                                  className={`mobile:text-sm px-3 py-1 border border-lightGrey rounded-md flex shrink-0 justify-center
-                  bg-fog
-                `}
-                                >
-                                  {tag.name}
-                                </h1>
-                              ) : null}
-                            </div>
-                          );
-                        })}
-                        {tagList.useTag.map((tag) => {
-                          return (
-                            <div key={tag.id + tag.name + "selected"}>
-                              {tag.selected === true ? (
-                                <h1
-                                  className={`mobile:text-sm px-3 py-1 border border-lightGrey rounded-md flex shrink-0 justify-center
-                  bg-fog
-                `}
-                                >
-                                  {tag.name}
-                                </h1>
-                              ) : null}
-                            </div>
-                          );
-                        })}
-                      </div>
-                      <p>{useGuide}</p>
-                    </div>
-                  )}
-                </div>
-              ) : null}
-            </div>
-          </>
+          <PairedInfo
+            displayFirstSize={displayFirstSize}
+            displayScndSize={displayScndSize}
+            koreanFont={koreanFont}
+            latinFont={latinFont}
+            selectedFirstInfo={selectedFirstInfo}
+            selectedScndInfo={selectedScndInfo}
+            subTitleStyle={subTitleStyle}
+            tagList={tagList}
+          />
         ) : null}
       </div>
       <Footer />
