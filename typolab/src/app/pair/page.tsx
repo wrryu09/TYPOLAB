@@ -21,9 +21,7 @@ import { getLatinsFontInfoDB } from "@/services/apis/getLatinFontInfoDB";
 import PreviewBox from "@/containers/pair/PreviewBox";
 import FontSet from "@/containers/pair/FontSet";
 import TagSection from "@/containers/pair/TagSection";
-import BoxSection from "@/containers/pair/BoxSection";
-import FontInfo from "@/containers/pair/FontInfo";
-import UserGuide from "@/containers/pair/UserGuide";
+import PairedInfo from "@/containers/pair/PairedInfo";
 
 type Props = {};
 
@@ -126,10 +124,6 @@ const Pair = (props: Props) => {
   const [selectedScndInfo, setSelectedScndInfo] = useState<FontInfoFromDB>(
     fontInfoFromDBDummyData
   );
-
-  // Is fontSet in box
-  const [firstInBox, setFirstInBox] = useState(false);
-  const [scndInBox, setScndInBox] = useState(false);
 
   // koreanFontList가 없을 때만 서버에 국문폰트명리스트요청
   const saveKoreanFontList = () => {
@@ -297,37 +291,16 @@ const Pair = (props: Props) => {
         </div>
 
         {koreanFont.name !== "none" || latinFont.name !== "none" ? (
-          <>
-            {/* box section */}
-            <BoxSection
-              displayFirstSize={displayFirstSize}
-              displayScndSize={displayScndSize}
-              firstInBox={firstInBox}
-              koreanFont={koreanFont}
-              latinFont={latinFont}
-              scndInBox={scndInBox}
-              setFirstInBox={setFirstInBox}
-              setScndInBox={setScndInBox}
-              subTitleStyle={subTitleStyle}
-            />
-
-            {/* font info section */}
-            <FontInfo
-              selectedFirstInfo={selectedFirstInfo}
-              selectedScndInfo={selectedScndInfo}
-              subTitleStyle={subTitleStyle}
-            />
-
-            {/* user guide section */}
-            <UserGuide
-              koreanFont={koreanFont}
-              latinFont={latinFont}
-              selectedFirstInfo={selectedFirstInfo}
-              selectedScndInfo={selectedScndInfo}
-              subTitleStyle={subTitleStyle}
-              tagList={tagList}
-            />
-          </>
+          <PairedInfo
+            displayFirstSize={displayFirstSize}
+            displayScndSize={displayScndSize}
+            koreanFont={koreanFont}
+            latinFont={latinFont}
+            selectedFirstInfo={selectedFirstInfo}
+            selectedScndInfo={selectedScndInfo}
+            subTitleStyle={subTitleStyle}
+            tagList={tagList}
+          />
         ) : null}
       </div>
       <Footer />
