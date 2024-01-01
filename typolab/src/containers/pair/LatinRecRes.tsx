@@ -16,7 +16,7 @@ const LatinRecRes = (props: Props) => {
   });
 
   return (
-    <div className="absolute flex flex-col z-10 w-full h-full top-0 left-0 items-center justify-center bg-black bg-opacity-80">
+    <div className="fixed flex flex-col z-20 w-full h-full top-0 left-0 items-center justify-center bg-black bg-opacity-80">
       <h2 className="mobile:text-4xl mobile:pb-4 font-Bayon text-6xl pb-8 text-red">
         Result
       </h2>
