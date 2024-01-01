@@ -12,7 +12,7 @@ type Props = {
 const KoreanModalBtn = (props: Props) => {
   const btnCss = "text-center text-white text-7xl font-['Bayon']";
   return (
-    <div className="sticky bottom-8">
+    <div className="fixed bottom-8 z-30">
       {props.selectedFont.name !== "none" ? (
         <div
           className={`mobile:w-full hover:bg-red w-10/12 px-12 py-2 bg-darkGreen rounded-full justify-center items-center inline-flex`}

@@ -1,6 +1,5 @@
 import { FontNameNVar, FontNameVarSet } from "@/types/types";
-import React, { SetStateAction, useState } from "react";
-import KoreanModalBtn from "./KoreanModalBtn";
+import React, { SetStateAction } from "react";
 import KrSelectionBox from "./KrSelectionBox";
 
 type Props = {
@@ -8,15 +7,13 @@ type Props = {
   setFont: React.Dispatch<SetStateAction<FontNameVarSet>>;
   putFontData: (fontName: string) => void;
   setShowFontList: React.Dispatch<SetStateAction<boolean>>;
+  selectedVar: string;
+  selectedFont: FontNameNVar;
+  setSelectedVar: React.Dispatch<SetStateAction<string>>;
+  setSelectedFont: React.Dispatch<SetStateAction<FontNameNVar>>;
 };
 
 const KoreanFontList = (props: Props) => {
-  const [selectedFont, setSelectedFont] = useState<FontNameNVar>({
-    name: "none",
-    variants: ["regular"],
-  });
-  const [selectedVar, setSelectedVar] = useState<string>("regular");
-
   return (
     <div className="z-20">
       {/* modal background */}
@@ -28,7 +25,7 @@ const KoreanFontList = (props: Props) => {
       />
 
       {/* modal */}
-      <div className="absolute w-11/12 top-6">
+      <div className="absolute w-11/12 top-6 left-1/2 -translate-x-1/2">
         {/* CHOOSE YOUR FONT */}
         <h2 className="mobile:text-4xl mobile:p-4 font-Bayon text-6xl p-8 text-white">
           Choose your font
@@ -49,25 +46,16 @@ const KoreanFontList = (props: Props) => {
                     <KrSelectionBox
                       fontName={fontName}
                       idx={idx}
-                      selectedFont={selectedFont}
-                      selectedVar={selectedVar}
-                      setSelectedFont={setSelectedFont}
-                      setSelectedVar={setSelectedVar}
+                      selectedFont={props.selectedFont}
+                      selectedVar={props.selectedVar}
+                      setSelectedFont={props.setSelectedFont}
+                      setSelectedVar={props.setSelectedVar}
                     />
                   );
                 })}
               </div>
             </div>
           </div>
-
-          {/* OK Btn */}
-          <KoreanModalBtn
-            putFontData={props.putFontData}
-            selectedFont={selectedFont}
-            selectedVar={selectedVar}
-            setFont={props.setFont}
-            setShowFontList={props.setShowFontList}
-          />
         </div>
       </div>
     </div>

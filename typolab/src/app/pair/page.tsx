@@ -22,6 +22,7 @@ import PreviewBox from "@/containers/pair/PreviewBox";
 import FontSet from "@/containers/pair/FontSet";
 import TagSection from "@/containers/pair/TagSection";
 import PairedInfo from "@/containers/pair/PairedInfo";
+import KoreanModalBtn from "@/containers/pair/KoreanModalBtn";
 
 type Props = {};
 
@@ -50,6 +51,12 @@ const Pair = (props: Props) => {
     // window.innerWidth < 430 ? 12 : 32
     32
   );
+
+  const [selectedFont, setSelectedFont] = useState<FontNameNVar>({
+    name: "none",
+    variants: ["regular"],
+  });
+  const [selectedVar, setSelectedVar] = useState<string>("regular");
 
   function handleTagSelection(tagId: number) {
     const tagArr = { ...tagList };
@@ -197,12 +204,26 @@ const Pair = (props: Props) => {
         <div className="mobile:gap-10 flex self-start gap-32 mb-10">
           {/* 국문 선택 폰트 모달 */}
           {showKoreanFontList ? (
-            <KoreanFontList
-              fontList={koreanFontList}
-              putFontData={putKoreanFontData}
-              setFont={setKoreanFont}
-              setShowFontList={setShowKoreanFontList}
-            />
+            <>
+              <KoreanFontList
+                fontList={koreanFontList}
+                putFontData={putKoreanFontData}
+                setFont={setKoreanFont}
+                setShowFontList={setShowKoreanFontList}
+                selectedFont={selectedFont}
+                selectedVar={selectedVar}
+                setSelectedFont={setSelectedFont}
+                setSelectedVar={setSelectedVar}
+              />
+              {/* OK Btn */}
+              <KoreanModalBtn
+                putFontData={putKoreanFontData}
+                selectedFont={selectedFont}
+                selectedVar={selectedVar}
+                setFont={setKoreanFont}
+                setShowFontList={setShowKoreanFontList}
+              />
+            </>
           ) : null}
 
           {/* 영문 선택 폰트 모달 */}
@@ -271,7 +292,7 @@ const Pair = (props: Props) => {
         {/* 국문만 선택되어 있을 경우 추천 영문 폰트 확인 안내문구 */}
         <div className="mb-20">
           {koreanFont.name !== "none" && latinFont.name == "none" ? (
-            <p className="break-keep">
+            <p className="break-keep text-sm">
               추천 영문 폰트 버튼을 눌러 선택한 국문 폰트와 유사한 영문 폰트를
               확인해보세요!
             </p>
