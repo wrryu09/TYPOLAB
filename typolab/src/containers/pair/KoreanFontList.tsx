@@ -102,7 +102,7 @@ font-weight: ${selectedVar};
                             selectedFont.name === fontName.name
                               ? "text-red"
                               : "text-darkGreen"
-                          }`}
+                          } text-left break-keep`}
                         >
                           타이포랩! 다람쥐 헌 쳇바퀴에 타고파
                         </p>
@@ -131,7 +131,7 @@ font-weight: ${selectedVar};
                       </div>
                       {/* 선택 버튼 */}
                       <div
-                        className={`text-fog bg-black px-2.5 py-1.5 rounded-full text-sm font-semibold ${
+                        className={`text-fog bg-black px-2.5 py-1.5 rounded-full text-sm font-semibold whitespace-nowrap ${
                           selectedFont.name === fontName.name
                             ? "bg-greenGrey"
                             : "bg-darkGreen"
