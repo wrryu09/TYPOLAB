@@ -10,8 +10,9 @@ type Props = {
 };
 
 const KoreanModalBtn = (props: Props) => {
+  const btnCss = "text-center text-white text-7xl font-['Bayon']";
   return (
-    <>
+    <div className="sticky bottom-8">
       {props.selectedFont.name !== "none" ? (
         <div
           className={`mobile:w-full hover:bg-red w-10/12 px-12 py-2 bg-darkGreen rounded-full justify-center items-center inline-flex`}
@@ -27,9 +28,7 @@ const KoreanModalBtn = (props: Props) => {
             props.setShowFontList(false);
           }}
         >
-          <div className="text-center text-white text-7xl font-['Bayon']">
-            ok
-          </div>
+          <div className={btnCss}>ok</div>
         </div>
       ) : (
         <div
@@ -38,12 +37,10 @@ const KoreanModalBtn = (props: Props) => {
             props.setShowFontList(false);
           }}
         >
-          <div className="text-center text-white text-7xl font-['Bayon']">
-            close
-          </div>
+          <div className={btnCss}>close</div>
         </div>
       )}
-    </>
+    </div>
   );
 };
 

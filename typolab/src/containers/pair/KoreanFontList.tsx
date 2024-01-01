@@ -27,7 +27,7 @@ const KoreanFontList = (props: Props) => {
       />
 
       {/* modal */}
-      <div className="absolute w-10/12 left-1/2 top-6 -translate-x-1/2 translate-y-0">
+      <div className="absolute w-11/12 top-6">
         {/* CHOOSE YOUR FONT */}
         <h2 className="mobile:text-4xl mobile:p-4 font-Bayon text-6xl p-8 text-white">
           Choose your font
