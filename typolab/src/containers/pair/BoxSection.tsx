@@ -1,6 +1,7 @@
 import React from "react";
 import BoxSet from "./BoxSet";
 import { FontNameVarSet } from "@/types/types";
+import TotheBox from "./TotheBox";
 
 type Props = {
   subTitleStyle: string;
@@ -17,8 +18,12 @@ type Props = {
 const BoxSection = (props: Props) => {
   return (
     <>
-      <h1 className={`${props.subTitleStyle} mb-10 mobile:mb-4`}>ADD TO YOUR BOX</h1>
-      <div className="mobile:mb-20 mobile:py-8 w-full py-20 mb-60 bg-gradient-to-tr from-[#4f93ab0b] to-[#b66f441f] border-2 border-lightGrey rounded-3xl shadow-xl">
+      <div className="mb-8">
+        <h1 className={`${props.subTitleStyle} mb-2`}>ADD TO YOUR BOX</h1>
+        <p>+ 버튼을 눌러 박스에 선택한 글꼴 정보를 저장해 보세요!</p>
+        <p>BOX 페이지에서 확인할 수 있습니다.</p>
+      </div>
+      <div className="mobile:mb-4 mb-8 mobile:py-8 w-full py-20 border-2 border-lightGrey rounded-3xl shadow-xl">
         <div className="flex flex-col items-center gap-y-6">
           {/* 1st set */}
           <BoxSet
@@ -39,6 +44,7 @@ const BoxSection = (props: Props) => {
           />
         </div>
       </div>
+      <TotheBox subTitleStyle={props.subTitleStyle} />
     </>
   );
 };

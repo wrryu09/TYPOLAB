@@ -11,6 +11,9 @@ const TagSection = (props: Props) => {
   return (
     <>
       <h1 className={props.subTitleStyle}>TAG</h1>
+      {/* 국문 폰트가 설정 안 되어 있으면 태그를 선택하라는 안내 띄우기 */}
+      <p>태그를 고르고 한글 폰트를 선택해보세요!</p>
+      <p>선택하지 않으면 모든 글꼴이 표시됩니다.</p>
       <div className="mb-20 flex flex-col items-start">
         {/* classification */}
         <p className="mobile:py-2 font-semibold py-4">분류</p>
