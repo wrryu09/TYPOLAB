@@ -1,5 +1,6 @@
 import { FontNameNVar, FontNameVarSet } from "@/types/types";
 import React, { SetStateAction, useState } from "react";
+import KoreanModalBtn from "./KoreanModalBtn";
 
 type Props = {
   fontList: FontNameNVar[];
@@ -142,7 +143,7 @@ font-weight: ${selectedVar};
                           }
                         }}
                       >
-                        선택하기
+                        선택
                       </div>
                     </div>
                   );
@@ -152,37 +153,13 @@ font-weight: ${selectedVar};
           </div>
 
           {/* OK Btn */}
-          {selectedFont.name !== "none" ? (
-            <div
-              className={`mobile:w-full hover:bg-red w-10/12 px-12 py-2 bg-darkGreen rounded-full justify-center items-center inline-flex`}
-              onClick={() => {
-                // set font if only selected
-                if (selectedFont.name !== "none") {
-                  props.setFont({
-                    name: selectedFont.name,
-                    variants: selectedVar,
-                  });
-                  props.putFontData(selectedFont.name);
-                }
-                props.setShowFontList(false);
-              }}
-            >
-              <div className="text-center text-white text-7xl font-['Bayon']">
-                ok
-              </div>
-            </div>
-          ) : (
-            <div
-              className={`mobile:w-full hover:bg-red px-12 py-2 bg-darkGreen rounded-full justify-center items-center inline-flex`}
-              onClick={() => {
-                props.setShowFontList(false);
-              }}
-            >
-              <div className="text-center text-white text-7xl font-['Bayon']">
-                close
-              </div>
-            </div>
-          )}
+          <KoreanModalBtn
+            putFontData={props.putFontData}
+            selectedFont={selectedFont}
+            selectedVar={selectedVar}
+            setFont={props.setFont}
+            setShowFontList={props.setShowFontList}
+          />
         </div>
       </div>
     </div>
