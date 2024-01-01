@@ -193,9 +193,8 @@ const Pair = (props: Props) => {
             />
           </>
         )}
-
         {/* font section */}
-        <div className="mobile:mb-20 mobile:gap-10 flex self-start gap-32 mb-40">
+        <div className="mobile:gap-10 flex self-start gap-32 mb-10">
           {/* 국문 선택 폰트 모달 */}
           {showKoreanFontList ? (
             <KoreanFontList
@@ -269,7 +268,15 @@ const Pair = (props: Props) => {
             </div>
           ) : null}
         </div>
-
+        {/* 국문만 선택되어 있을 경우 추천 영문 폰트 확인 안내문구 */}
+        <div className="mb-20">
+          {koreanFont.name !== "none" && latinFont.name == "none" ? (
+            <p className="break-keep">
+              추천 영문 폰트 버튼을 눌러 선택한 국문 폰트와 유사한 영문 폰트를
+              확인해보세요!
+            </p>
+          ) : null}
+        </div>
         {/* font display box */}
         <div className="mobile:mb-10 flex flex-col w-full mb-40">
           {koreanFont.name !== "none" ? (
