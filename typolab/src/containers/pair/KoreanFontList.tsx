@@ -17,7 +17,7 @@ const KoreanFontList = (props: Props) => {
   const [selectedVar, setSelectedVar] = useState<string>("regular");
 
   return (
-    <div>
+    <div className="z-20">
       {/* modal background */}
       <div
         className="absolute w-full h-full top-0 left-0 bg-black bg-opacity-80"
