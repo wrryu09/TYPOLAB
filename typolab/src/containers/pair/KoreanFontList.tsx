@@ -37,36 +37,13 @@ const KoreanFontList = (props: Props) => {
         <div
           className={`mobile:w-full mobile:p-4 w-[90%] h-fit p-8 rounded-lg border border-greenGrey bg-fog flex flex-col items-center`}
         >
-          <div className="flex flex-col mb-12">
-            {/* font preview */}
-            {/* <div className="flex-col flex">
-              <div className="flex-col text-center">
-                {selectedFont.name !== "none" ? (
-                  <>
-                    <link
-                      rel="stylesheet"
-                      href={`https://fonts.googleapis.com/css2?family=${selectedFont.name}`}
-                    />
-                    <style>
-                      {`.disPlayKrFont{
-font-family: ${selectedFont.name};
-font-weight: ${selectedVar};
-}`}
-                    </style>
-                    <div className="mobile:text-5xl mobile:mb-10 text-6xl disPlayKrFont mb-12">
-                      TypoLab
-                    </div>
-                  </>
-                ) : null}
-              </div>
-            </div> */}
-
+          <div className="w-full flex flex-col mb-12">
             {/* font family */}
             <div>
               <div className="text-greenGrey font-Bayon text-xl mb-2">
                 Font Family
               </div>
-              <div className="flex flex-wrap justify-start items-start gap-2 mb-6">
+              <div className="flex flex-col gap-2 mb-6">
                 {props.fontList.map((fontName, idx) => {
                   return (
                     <KrSelectionBox
