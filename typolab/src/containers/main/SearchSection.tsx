@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import {
   HatIco,
   LogoIco,
@@ -7,10 +7,9 @@ import {
 } from "../../../public/svgs";
 import FullLine from "@/components/FullLine";
 import SearchInputSection from "./SearchInputSection";
-import FontCard from "@/components/FontCard";
 import { getFontList } from "@/services/apis/googleFont.apis";
 import { SortCriteria } from "@/types/types";
-
+const LazyCardSection = lazy(() => import("../search/CardSection"));
 type SearchSectionProps = {
   searchRef: React.MutableRefObject<HTMLDivElement | null>;
 };
@@ -74,11 +73,9 @@ const SearchSection = ({ searchRef }: SearchSectionProps) => {
         />
 
         {fontList.length > 0 ? (
-          <div className="mobile:mt-[4rem] w-full mt-[10rem] ml-8 mr-8 flex flex-wrap justify-center gap-y-6 gap-3 items-center">
-            {fontList.map((data, idx) => {
-              return <FontCard key={"fontCard" + idx} idx={idx} data={data} />;
-            })}
-          </div>
+          <Suspense fallback={<>loading</>}>
+            <LazyCardSection fontList={fontList} />
+          </Suspense>
         ) : (
           <NoResult className="mobile:pt-[4rem] w-8/12 pt-[10rem]" />
         )}
