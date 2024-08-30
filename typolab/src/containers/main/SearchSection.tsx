@@ -8,7 +8,6 @@ import {
 import FullLine from "@/components/FullLine";
 import SearchInputSection from "./SearchInputSection";
 import { getFontList } from "@/services/apis/googleFont.apis";
-import { SortCriteria } from "@/types/types";
 const LazyCardSection = lazy(() => import("../search/CardSection"));
 type SearchSectionProps = {
   searchRef: React.MutableRefObject<HTMLDivElement | null>;
@@ -17,17 +16,13 @@ type SearchSectionProps = {
 const SearchSection = ({ searchRef }: SearchSectionProps) => {
   const [fontList, setFontList] = useState([]);
   const [sortCrit, setSortCrit] = useState("trending");
-  const sortCriteria: SortCriteria = {
-    // sort: alpha | date | popularity | style | trending.
-    Trending: "trending",
-    Popular: "popularity",
-    Newest: "date",
-    Name: "alpha",
-  };
 
   // input text value
   const [inputVal, setInputVal] = useState("");
 
+  const handleSortCrit = (crit: string) => {
+    setSortCrit(crit);
+  };
   const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputVal(e.target.value);
   };
@@ -65,8 +60,7 @@ const SearchSection = ({ searchRef }: SearchSectionProps) => {
         <SearchTitleIco className="mobile:pt-[3rem] mobile:pb-[4rem] pt-[10rem] pb-[10rem] w-9/12 max-w-3xl" />
         <SearchInputSection
           sortCrit={sortCrit}
-          setSortCrit={setSortCrit}
-          sortCriteria={sortCriteria}
+          handleSortCrit={handleSortCrit}
           onInputChange={onInputChange}
           searchInputText={searchInputText}
           inputVal={inputVal}
