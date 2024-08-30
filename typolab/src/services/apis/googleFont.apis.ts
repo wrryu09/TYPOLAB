@@ -1,7 +1,7 @@
 import { FontPageType } from "@/types/types";
 import axios, { isAxiosError } from "axios";
 
-export async function getFontList(sort?: string, family?: string) {
+export async function getFontList(sort?: string, family?: string | null) {
   try {
     const res = await axios.get(
       `https://www.googleapis.com/webfonts/v1/webfonts`,
@@ -16,7 +16,13 @@ export async function getFontList(sort?: string, family?: string) {
     return res.data;
   } catch (error) {
     if (isAxiosError(error)) {
-      console.log("Error from getFontList: axiosError", error);
+      if (error.response?.status === 404) {
+        return {
+          items: [],
+        };
+      } else {
+        console.log("Error from getFontList: axiosError", error);
+      }
     } else {
       console.error("Error from getFontList", error);
     }

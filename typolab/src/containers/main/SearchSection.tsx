@@ -33,37 +33,26 @@ const SearchSection = ({ searchRef }: SearchSectionProps) => {
     setInputVal(e.target.value);
   };
 
-  const getFontListWithCrit = async () => {
-    const fontList = await getFontList(sortCrit);
+  const getFontListWithCrit = async (textVal?: string) => {
+    const fontList = await getFontList(sortCrit, textVal);
+    if (!!fontList == false) {
+      setFontList([]);
+    }
     const filteredFontList = fontList.items.filter((_: Object, idx: number) => {
       return idx < 15;
     });
     setFontList(filteredFontList);
   };
 
+  /** 유저 인풋으로 폰트 검색 */
+  const searchInputText = () => {
+    getFontListWithCrit(inputVal);
+  };
+
   useEffect(() => {
     getFontListWithCrit();
   }, [sortCrit]);
 
-  /** 유저 인풋으로 폰트 검색 */
-  const searchInputText = () => {
-    let textVal: string | undefined = "";
-    if (inputVal === "") {
-      textVal = undefined;
-    } else {
-      textVal = inputVal;
-    }
-    getFontList(sortCrit, textVal)
-      .then((res) => {
-        let fontListRes = res.data.items.filter((data: Object, idx: number) => {
-          return idx < 15;
-        });
-        setFontList(fontListRes);
-      })
-      .catch((err) => {
-        setFontList([]);
-      });
-  };
   return (
     <div className="flex flex-col items-center">
       <HatIco width={"25%"} className="fill-darkGreen" />
