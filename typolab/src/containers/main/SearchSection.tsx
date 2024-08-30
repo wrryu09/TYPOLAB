@@ -33,18 +33,16 @@ const SearchSection = ({ searchRef }: SearchSectionProps) => {
     setInputVal(e.target.value);
   };
 
+  const getFontListWithCrit = async () => {
+    const fontList = await getFontList(sortCrit);
+    const filteredFontList = fontList.items.filter((_: Object, idx: number) => {
+      return idx < 15;
+    });
+    setFontList(filteredFontList);
+  };
+
   useEffect(() => {
-    getFontList(sortCrit)
-      .then((res) => {
-        let fontListRes = res.data.items.filter((data: Object, idx: number) => {
-          return idx < 15;
-        });
-        console.log(fontListRes);
-        setFontList(fontListRes);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    getFontListWithCrit();
   }, [sortCrit]);
 
   /** 유저 인풋으로 폰트 검색 */
