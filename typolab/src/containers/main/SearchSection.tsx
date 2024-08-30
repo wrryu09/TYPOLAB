@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   HatIco,
   LogoIco,
@@ -11,11 +11,11 @@ import FontCard from "@/components/FontCard";
 import { getFontList } from "@/services/apis/googleFont.apis";
 import { SortCriteria } from "@/types/types";
 
-type Props = {
+type SearchSectionProps = {
   searchRef: React.MutableRefObject<HTMLDivElement | null>;
 };
 
-const SearchSection = (props: Props) => {
+const SearchSection = ({ searchRef }: SearchSectionProps) => {
   const [fontList, setFontList] = useState([]);
   const [sortCrit, setSortCrit] = useState("trending");
   const sortCriteria: SortCriteria = {
@@ -70,7 +70,7 @@ const SearchSection = (props: Props) => {
     <div className="flex flex-col items-center">
       <HatIco width={"25%"} className="fill-darkGreen" />
       <div
-        ref={props.searchRef}
+        ref={searchRef}
         className="w-screen bg-darkGreen flex flex-col items-center"
       >
         <div className="mobile:mt-[6rem] w-full flex justify-center mt-[10rem]">
