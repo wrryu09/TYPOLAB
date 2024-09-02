@@ -63,7 +63,6 @@ const SearchSection = ({ searchRef }: SearchSectionProps) => {
           handleSortCrit={handleSortCrit}
           onInputChange={onInputChange}
           searchInputText={searchInputText}
-          inputVal={inputVal}
         />
 
         {fontList.length > 0 ? (

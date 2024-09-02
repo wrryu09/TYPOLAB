@@ -8,7 +8,6 @@ type SearchInputSectionProps = {
   handleSortCrit: (crit: string) => void;
   onInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   searchInputText: () => void;
-  inputVal: string;
 };
 
 const SearchInputSection = ({
@@ -16,7 +15,6 @@ const SearchInputSection = ({
   handleSortCrit,
   onInputChange,
   searchInputText,
-  inputVal,
 }: SearchInputSectionProps) => {
   const sortBtnColor = {
     off: "text-greenGrey",
@@ -34,7 +32,6 @@ const SearchInputSection = ({
   return (
     <div className="mobile:w-10/12 w-9/12 flex flex-col justify-center items-center">
       <SearchInput
-        inputVal={inputVal}
         onInputChange={onInputChange}
         searchInputText={searchInputText}
       />
