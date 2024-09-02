@@ -55,6 +55,12 @@ const Pair = () => {
     name: "none",
     variants: ["regular"],
   });
+  const handleSelectFont = ({ name, variants }: FontNameNVar) => {
+    setSelectedFont({
+      name,
+      variants,
+    });
+  };
   const [selectedVar, setSelectedVar] = useState<string>("regular");
 
   const handleTagSelection = (tagId: number) => {
@@ -83,6 +89,9 @@ const Pair = () => {
   // show modal options
   // select korean font
   const [showKoreanFontList, setShowKoreanFontList] = useState(false);
+  const handleShowkoreanList = () => {
+    setShowKoreanFontList(!handleShowkoreanList);
+  };
   // select latin font above recommendation
   const [showLatinRecModal, setShowLatinRecModal] = useState(false);
 
@@ -197,12 +206,10 @@ const Pair = () => {
             <>
               <KoreanFontList
                 fontList={koreanFontList}
-                putFontData={putKoreanFontData}
-                setFont={setKoreanFont}
-                setShowFontList={setShowKoreanFontList}
+                setShowFontList={handleShowkoreanList}
                 selectedFont={selectedFont}
                 selectedVar={selectedVar}
-                setSelectedFont={setSelectedFont}
+                handleSelectFont={handleSelectFont}
                 setSelectedVar={setSelectedVar}
               />
               {/* OK Btn */}
