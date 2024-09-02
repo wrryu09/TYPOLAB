@@ -1,5 +1,4 @@
 import { FontNameNVar } from "@/types/types";
-import { SetStateAction } from "react";
 import KrSelectionBox from "./KrSelectionBox";
 
 type KoreanFontListProps = {
@@ -7,7 +6,7 @@ type KoreanFontListProps = {
   setShowFontList: () => void;
   selectedVar: string;
   selectedFont: FontNameNVar;
-  setSelectedVar: React.Dispatch<SetStateAction<string>>;
+  handleSelectVar: (varient: string) => void;
   handleSelectFont: ({ name, variants }: FontNameNVar) => void;
 };
 
@@ -16,7 +15,7 @@ const KoreanFontList = ({
   setShowFontList,
   selectedVar,
   selectedFont,
-  setSelectedVar,
+  handleSelectVar,
   handleSelectFont,
 }: KoreanFontListProps) => {
   return (
@@ -51,7 +50,7 @@ const KoreanFontList = ({
                     selectedFont={selectedFont}
                     selectedVar={selectedVar}
                     handleSelectFont={handleSelectFont}
-                    setSelectedVar={setSelectedVar}
+                    handleSelectVar={handleSelectVar}
                   />
                 );
               })}

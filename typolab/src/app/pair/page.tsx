@@ -63,6 +63,10 @@ const Pair = () => {
   };
   const [selectedVar, setSelectedVar] = useState<string>("regular");
 
+  const handleSelectVar = (varient: string) => {
+    setSelectedVar(varient);
+  };
+
   const handleTagSelection = (tagId: number) => {
     const tagArr = { ...tagList };
     tagArr.classTag.forEach((tag) => {
@@ -210,7 +214,7 @@ const Pair = () => {
                 selectedFont={selectedFont}
                 selectedVar={selectedVar}
                 handleSelectFont={handleSelectFont}
-                setSelectedVar={setSelectedVar}
+                handleSelectVar={handleSelectVar}
               />
               {/* OK Btn */}
               <KoreanModalBtn

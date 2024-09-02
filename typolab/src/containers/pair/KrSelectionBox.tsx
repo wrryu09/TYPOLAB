@@ -1,12 +1,11 @@
 import { FontNameNVar } from "@/types/types";
-import React, { SetStateAction } from "react";
 
 type KrSelectionBoxProps = {
   fontName: FontNameNVar;
   idx: number;
   selectedVar: string;
   selectedFont: FontNameNVar;
-  setSelectedVar: React.Dispatch<SetStateAction<string>>;
+  handleSelectVar: (varient: string) => void;
   handleSelectFont: ({ name, variants }: FontNameNVar) => void;
 };
 
@@ -15,7 +14,7 @@ const KrSelectionBox = ({
   idx,
   selectedVar,
   selectedFont,
-  setSelectedVar,
+  handleSelectVar,
   handleSelectFont,
 }: KrSelectionBoxProps) => {
   return (
@@ -64,7 +63,7 @@ font-weight: ${selectedVar};
                     selectedVar === variant ? "bg-red" : "bg-darkGreen"
                   } px-2.5 py-0.5 mt-2 text-white rounded-full`}
                   onClick={() => {
-                    setSelectedVar(variant);
+                    handleSelectVar(variant);
                   }}
                 >
                   {variant}
@@ -85,7 +84,7 @@ font-weight: ${selectedVar};
             variants: fontName.variants,
           });
           if (fontName.variants.length > 0) {
-            setSelectedVar(fontName.variants[0]);
+            handleSelectVar(fontName.variants[0]);
           }
         }}
       >
