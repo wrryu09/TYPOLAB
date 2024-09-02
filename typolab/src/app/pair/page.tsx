@@ -23,10 +23,9 @@ import FontSet from "@/containers/pair/FontSet";
 import TagSection from "@/containers/pair/TagSection";
 import PairedInfo from "@/containers/pair/PairedInfo";
 import KoreanModalBtn from "@/containers/pair/KoreanModalBtn";
+import ReselectBtn from "@/containers/pair/ReselectBtn";
 
-type Props = {};
-
-const Pair = (props: Props) => {
+const Pair = () => {
   const subTitleStyle = "mobile:text-4xl mobile:pb-2 font-Bayon text-6xl pb-8";
 
   const [tagList, setTagList] = useState<{ classTag: Tag[]; useTag: Tag[] }>({
@@ -58,7 +57,7 @@ const Pair = (props: Props) => {
   });
   const [selectedVar, setSelectedVar] = useState<string>("regular");
 
-  function handleTagSelection(tagId: number) {
+  const handleTagSelection = (tagId: number) => {
     const tagArr = { ...tagList };
     tagArr.classTag.forEach((tag) => {
       if (tag.id === tagId) {
@@ -73,7 +72,7 @@ const Pair = (props: Props) => {
       }
     });
     setTagList(tagArr);
-  }
+  };
 
   // 국문폰트셋
   const [koreanFont, setKoreanFont] = useState<FontNameVarSet>({
@@ -111,20 +110,21 @@ const Pair = (props: Props) => {
   });
 
   // koreanFont 있으면 비슷한 latinFont 추천 결과 받아오기
-  useEffect(() => {
-    console.log("infer simillar latin");
+  const getSimilarLatin = async () => {
     if (koreanFont.name !== "none") {
-      inferSimillarLatin(koreanFont)
-        .then((res) => {
-          console.log(res);
-          setInferredLationFont(res);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      const res = await inferSimillarLatin(koreanFont);
+      if (res) {
+        setInferredLationFont(res);
+      }
     } else {
       console.log("no koreanFont data");
     }
+  };
+
+  // TODO: 버튼 누르면 infer 하도록 수정
+  useEffect(() => {
+    console.log("infer simillar latin");
+    getSimilarLatin();
   }, [koreanFont]);
 
   // 영문폰트 상세정보
@@ -146,27 +146,27 @@ const Pair = (props: Props) => {
     // }
   };
 
-  const putKoreanFontData = (fontName: string) => {
+  const putKoreanFontData = async (fontName: string) => {
     console.log("putKoreanFontData");
-    getKoreanFontInfoDB(fontName)
-      .then((res) => {
-        setSelectedFirstInfo(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-  const putLatinFontData = (fontName: string) => {
-    console.log("putLatinFontData");
-    getLatinsFontInfoDB(fontName)
-      .then((res) => {
-        setSelectedScndInfo(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    const res = await getKoreanFontInfoDB(fontName);
+    if (res) {
+      setSelectedFirstInfo(res.data);
+    }
   };
 
+  const putLatinFontData = async (fontName: string) => {
+    console.log("putLatinFontData");
+    const res = await getLatinsFontInfoDB(fontName);
+    if (res) {
+      setSelectedScndInfo(res.data);
+    }
+  };
+  const resetFonts = () => {
+    setKoreanFont({ name: "none", variants: "none" });
+    setLatinFont({ name: "none", variants: "none" });
+    setSelectedFirstInfo(fontInfoFromDBDummyData);
+    setSelectedScndInfo(fontInfoFromDBDummyData);
+  };
   return (
     <div className="bg-fog h-full text-darkGreen flex flex-col items-center">
       <link
@@ -179,17 +179,7 @@ const Pair = (props: Props) => {
       <div className="mobile:mt-[4rem] mobile:mb-[15rem] mb-[20rem] w-10/12 flex flex-col text-center items-center justify-center mt-[10rem]">
         {/* 다시 선택하기 버튼 */}
         {koreanFont.name !== "none" ? (
-          <div
-            className="hover:bg-red hover:border-darkGreen self-start text-darkGreen border-2 bg-lightGrey border-greenGrey font-semibold text-xl px-4 py-2 mb-10 rounded-full"
-            onClick={() => {
-              setKoreanFont({ name: "none", variants: "none" });
-              setLatinFont({ name: "none", variants: "none" });
-              setSelectedFirstInfo(fontInfoFromDBDummyData);
-              setSelectedScndInfo(fontInfoFromDBDummyData);
-            }}
-          >
-            다시 선택하기
-          </div>
+          <ReselectBtn resetFonts={resetFonts} />
         ) : (
           <>
             {/* tag section */}
@@ -227,7 +217,7 @@ const Pair = (props: Props) => {
           ) : null}
 
           {/* 영문 선택 폰트 모달 */}
-          {showLatinRecModal ? (
+          {showLatinRecModal && (
             <LatinRecRes
               setShowLatinRecModal={setShowLatinRecModal}
               inferredLatinFont={inferredLatinFont}
@@ -235,19 +225,19 @@ const Pair = (props: Props) => {
               setLatinFont={setLatinFont}
               putFontData={putLatinFontData}
             />
-          ) : null}
-          {koreanFont.name !== "none" ? (
+          )}
+          {koreanFont.name !== "none" && (
             <link
               rel="stylesheet"
               href={`https://fonts.googleapis.com/css2?family=${koreanFont.name}`}
             />
-          ) : null}
-          {latinFont.name !== "none" ? (
+          )}
+          {latinFont.name !== "none" && (
             <link
               rel="stylesheet"
               href={`https://fonts.googleapis.com/css2?family=${latinFont.name}`}
             />
-          ) : null}
+          )}
           <style>
             {`.fontFamily1FontFam{
     font-family: ${koreanFont.name};
