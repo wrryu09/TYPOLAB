@@ -49,6 +49,7 @@ const SearchInputSection = ({
           {Object.keys(SORTCRIT).map((crit) => {
             return (
               <p
+                key={crit}
                 className={`hover:text-yellow ${
                   sortCrit === SORTCRIT[crit]
                     ? sortBtnColor.on
