@@ -1,23 +1,14 @@
 import { FontSet, FontSetArr } from "@/types/types";
+import isFontSetInBox from "./isFontSetInBox";
 
 export default function putFontSetToBox(
   fontSet: FontSet,
-  setInBox: React.Dispatch<React.SetStateAction<boolean>>
+  setInBox: () => void
 ) {
   const currentBox = localStorage.getItem("box");
   if (currentBox && currentBox !== "null" && currentBox !== "undefined") {
     const addData: FontSetArr = JSON.parse(currentBox);
-    if (
-      addData.find((ele) => {
-        if (
-          ele.family === fontSet.family &&
-          ele.weight === fontSet.weight &&
-          ele.size === fontSet.size
-        ) {
-          return true;
-        }
-      })
-    ) {
+    if (isFontSetInBox(fontSet)) {
       console.log("already have same set");
     } else {
       addData.push(fontSet);
@@ -26,6 +17,5 @@ export default function putFontSetToBox(
   } else {
     localStorage.setItem("box", JSON.stringify([fontSet]));
   }
-  console.log("boxSet :", localStorage.getItem("box"));
-  setInBox(true);
+  setInBox();
 }
