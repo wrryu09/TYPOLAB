@@ -7,12 +7,13 @@ import { FontInfoType, FontPageType } from "@/types/types";
 import BackArrow from "@/components/BackArrow";
 import Footer from "@/components/Footer";
 import PreviewBox from "@/containers/pair/PreviewBox";
-import BoxSet from "@/containers/pair/BoxSet";
 import License from "./__components/License";
 import Designers from "./__components/Designers";
 import About from "./__components/About";
 import MovingTitle from "./__components/MovingTitle";
 import NoData from "./__components/NoData";
+import VarientsShowcase from "./__components/VarientsShowcase";
+import SaveSetSection from "./__components/SaveSetSection";
 
 const SearchRes = ({ params }: { params: { fontName: string } }) => {
   const fontFamily = params.fontName.replaceAll("%20", " ");
@@ -20,7 +21,6 @@ const SearchRes = ({ params }: { params: { fontName: string } }) => {
   const [fontPageData, setFontPageData] = useState<FontPageType>();
   const [varient, setVarient] = useState<string>("regular");
   const [fontSize, setFontSize] = useState<number>(32);
-  const [fontInBox, setFontInBox] = useState(false);
 
   const bringFontData = async () => {
     const res = await getFontList("trending", fontFamily);
@@ -109,35 +109,12 @@ font-weight: ${varient}
                 </div>
               </div>
               {/* font varient print */}
-              {varientArr.map((ele, idx) => {
-                return (
-                  <div key={fontFamily + ele}>
-                    <style>
-                      {`.eleWeight${idx}{
-    font-weight: ${ele};
-  }
-  `}
-                    </style>
-                    <p
-                      className={`eleWeight${idx} fontFamily text-2xl text-right`}
-                    >
-                      The Quick Brown Fox Jumps Over The Lazy Dog
-                    </p>
-                  </div>
-                );
-              })}
-              <p className={`mobile:mt-[4rem] subTitleStyle mt-[10rem]`}>
-                SAVE THIS FONT SET
-              </p>
-              <div className="flex pt-[1rem]">
-                <BoxSet
-                  boxNum={2}
-                  displaySize={fontSize}
-                  font={{ name: fontFamily, variants: varient }}
-                  isInBox={fontInBox}
-                  setItInBox={setFontInBox}
-                />
-              </div>
+              <VarientsShowcase varientArr={varientArr} />
+              <SaveSetSection
+                fontFamily={fontFamily}
+                fontSize={fontSize}
+                varient={varient}
+              />
             </div>
           )}
 

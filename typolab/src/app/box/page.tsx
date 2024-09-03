@@ -7,6 +7,7 @@ import { DotLine, HatIco } from "../../../public/svgs";
 import BoxCard from "@/containers/box/BoxCard";
 import { FontSet, FontSetArr } from "@/types/types";
 import GenerateBtn from "@/containers/box/GenerateBtn";
+import removeFontSetFromBox from "@/services/removeFontSetFromBox";
 
 const Box = () => {
   const [boxContent, setBoxContent] = useState<FontSetArr>();
@@ -20,18 +21,7 @@ const Box = () => {
   };
 
   const removeItemFromBox = (font: FontSet) => {
-    const storedArr = localStorage.getItem("box");
-    if (storedArr && storedArr !== "null" && storedArr !== "undefined") {
-      const storedData = JSON.parse(storedArr);
-      const modArr = storedData.filter((ele: FontSet) => {
-        return (
-          ele.family !== font.family ||
-          ele.weight !== font.weight ||
-          ele.size !== font.size
-        );
-      });
-      localStorage.setItem("box", JSON.stringify(modArr));
-    }
+    removeFontSetFromBox(font);
     // catch changes in storage
     bringFontsFromLocalStorage();
   };
