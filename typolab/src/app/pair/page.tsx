@@ -206,7 +206,7 @@ const Pair = () => {
         {/* font section */}
         <div className="mobile:gap-10 flex self-start gap-32 mb-10">
           {/* 국문 선택 폰트 모달 */}
-          {showKoreanFontList ? (
+          {showKoreanFontList && (
             <>
               <KoreanFontList
                 fontList={koreanFontList}
@@ -225,7 +225,7 @@ const Pair = () => {
                 setShowFontList={setShowKoreanFontList}
               />
             </>
-          ) : null}
+          )}
 
           {/* 영문 선택 폰트 모달 */}
           {showLatinRecModal && (
@@ -270,8 +270,8 @@ const Pair = () => {
             fontSetNum={1}
           />
 
-          {koreanFont.name !== "none" ? (
-            <div>
+          {koreanFont.name !== "none" && (
+            <>
               {/* 2nd set */}
               {inferredLatinFont[0].fontName === "none" ? (
                 <div className="flex flex-col items-start">
@@ -287,8 +287,8 @@ const Pair = () => {
                   fontSetNum={2}
                 />
               )}
-            </div>
-          ) : null}
+            </>
+          )}
         </div>
         {/* 국문만 선택되어 있을 경우 추천 영문 폰트 확인 안내문구 */}
         <div className="mb-20">
@@ -301,25 +301,25 @@ const Pair = () => {
         </div>
         {/* font display box */}
         <div className="mobile:mb-10 flex flex-col w-full mb-40">
-          {koreanFont.name !== "none" ? (
+          {koreanFont.name !== "none" && (
             <PreviewBox
               fontSize={displayFirstSize}
               setFontSize={setDisplayFirstSize}
               fontFamily={koreanFont}
               boxNum={1}
             />
-          ) : null}
-          {latinFont.name !== "none" ? (
+          )}
+          {latinFont.name !== "none" && (
             <PreviewBox
               fontSize={displayScndSize}
               setFontSize={setDisplayScndSize}
               fontFamily={latinFont}
               boxNum={2}
             />
-          ) : null}
+          )}
         </div>
 
-        {koreanFont.name !== "none" || latinFont.name !== "none" ? (
+        {(koreanFont.name !== "none" || latinFont.name !== "none") && (
           <PairedInfo
             displayFirstSize={displayFirstSize}
             displayScndSize={displayScndSize}
@@ -327,10 +327,9 @@ const Pair = () => {
             latinFont={latinFont}
             selectedFirstInfo={selectedFirstInfo}
             selectedScndInfo={selectedScndInfo}
-            subTitleStyle={subTitleStyle}
             tagList={tagList}
           />
-        ) : null}
+        )}
       </div>
       <Footer />
     </div>

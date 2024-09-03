@@ -8,7 +8,6 @@ type Props = {
   latinFont: FontNameVarSet;
   selectedFirstInfo: FontInfoFromDB;
   selectedScndInfo: FontInfoFromDB;
-  subTitleStyle: string;
   tagList: {
     classTag: Tag[];
     useTag: Tag[];
@@ -50,7 +49,7 @@ const UserGuide = (props: Props) => {
                 </div>
               ) : (
                 <div className="flex flex-col items-center">
-                  <h1 className={`${props.subTitleStyle} mb-10`}>HOW TO USE</h1>
+                  <h1 className={`subTitleStyle mb-10`}>HOW TO USE</h1>
                   <BounceLoader />
                   <p className="mt-4">loading...</p>
                   <p className="mt-4">
@@ -61,7 +60,7 @@ const UserGuide = (props: Props) => {
             </div>
           ) : (
             <div>
-              <h1 className={props.subTitleStyle}>HOW TO USE</h1>
+              <h1 className={"subTitleStyle"}>HOW TO USE</h1>
               <div className="flex flex-wrap gap-2 mb-10">
                 {/* 해당되는 태그만 보이기 */}
                 {props.tagList.classTag.map((tag) => {
