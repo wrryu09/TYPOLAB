@@ -25,3 +25,9 @@ body {
   overflow-x: hidden;
   white-space: pre-line;
 }
+
+@layer components {
+  .subTitleStyle {
+    @apply mobile:text-4xl mobile:pb-4 font-Bayon text-6xl pb-8;
+  }
+}

@@ -1,20 +1,18 @@
 import { FontSet } from "@/types/types";
-import React from "react";
 
-type Props = {
-  subTitleStyle: string;
+type DesignSysBoxProps = {
   designSysRef: React.RefObject<HTMLDivElement>;
   boxContent: FontSet[];
 };
 
-const DesignSysBox = (props: Props) => {
+const DesignSysBox = ({ designSysRef, boxContent }: DesignSysBoxProps) => {
   return (
     <div className="w-full flex flex-col text-center items-center justify-center mb-[10rem]">
-      <h1 className={props.subTitleStyle}>DESIGN SYSTEM</h1>
+      <h1 className={"subTitleStyle"}>DESIGN SYSTEM</h1>
       {/* white box */}
-      <div ref={props.designSysRef} className="w-full h-max">
+      <div ref={designSysRef} className="w-full h-max">
         <div className="mobile:px-4 mobile:py-8 w-full flex flex-col bg-white px-8 py-14 rounded-lg">
-          {props.boxContent.map((font: FontSet, idx) => {
+          {boxContent.map((font: FontSet, idx) => {
             return (
               <div
                 key={font.family + font.size + font.weight + "designSys"}

@@ -10,14 +10,19 @@ import DesignSysBox from "@/containers/box/designSys/DesignSysBox";
 
 const DesignSys = () => {
   const designSysRef = useRef<HTMLDivElement>(null);
-  const subTitleStyle = "mobile:text-4xl mobile:pb-4 font-Bayon text-6xl pb-8";
   const [boxContent, setBoxContent] = useState<FontSet[]>([]);
-  useEffect(() => {
+
+  /** localstorage 에서 저장한 폰트 불러와 그려주기 */
+  const bringFontsFromLocalStorage = () => {
     const boxItems = localStorage.getItem("box");
     if (boxItems) {
       const boxItemsObj = JSON.parse(boxItems);
       setBoxContent(boxItemsObj);
     }
+  };
+
+  useEffect(() => {
+    bringFontsFromLocalStorage();
   }, []);
 
   return (
@@ -25,17 +30,13 @@ const DesignSys = () => {
       <BackArrow />
       <HatIco width={"25%"} className="rotate-180 self-center top-0 absolute" />
       <div className="mobile:mt-[6rem] w-10/12 mt-[10rem]">
-        <DesignSysBox
-          boxContent={boxContent}
-          designSysRef={designSysRef}
-          subTitleStyle={subTitleStyle}
-        />
+        <DesignSysBox boxContent={boxContent} designSysRef={designSysRef} />
 
         {/* export as */}
-        <ExportBtn designSysRef={designSysRef} subTitleStyle={subTitleStyle} />
+        <ExportBtn designSysRef={designSysRef} />
 
         {/* copy css */}
-        <CodeCss boxContent={boxContent} subTitleStyle={subTitleStyle} />
+        <CodeCss boxContent={boxContent} />
 
         <LogoHatIco className="w-full" />
       </div>

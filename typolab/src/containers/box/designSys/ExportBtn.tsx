@@ -1,13 +1,12 @@
-import React, { RefObject } from "react";
+import { RefObject } from "react";
 import { HatIco } from "../../../../public/svgs";
 import saveDesignSys from "@/services/saveDesignSys";
 
 type ExportBtnProps = {
-  subTitleStyle: string;
   designSysRef: RefObject<HTMLDivElement>;
 };
 
-const ExportBtn = ({ subTitleStyle, designSysRef }: ExportBtnProps) => {
+const ExportBtn = ({ designSysRef }: ExportBtnProps) => {
   const exportBtns: {
     name: string;
     saveType: "png" | "jpg" | "svg";
@@ -18,7 +17,7 @@ const ExportBtn = ({ subTitleStyle, designSysRef }: ExportBtnProps) => {
   ];
   return (
     <div className="mobile:mb-[6rem] mb-[10rem]">
-      <h1 className={subTitleStyle}>EXPORT AS...</h1>
+      <h1 className={"subTitleStyle"}>EXPORT AS...</h1>
       <div className="mobile:w-full flex text-left justify-center w-10/12 text-darkGreen font-Bayon">
         {exportBtns.map(({ name, saveType }) => {
           return (
