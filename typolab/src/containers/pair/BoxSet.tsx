@@ -44,7 +44,7 @@ const BoxSet = ({ font, displaySize, boxNum }: BoxSetProps) => {
   };
   return (
     <div className="mobile:w-9/12 w-5/12">
-      {font.name && (
+      {font.name !== "none" && (
         <div className="flex justify-between">
           <div className="flex flex-col items-start text-start">
             <h1
