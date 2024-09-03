@@ -1,27 +1,29 @@
-import { FontNameNVar, FontNameVarSet } from "@/types/types";
-import React, { SetStateAction } from "react";
+import { FontNameNVar } from "@/types/types";
 import KrSelectionBox from "./KrSelectionBox";
 
-type Props = {
+type KoreanFontListProps = {
   fontList: FontNameNVar[];
-  setFont: React.Dispatch<SetStateAction<FontNameVarSet>>;
-  putFontData: (fontName: string) => void;
-  setShowFontList: React.Dispatch<SetStateAction<boolean>>;
+  setShowFontList: () => void;
   selectedVar: string;
   selectedFont: FontNameNVar;
-  setSelectedVar: React.Dispatch<SetStateAction<string>>;
-  setSelectedFont: React.Dispatch<SetStateAction<FontNameNVar>>;
+  handleSelectVar: (varient: string) => void;
+  handleSelectFont: ({ name, variants }: FontNameNVar) => void;
 };
 
-const KoreanFontList = (props: Props) => {
+const KoreanFontList = ({
+  fontList,
+  setShowFontList,
+  selectedVar,
+  selectedFont,
+  handleSelectVar,
+  handleSelectFont,
+}: KoreanFontListProps) => {
   return (
     <div className="z-20">
       {/* modal background */}
       <div
         className="fixed w-full h-full top-0 left-0 bg-black bg-opacity-80"
-        onClick={() => {
-          props.setShowFontList(false);
-        }}
+        onClick={setShowFontList}
       />
 
       {/* modal */}
@@ -36,24 +38,22 @@ const KoreanFontList = (props: Props) => {
         >
           <div className="w-full flex flex-col mb-12">
             {/* font family */}
-            <div>
-              <div className="text-greenGrey font-Bayon text-xl mb-2">
-                Font Family
-              </div>
-              <div className="flex flex-col gap-2 mb-6">
-                {props.fontList.map((fontName, idx) => {
-                  return (
-                    <KrSelectionBox
-                      fontName={fontName}
-                      idx={idx}
-                      selectedFont={props.selectedFont}
-                      selectedVar={props.selectedVar}
-                      setSelectedFont={props.setSelectedFont}
-                      setSelectedVar={props.setSelectedVar}
-                    />
-                  );
-                })}
-              </div>
+            <div className="text-greenGrey font-Bayon text-xl mb-2">
+              Font Family
+            </div>
+            <div className="flex flex-col gap-2 mb-6">
+              {fontList.map((fontName, idx) => {
+                return (
+                  <KrSelectionBox
+                    fontName={fontName}
+                    idx={idx}
+                    selectedFont={selectedFont}
+                    selectedVar={selectedVar}
+                    handleSelectFont={handleSelectFont}
+                    handleSelectVar={handleSelectVar}
+                  />
+                );
+              })}
             </div>
           </div>
         </div>

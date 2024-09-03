@@ -1,29 +1,39 @@
 import SearchInput from "@/components/SearchInput";
 import SizedBox from "@/components/SizedBox";
-import React, { Dispatch, SetStateAction } from "react";
 import { HatIco } from "../../../public/svgs";
 import { SortCriteria } from "@/types/types";
 
-type Props = {
+type SearchInputSectionProps = {
   sortCrit: string;
-  setSortCrit: Dispatch<SetStateAction<string>>;
-  sortCriteria: SortCriteria;
+  handleSortCrit: (crit: string) => void;
   onInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   searchInputText: () => void;
-  inputVal: string;
 };
 
-const SearchInputSection = (props: Props) => {
+const SearchInputSection = ({
+  sortCrit,
+  handleSortCrit,
+  onInputChange,
+  searchInputText,
+}: SearchInputSectionProps) => {
   const sortBtnColor = {
     off: "text-greenGrey",
     on: "text-yellow",
   };
+
+  const SORTCRIT: SortCriteria = {
+    // sort: alpha | date | popularity | style | trending.
+    Trending: "trending",
+    Popular: "popularity",
+    Newest: "date",
+    Name: "alpha",
+  };
+
   return (
     <div className="mobile:w-10/12 w-9/12 flex flex-col justify-center items-center">
       <SearchInput
-        inputVal={props.inputVal}
-        onInputChange={props.onInputChange}
-        searchInputText={props.searchInputText}
+        onInputChange={onInputChange}
+        searchInputText={searchInputText}
       />
       <SizedBox height={1} />
 
@@ -36,54 +46,23 @@ const SearchInputSection = (props: Props) => {
         <p className="text-white text-5xl mobile:text-xl shrink-0">SORT BY</p>
         {/* sorting option buttons */}
         <div className="w-2/3 mobile:h-5/6 text-greenGrey flex justify-between text-xl mobile:text-xs">
-          <p
-            className={`hover:text-yellow ${
-              props.sortCrit === props.sortCriteria.Trending
-                ? sortBtnColor.on
-                : sortBtnColor.off
-            }`}
-            onClick={() => {
-              props.setSortCrit(props.sortCriteria.Trending);
-            }}
-          >
-            TRENDING
-          </p>
-          <p
-            className={`hover:text-yellow ${
-              props.sortCrit === props.sortCriteria.Popular
-                ? sortBtnColor.on
-                : sortBtnColor.off
-            }`}
-            onClick={() => {
-              props.setSortCrit(props.sortCriteria.Popular);
-            }}
-          >
-            MOST POPULAR
-          </p>
-          <p
-            className={`hover:text-yellow ${
-              props.sortCrit === props.sortCriteria.Newest
-                ? sortBtnColor.on
-                : sortBtnColor.off
-            }`}
-            onClick={() => {
-              props.setSortCrit(props.sortCriteria.Newest);
-            }}
-          >
-            NEWEST
-          </p>
-          <p
-            className={`hover:text-yellow ${
-              props.sortCrit === props.sortCriteria.Name
-                ? sortBtnColor.on
-                : sortBtnColor.off
-            }`}
-            onClick={() => {
-              props.setSortCrit(props.sortCriteria.Name);
-            }}
-          >
-            NAME
-          </p>
+          {Object.keys(SORTCRIT).map((crit) => {
+            return (
+              <p
+                key={crit}
+                className={`hover:text-yellow ${
+                  sortCrit === SORTCRIT[crit]
+                    ? sortBtnColor.on
+                    : sortBtnColor.off
+                }`}
+                onClick={() => {
+                  handleSortCrit(SORTCRIT[crit]);
+                }}
+              >
+                {crit}
+              </p>
+            );
+          })}
         </div>
       </div>
     </div>

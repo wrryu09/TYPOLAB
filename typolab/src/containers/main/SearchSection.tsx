@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import {
   HatIco,
   LogoIco,
@@ -7,70 +7,51 @@ import {
 } from "../../../public/svgs";
 import FullLine from "@/components/FullLine";
 import SearchInputSection from "./SearchInputSection";
-import FontCard from "@/components/FontCard";
 import { getFontList } from "@/services/apis/googleFont.apis";
-import { SortCriteria } from "@/types/types";
-
-type Props = {
+const LazyCardSection = lazy(() => import("../search/CardSection"));
+type SearchSectionProps = {
   searchRef: React.MutableRefObject<HTMLDivElement | null>;
 };
 
-const SearchSection = (props: Props) => {
+const SearchSection = ({ searchRef }: SearchSectionProps) => {
   const [fontList, setFontList] = useState([]);
   const [sortCrit, setSortCrit] = useState("trending");
-  const sortCriteria: SortCriteria = {
-    // sort: alpha | date | popularity | style | trending.
-    Trending: "trending",
-    Popular: "popularity",
-    Newest: "date",
-    Name: "alpha",
-  };
 
   // input text value
   const [inputVal, setInputVal] = useState("");
 
+  const handleSortCrit = (crit: string) => {
+    setSortCrit(crit);
+  };
   const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputVal(e.target.value);
   };
 
-  useEffect(() => {
-    getFontList(sortCrit)
-      .then((res) => {
-        let fontListRes = res.data.items.filter((data: Object, idx: number) => {
-          return idx < 15;
-        });
-        console.log(fontListRes);
-        setFontList(fontListRes);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [sortCrit]);
+  const getFontListWithCrit = async (textVal?: string) => {
+    const fontList = await getFontList(sortCrit, textVal);
+    if (!!fontList == false) {
+      setFontList([]);
+    }
+    const filteredFontList = fontList.items.filter((_: Object, idx: number) => {
+      return idx < 15;
+    });
+    setFontList(filteredFontList);
+  };
 
   /** 유저 인풋으로 폰트 검색 */
   const searchInputText = () => {
-    let textVal: string | undefined = "";
-    if (inputVal === "") {
-      textVal = undefined;
-    } else {
-      textVal = inputVal;
-    }
-    getFontList(sortCrit, textVal)
-      .then((res) => {
-        let fontListRes = res.data.items.filter((data: Object, idx: number) => {
-          return idx < 15;
-        });
-        setFontList(fontListRes);
-      })
-      .catch((err) => {
-        setFontList([]);
-      });
+    getFontListWithCrit(inputVal);
   };
+
+  useEffect(() => {
+    getFontListWithCrit();
+  }, [sortCrit]);
+
   return (
     <div className="flex flex-col items-center">
       <HatIco width={"25%"} className="fill-darkGreen" />
       <div
-        ref={props.searchRef}
+        ref={searchRef}
         className="w-screen bg-darkGreen flex flex-col items-center"
       >
         <div className="mobile:mt-[6rem] w-full flex justify-center mt-[10rem]">
@@ -79,19 +60,15 @@ const SearchSection = (props: Props) => {
         <SearchTitleIco className="mobile:pt-[3rem] mobile:pb-[4rem] pt-[10rem] pb-[10rem] w-9/12 max-w-3xl" />
         <SearchInputSection
           sortCrit={sortCrit}
-          setSortCrit={setSortCrit}
-          sortCriteria={sortCriteria}
+          handleSortCrit={handleSortCrit}
           onInputChange={onInputChange}
           searchInputText={searchInputText}
-          inputVal={inputVal}
         />
 
         {fontList.length > 0 ? (
-          <div className="mobile:mt-[4rem] w-full mt-[10rem] ml-8 mr-8 flex flex-wrap justify-center gap-y-6 gap-3 items-center">
-            {fontList.map((data, idx) => {
-              return <FontCard key={"fontCard" + idx} idx={idx} data={data} />;
-            })}
-          </div>
+          <Suspense fallback={<>loading</>}>
+            <LazyCardSection fontList={fontList} />
+          </Suspense>
         ) : (
           <NoResult className="mobile:pt-[4rem] w-8/12 pt-[10rem]" />
         )}

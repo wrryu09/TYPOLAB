@@ -1,5 +1,6 @@
 // mainPage
 export interface SortCriteria {
+  [key: string]: string;
   Trending: "trending";
   Popular: "popularity";
   Newest: "date";
