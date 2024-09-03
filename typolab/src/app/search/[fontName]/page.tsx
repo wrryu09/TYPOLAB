@@ -4,15 +4,15 @@ import React, { useEffect, useState } from "react";
 import { HatIco } from "../../../../public/svgs";
 import { getFontList, getFontPage } from "@/services/apis/googleFont.apis";
 import { FontInfoType, FontPageType } from "@/types/types";
-import SizedBox from "@/components/SizedBox";
 import BackArrow from "@/components/BackArrow";
 import Footer from "@/components/Footer";
-import styles from "./page.module.css";
 import PreviewBox from "@/containers/pair/PreviewBox";
 import BoxSet from "@/containers/pair/BoxSet";
 import License from "./__components/License";
 import Designers from "./__components/Designers";
 import About from "./__components/About";
+import MovingTitle from "./__components/MovingTitle";
+import NoData from "./__components/NoData";
 
 const SearchRes = ({ params }: { params: { fontName: string } }) => {
   const fontFamily = params.fontName.replaceAll("%20", " ");
@@ -24,7 +24,7 @@ const SearchRes = ({ params }: { params: { fontName: string } }) => {
 
   const bringFontData = async () => {
     const res = await getFontList("trending", fontFamily);
-    if (res) setFontData(res.data);
+    if (res) setFontData(res);
   };
   const bringFontPageData = async () => {
     const res = await getFontPage(fontFamily);
@@ -32,51 +32,50 @@ const SearchRes = ({ params }: { params: { fontName: string } }) => {
   };
 
   const varientArr: string[] = [];
-  if (fontData?.items) {
-    fontData.items[0].variants.map((ele) => {
-      varientArr.push(ele);
-    });
-  }
+
+  const makeVarientArr = () => {
+    if (fontData?.items) {
+      fontData.items[0].variants.map((ele) => {
+        varientArr.push(ele);
+      });
+    }
+    return varientArr;
+  };
 
   // get info of the font
   useEffect(() => {
     bringFontData();
     bringFontPageData();
   }, []);
-  return (
-    <div className="bg-fog h-full text-darkGreen flex flex-col items-center">
+
+  const titleFontStyleSheet = (
+    <>
       <link
         rel="stylesheet"
         href={`https://fonts.googleapis.com/css2?family=${fontFamily}`}
       />
       <style>
         {`.fontFamily{
-    font-family: ${fontFamily};
-  }
-  .fontWeight{
-    font-weight: ${varient}
-  }
-  }`}
+font-family: ${fontFamily};
+}
+.fontWeight{
+font-weight: ${varient}
+}
+}`}
       </style>
+    </>
+  );
+  return (
+    <div className="bg-fog h-full text-darkGreen flex flex-col items-center">
+      {titleFontStyleSheet}
       <BackArrow />
       <HatIco width={"25%"} className="rotate-180 self-center top-0 absolute" />
-      <SizedBox height={5} />
-      {/* title */}
-      <div className={`w-11/12`}>
-        <h1
-          className={`fontFamily w-full text-[20vw] ${
-            fontFamily.length > 8 ? styles.headLineTxt : null
-          }  whitespace-nowrap font-[900]`}
-        >
-          {fontFamily}
-        </h1>
-      </div>
-      <SizedBox height={9} />
+      <MovingTitle fontFamily={fontFamily} />
 
-      {fontPageData?.family !== undefined ? (
+      {fontPageData ? (
         // fontPageData 있는 경우에만 표시
         <>
-          {varientArr.length > 0 ? (
+          {makeVarientArr().length > 0 && (
             <div className="w-11/12">
               <div className="mobile:flex-col mobile:items-start w-full flex justify-between">
                 {/* font varient btn */}
@@ -140,7 +139,7 @@ const SearchRes = ({ params }: { params: { fontName: string } }) => {
                 />
               </div>
             </div>
-          ) : null}
+          )}
 
           <div className="flex flex-col mt-40 w-11/12">
             <License license={fontPageData.license} />
@@ -149,9 +148,7 @@ const SearchRes = ({ params }: { params: { fontName: string } }) => {
           </div>
         </>
       ) : (
-        <div className="h-9 bg-red">
-          <h1 className={"subTitleStyle"}>OOPS! NO DATA</h1>
-        </div>
+        <NoData />
       )}
 
       <div className="mobile:mt-[20rem] mobile:mb-[4rem] w-full mt-[30rem] mb-[10rem]">
