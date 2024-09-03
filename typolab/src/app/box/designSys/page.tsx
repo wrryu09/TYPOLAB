@@ -1,10 +1,9 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { HatIco, LogoHatIco } from "../../../../public/svgs";
 import BackArrow from "@/components/BackArrow";
 import { FontSet } from "@/types/types";
-import { toPng, toJpeg, toSvg } from "html-to-image";
 import CodeCss from "@/containers/box/designSys/CodeCss";
 import ExportBtn from "../../../containers/box/designSys/ExportBtn";
 import DesignSysBox from "@/containers/box/designSys/DesignSysBox";
@@ -21,46 +20,6 @@ const DesignSys = () => {
     }
   }, []);
 
-  const handleSave = (saveType: "png" | "jpg" | "svg") => {
-    if (designSysRef.current === null) {
-      return;
-    }
-    if (saveType === "png") {
-      toPng(designSysRef.current, { cacheBust: true })
-        .then((dataUrl) => {
-          const link = document.createElement("a");
-          link.download = "typolab-designsystem.png";
-          link.href = dataUrl;
-          link.click();
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else if (saveType === "jpg") {
-      toJpeg(designSysRef.current, { cacheBust: true })
-        .then((dataUrl) => {
-          const link = document.createElement("a");
-          link.download = "typolab-designsystem.jpeg";
-          link.href = dataUrl;
-          link.click();
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else {
-      toSvg(designSysRef.current, { cacheBust: true })
-        .then((dataUrl) => {
-          const link = document.createElement("a");
-          link.download = "typolab-designsystem.svg";
-          link.href = dataUrl;
-          link.click();
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  };
-
   return (
     <div className="bg-blueblue h-full text-darkGreen flex flex-col items-center">
       <BackArrow />
@@ -73,7 +32,7 @@ const DesignSys = () => {
         />
 
         {/* export as */}
-        <ExportBtn handleSave={handleSave} subTitleStyle={subTitleStyle} />
+        <ExportBtn designSysRef={designSysRef} subTitleStyle={subTitleStyle} />
 
         {/* copy css */}
         <CodeCss boxContent={boxContent} subTitleStyle={subTitleStyle} />
