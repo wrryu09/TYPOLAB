@@ -33,9 +33,10 @@ const FontCard = ({ idx, data }: FontCardProps) => {
     fontData = exFontData;
   }
 
-  function handlePlus() {
-    console.log("you pressed plus button!");
-  }
+  const moveToInfoPage = () => {
+    router.push(`search/${fontData.family}`);
+  };
+
   return (
     <div className={styles.flipCard}>
       <link
@@ -49,7 +50,10 @@ const FontCard = ({ idx, data }: FontCardProps) => {
   }
   }`}
       </style>
-      <div className="mobile:w-32 mobile:h-[12rem] w-56 h-80 shrink-0 relative rounded-xl flex-col justify-start items-center inline-flex">
+      <div
+        className="mobile:w-32 mobile:h-[12rem] w-56 h-80 shrink-0 relative rounded-xl flex-col justify-start items-center inline-flex"
+        onClick={moveToInfoPage}
+      >
         <div className={styles.flipCardInner}>
           {/* front side */}
           <div className={`${styles.flipCardFront} text-darkGreen`}>
@@ -71,23 +75,13 @@ const FontCard = ({ idx, data }: FontCardProps) => {
                 {fontData.kind}
               </p>
             </div>
-            <PlusIco
-              className="w-2/12 absolute bottom-2 right-2"
-              onClick={() => {
-                // put to my box
-                handlePlus();
-              }}
-            />
+            <PlusIco className="w-2/12 absolute bottom-2 right-2" />
           </div>
 
           {/* back side */}
           <div className={`${backFaceCodeCol[index]}`}>
             <HatIco className={`rotate-180 w-5/12 self-center`} />
-            <div
-              onClick={() => {
-                router.push(`search/${fontData.family}`);
-              }}
-            >
+            <div>
               <div
                 className={`w-[96%] h-[97%] border border-solid rounded-lg top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 absolute`}
               />
@@ -102,13 +96,7 @@ const FontCard = ({ idx, data }: FontCardProps) => {
                 SEE MORE
               </p>
             </div>
-            <PlusIco
-              className={`w-2/12 absolute bottom-2 right-2`}
-              onClick={() => {
-                // put to my box
-                handlePlus();
-              }}
-            />
+            <PlusIco className={`w-2/12 absolute bottom-2 right-2`} />
           </div>
         </div>
       </div>
