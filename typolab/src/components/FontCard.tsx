@@ -1,17 +1,15 @@
-import React from "react";
 import { HatIco, PlusIco } from "../../public/svgs";
 import FullLine from "./FullLine";
-import SizedBox from "./SizedBox";
 import { useRouter } from "next/navigation";
 import styles from "./fontCard.module.css";
 import { FontInfo } from "@/types/types";
 
-type Props = {
+type FontCardProps = {
   idx: number;
   data: FontInfo;
 };
 
-const FontCard = (props: Props) => {
+const FontCard = ({ idx, data }: FontCardProps) => {
   const router = useRouter();
   const backFaceCodeCol = [
     `${styles.flipCardBack} bg-yellow text-red overflow-hidden`,
@@ -27,9 +25,9 @@ const FontCard = (props: Props) => {
     link: "https://fonts.google.com/specimen/",
   };
 
-  const index = props.idx % backFaceCodeCol.length;
+  const index = idx % backFaceCodeCol.length;
 
-  let fontData: FontInfo = props.data;
+  let fontData: FontInfo = data;
   // if failed to get font data, print example font data
   if (fontData.family == undefined) {
     fontData = exFontData;
@@ -45,7 +43,7 @@ const FontCard = (props: Props) => {
         href={`https://fonts.googleapis.com/css2?family=${fontData.family}`}
       />
       <style>
-        {`.fontFamily${props.idx}{
+        {`.fontFamily${idx}{
     font-family: ${fontData.family};
     font-weight: 900;
   }
@@ -63,7 +61,7 @@ const FontCard = (props: Props) => {
               <FullLine color="black" />
             </div>
             <div className="self-start ml-4">
-              <h1 className={`mobile:text-lg text-5xl fontFamily${props.idx}`}>
+              <h1 className={`mobile:text-lg text-5xl fontFamily${idx}`}>
                 {fontData.family}
               </h1>
               <p className="mobile:text-[0.5rem] pt-[0.4rem]">
@@ -96,7 +94,7 @@ const FontCard = (props: Props) => {
               <p className={`mt-2 mb-1 ml-4`}>{fontData.family}</p>
               <div className="h-2/6"></div>
               <h1
-                className={`mobile:text-6xl w-10/12 ml-4 mr-4 text-8xl fontFamily${props.idx} ${styles.backTxt}`}
+                className={`mobile:text-6xl w-10/12 ml-4 mr-4 text-8xl fontFamily${idx} ${styles.backTxt}`}
               >
                 {fontData.family}
               </h1>
