@@ -37,19 +37,24 @@ const FontCard = ({ idx, data }: FontCardProps) => {
     router.push(`search/${fontData.family}`);
   };
 
-  return (
-    <div className={styles.flipCard}>
+  const fontstyle = (
+    <>
       <link
         rel="stylesheet"
         href={`https://fonts.googleapis.com/css2?family=${fontData.family}`}
       />
       <style>
         {`.fontFamily${idx}{
-    font-family: ${fontData.family};
-    font-weight: 900;
-  }
-  }`}
+font-family: ${fontData.family};
+font-weight: 900;
+}
+}`}
       </style>
+    </>
+  );
+  return (
+    <div className={styles.flipCard}>
+      {fontstyle}
       <div
         className="mobile:w-32 mobile:h-[12rem] w-56 h-80 shrink-0 relative rounded-xl flex-col justify-start items-center inline-flex"
         onClick={moveToInfoPage}
