@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 type DesignersProps = {
   designers: {
     name: string;
@@ -16,10 +18,12 @@ const Designers = ({ designers }: DesignersProps) => {
             return (
               <div key={data.name}>
                 {data.imageUrl && (
-                  <img
+                  <Image
                     alt="designer image"
+                    width={60}
+                    height={60}
                     src={data.imageUrl}
-                    className="w-1/12 pb-4"
+                    className="pb-4"
                   />
                 )}
                 <p

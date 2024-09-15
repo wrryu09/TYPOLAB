@@ -45,6 +45,7 @@ const KoreanFontList = ({
               {fontList.map((fontName, idx) => {
                 return (
                   <KrSelectionBox
+                    key={fontName.name + fontName.variants}
                     fontName={fontName}
                     idx={idx}
                     selectedFont={selectedFont}

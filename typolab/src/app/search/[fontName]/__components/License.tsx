@@ -15,8 +15,8 @@ const License = ({ license }: LicenseProps) => {
             commercial or otherwise.
           </p>
           <p>
-            This isn't legal advice, please consider consulting a lawyer and see
-            the full license for all details.
+            This isn&apos;t legal advice, please consider consulting a lawyer
+            and see the full license for all details.
           </p>
         </div>
       )}
