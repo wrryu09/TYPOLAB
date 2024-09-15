@@ -7,6 +7,7 @@ import GA from "@/components/GA";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://typolabo.com"),
   title: METADATA.MAIN.title,
   description: METADATA.MAIN.description,
   keywords: METADATA.MAIN.keywords,
