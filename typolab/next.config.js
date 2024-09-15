@@ -4,6 +4,15 @@ const smp = new SpeedMeasurePlugin();
 
 module.exports = {
   reactStrictMode: true,
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "lh3.googleusercontent.com",
+        port: "",
+      },
+    ],
+  },
   webpack: (config) => {
     config.module.rules.push({
       test: /\.svg$/i,
