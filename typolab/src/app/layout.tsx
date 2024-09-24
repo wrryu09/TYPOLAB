@@ -1,10 +1,7 @@
 import METADATA from "@/constants/metaData";
 import "./globals.css";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import GA from "@/components/GA";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://typolabo.com"),
@@ -23,8 +20,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <GA />
-      <body className={inter.className}>{children}</body>
+      {/* <GA /> */}
+      <body>{children}</body>
     </html>
   );
 }
